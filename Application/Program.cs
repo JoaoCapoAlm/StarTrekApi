@@ -13,7 +13,7 @@ builder.Services.AddCors(opts => opts.AddPolicy("cors", b =>
 
 builder.Services.AddDbContext<StarTrekContext>(opts =>
 {
-    opts.UseSqlServer(builder.Configuration["ConnectionStrings:DbConnection"]);
+    opts.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=jornadaNasEstrelas;User Id=sa;Password=123456;");
 });
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 

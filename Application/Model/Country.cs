@@ -5,9 +5,8 @@
         public short CountryId { get; set; }
         public string ResourceName { get; set; }
 
-        public Country(string name)
+        public Country()
         {
-            ResourceName = name;
         }
     }
 }

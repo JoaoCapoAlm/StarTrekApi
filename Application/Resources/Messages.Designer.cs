@@ -59,5 +59,23 @@ namespace Application.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canada.
+        /// </summary>
+        public static string Canada {
+            get {
+                return ResourceManager.GetString("Canada", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to United States of America.
+        /// </summary>
+        public static string UnitedStates {
+            get {
+                return ResourceManager.GetString("UnitedStates", resourceCulture);
+            }
+        }
     }
 }

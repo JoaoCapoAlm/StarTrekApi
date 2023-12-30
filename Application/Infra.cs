@@ -1,4 +1,7 @@
-﻿using Application.Resources;
+﻿using Application.Data;
+using Application.Middleware;
+using Application.Resources;
+using Application.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 
@@ -9,6 +12,8 @@ namespace Application
         public static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
             services.TryAddTransient(typeof(IStringLocalizer<Messages>), typeof(StringLocalizer<Messages>));
+            services.TryAddScoped(typeof(StarTrekContext));
+            services.TryAddScoped<CastService>();
 
             return services;
         }
@@ -26,9 +31,9 @@ namespace Application
             {
                 string[] supportedCultures = ["en-US", "pt-BR"];
                 opts.AddSupportedCultures(supportedCultures)
-                    .SetDefaultCulture(supportedCultures[0]);
+                    .SetDefaultCulture(supportedCultures[1]);
             });
-
+            app.UseAppMiddleware();
             app.UseAuthorization();
 
             return app;

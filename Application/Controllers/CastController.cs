@@ -1,6 +1,5 @@
-﻿using Application.Resources;
+﻿using Application.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 
 namespace Application.Controllers
 {
@@ -8,15 +7,17 @@ namespace Application.Controllers
     [ApiController]
     public class CastController : ControllerBase
     {
-        private readonly IStringLocalizer<Messages> _localizer;
-        public CastController(IStringLocalizer<Messages> localizer)
+        private readonly CastService _castService;
+        public CastController(CastService castService)
         {
-            _localizer = localizer;
+            _castService = castService;
         }
         [HttpGet]
-        public IActionResult Get([FromQuery] byte page = 0, [FromQuery] byte qtd = 100)
+        public async Task<IActionResult> Get([FromQuery] byte? page, [FromQuery] byte? qtd)
         {
-            return Ok(new { message = _localizer["HelloWord"].Value });
+            var listCast = await _castService.GetCasts(page ?? 0, qtd ?? 100);
+
+            return Ok(new { message = listCast });
         }
     }
 }

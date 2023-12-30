@@ -2,18 +2,15 @@
 {
     public class Cast
     {
-        public Guid CastId { get; set; }
+        public int CastId { get; set; }
         public string Name { get; set; }
-        public DateTime? Birth { get; set; }
+        public DateTime BirthDate { get; set; }
         public short? CountryId { get; set; }
         public virtual Country Country { get; set; }
+        public DateTime? DeathDate { get; set; }
 
-        public Cast(string name, DateTime? birth = null, short? countryId = null)
+        public Cast()
         {
-            CastId = Guid.NewGuid();
-            Name = name;
-            Birth = birth;
-            CountryId = countryId;
         }
     }
 }
