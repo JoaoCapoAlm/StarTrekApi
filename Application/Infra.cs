@@ -4,6 +4,7 @@ using Application.Resources;
 using Application.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 
 namespace Application
 {
@@ -18,7 +19,7 @@ namespace Application
             return services;
         }
 
-        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, bool IsDevelopment)
         {
             app.UseHttpsRedirection();
 
@@ -33,6 +34,17 @@ namespace Application
                 opts.AddSupportedCultures(supportedCultures)
                     .SetDefaultCulture(supportedCultures[1]);
             });
+            
+            if (IsDevelopment)
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(opts =>
+                {
+                    opts.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    opts.RoutePrefix = string.Empty;
+                });
+            }
             app.UseAppMiddleware();
             app.UseAuthorization();
 
