@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(opts =>
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
             Name = "João",
-            Email = "joao@capoanisolucoes.com.br"
+            Email = "contato@capoanisolucoes.com.br"
         }
     });
 });
