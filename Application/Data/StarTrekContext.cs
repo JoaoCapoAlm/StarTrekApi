@@ -10,5 +10,8 @@ namespace Application.Data
 
         public DbSet<Cast> Cast { get; set; }
         public DbSet<Country> Country { get; set; }
+        public DbSet<Language> Language { get; set; }
+        public DbSet<Movie> Movie { get; set; }
+        public DbSet<Timeline> Timeline { get; set; }
     }
 }

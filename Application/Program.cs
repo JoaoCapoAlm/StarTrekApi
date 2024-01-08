@@ -1,3 +1,4 @@
+using System.Net;
 using Application;
 using Application.Data;
 using Microsoft.AspNetCore.DataProtection;
@@ -21,7 +22,14 @@ builder.Services.AddLocalization();
 builder.Services.DependencyInjection();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.ConfigureHttpClientDefaults(opts =>
+{
+    opts.ConfigureHttpClient(o =>
+    {
+        o.DefaultRequestVersion = HttpVersion.Version30;
+        o.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionExact;
+    });
+});
 builder.Services.AddSwaggerGen(opts =>
 {
     opts.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo

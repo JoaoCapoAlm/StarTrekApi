@@ -9,4 +9,9 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+SET NOCOUNT ON;
+
 :r .\Country.sql
+:r .\Languages.sql
+:r .\Timelines.sql
+:r .\Movies.sql
