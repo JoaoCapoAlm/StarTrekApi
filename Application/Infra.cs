@@ -15,6 +15,7 @@ namespace Application
             services.TryAddTransient(typeof(IStringLocalizer<Messages>), typeof(StringLocalizer<Messages>));
             services.TryAddScoped(typeof(StarTrekContext));
             services.TryAddScoped<CastService>();
+            services.TryAddScoped<MovieService>();
 
             return services;
         }

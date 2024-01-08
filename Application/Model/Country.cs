@@ -5,8 +5,6 @@
         public short CountryId { get; set; }
         public string ResourceName { get; set; }
 
-        public Country()
-        {
-        }
+        public virtual ICollection<Cast> Casts { get; set; }
     }
 }
