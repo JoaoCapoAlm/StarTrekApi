@@ -120,6 +120,15 @@
   <data name="Canada" xml:space="preserve">
     <value>Canada</value>
   </data>
+  <data name="EnglishUS" xml:space="preserve">
+    <value>English (USA)</value>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Not found</value>
+  </data>
+  <data name="PortuguesBR" xml:space="preserve">
+    <value>Portuguese (Brazil)</value>
+  </data>
   <data name="UnitedStates" xml:space="preserve">
     <value>United States of America</value>
   </data>

@@ -70,6 +70,33 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English (USA).
+        /// </summary>
+        public static string EnglishUS {
+            get {
+                return ResourceManager.GetString("EnglishUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not found.
+        /// </summary>
+        public static string NotFound {
+            get {
+                return ResourceManager.GetString("NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portuguese (Brazil).
+        /// </summary>
+        public static string PortuguesBR {
+            get {
+                return ResourceManager.GetString("PortuguesBR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to United States of America.
         /// </summary>
         public static string UnitedStates {

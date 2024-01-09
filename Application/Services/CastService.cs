@@ -1,4 +1,5 @@
-﻿using Application.Data;
+﻿using System.Drawing;
+using Application.Data;
 using Application.Data.ViewModel;
 using Application.Model;
 using Application.Resources;
@@ -36,6 +37,25 @@ namespace Application.Services
                     Country = _localizer[c.Country.ResourceName].Value
                 })
                 .ToArrayAsync();
+        }
+
+        public async Task<CastVM> GetCast(byte castId)
+        {
+            if (castId <= 0)
+                return null;
+
+            return await _context.Cast
+                .AsNoTracking()
+                .Where(c => c.CastId == castId)
+                .Select(c => new CastVM
+                {
+                    Id = c.CastId,
+                    Name = c.Name,
+                    BirthDate = c.BirthDate,
+                    DeathDate = c.DeathDate,
+                    Country = _localizer[c.Country.ResourceName].Value
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }
