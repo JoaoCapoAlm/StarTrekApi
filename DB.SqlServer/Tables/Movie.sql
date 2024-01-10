@@ -6,7 +6,7 @@
     [OriginalLanguageId] SMALLINT NOT NULL,
     [ReleaseDate] DATETIME NOT NULL, 
     [Time] SMALLINT NOT NULL, 
-    [ImdbId] VARCHAR(7) NULL, 
+    [ImdbId] VARCHAR(9) NULL,
     [TimelineId] TINYINT NOT NULL, 
     CONSTRAINT [PK_Movie] PRIMARY KEY ([MovieId]),
     CONSTRAINT [FK_Movie_LanguageId] FOREIGN KEY ([OriginalLanguageId]) REFERENCES [Language] ([LanguageId]),

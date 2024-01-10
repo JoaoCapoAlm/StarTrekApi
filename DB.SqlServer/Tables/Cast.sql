@@ -5,6 +5,7 @@
     [BirthDate] DATE NOT NULL,
     [DeathDate] DATE NULL,
     [CountryId] SMALLINT NULL, 
+    [ImdbId] VARCHAR(9) NULL, 
     CONSTRAINT [PK_Cast] PRIMARY KEY ([CastId]),
     CONSTRAINT [FK_Cast_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [Country] ([CountryId])
 )
