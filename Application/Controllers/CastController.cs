@@ -29,7 +29,7 @@ namespace Application.Controllers
         }
 
         [HttpGet("{castId}")]
-        public async Task<IActionResult> GetCast([FromQuery]byte castId)
+        public async Task<IActionResult> GetCast([FromRoute]byte castId)
         {
             var cast = await _castService.GetCast(castId);
             if (cast == null)

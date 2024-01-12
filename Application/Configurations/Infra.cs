@@ -1,11 +1,9 @@
 ﻿using Application.Data;
 using Application.Middleware;
+using Application.Resources;
 using Application.Services;
-using Infra.Resources;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 
 namespace Application
 {

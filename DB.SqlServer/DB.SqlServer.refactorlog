@@ -98,4 +98,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Name" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="693f131d-4261-4e4c-bb53-f88115c4a19d" ChangeDateTime="01/10/2024 15:28:34">
+    <Property Name="ElementName" Value="[dbo].[Serie].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Serie]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdSerie" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a729717c-5cd8-4132-92ea-4b9c6738b3de" ChangeDateTime="01/10/2024 15:31:33">
+    <Property Name="ElementName" Value="[dbo].[Serie].[OriginalLanguage]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Serie]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OriginalLanguageId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2e17fe33-2a3f-4c2b-948a-c865e0afb591" ChangeDateTime="01/10/2024 15:35:50">
+    <Property Name="ElementName" Value="[dbo].[Season].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Season]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SeasonId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3de12c72-3bcf-420f-832a-342b93d42dff" ChangeDateTime="01/12/2024 01:26:05">
+    <Property Name="ElementName" Value="[dbo].[Episode].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Episode]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EpisodeId" />
+  </Operation>
 </Operations>

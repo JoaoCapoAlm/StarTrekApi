@@ -39,7 +39,7 @@ namespace Application.Services
                 .ToArrayAsync();
         }
 
-        public async Task<CastVM> GetCast(byte castId)
+        public async Task<Cast> GetCast(byte castId)
         {
             if (castId <= 0)
                 return null;
@@ -47,14 +47,6 @@ namespace Application.Services
             return await _context.Cast
                 .AsNoTracking()
                 .Where(c => c.CastId == castId)
-                .Select(c => new CastVM
-                {
-                    Id = c.CastId,
-                    Name = c.Name,
-                    BirthDate = c.BirthDate,
-                    DeathDate = c.DeathDate,
-                    Country = _localizer[c.Country.ResourceName].Value
-                })
                 .FirstOrDefaultAsync();
         }
     }
