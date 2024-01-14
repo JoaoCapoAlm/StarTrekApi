@@ -32,12 +32,11 @@ namespace Application
             {
                 string[] supportedCultures = ["en-US", "pt-BR"];
                 opts.AddSupportedCultures(supportedCultures)
-                    .SetDefaultCulture(supportedCultures[1]);
+                    .SetDefaultCulture(supportedCultures[0]);
             });
             
             if (IsDevelopment)
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(opts =>
                 {

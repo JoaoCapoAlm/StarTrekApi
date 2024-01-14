@@ -1,5 +1,8 @@
-﻿using Application.Services;
+﻿using Application.Configurations;
+using Application.Resources;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Application.Controllers
 {
@@ -8,30 +11,26 @@ namespace Application.Controllers
     public class MovieController : ControllerBase
     {
         private readonly MovieService _movieService;
-        public MovieController(MovieService movieService)
+        private readonly IStringLocalizer<Messages> _localizer;
+        public MovieController(MovieService movieService, IStringLocalizer<Messages> localizer)
         {
             _movieService = movieService;
+            _localizer = localizer;
         }
         [HttpGet]
-        public async Task<IActionResult> GetMovies(byte page = 0, byte pageSize = 100)
+        public async Task<IActionResult> GetMovieList(byte page = 0, byte pageSize = 100)
         {
-            var movies = await _movieService.GetMovies(page, pageSize);
+            var movies = await _movieService.GetMovieList(page, pageSize);
 
-            if (movies.Any())
-                return Ok(movies);
-            else
-                return NotFound();
+            return Ok(movies);
         }
 
         [HttpGet("{movieId}")]
         public async Task<IActionResult> GetMovie(byte movieId)
         {
-            var movie = await _movieService.GetMovie(movieId);
+            var movie = await _movieService.GetMovieById(movieId);
 
-            if (movie == null)
-                return NotFound();
-            else
-                return Ok(movie);
+            return Ok(movie);
         }
     }
 }

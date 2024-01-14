@@ -1,6 +1,6 @@
-﻿using Application.Data;
+﻿using Application.Configurations;
+using Application.Data;
 using Application.Data.ViewModel;
-using Application.Model;
 using Application.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -17,11 +17,9 @@ namespace Application.Services
             _localizer = localizer;
         }
 
-        public async Task<IEnumerable<MovieVM>> GetMovies(byte page = 0, byte pageSize = 100)
+        public async Task<IEnumerable<MovieVM>> GetMovieList(byte page = byte.MinValue, byte pageSize = 100)
         {
-            page = (byte)(page < 0 ? 0 : page);
             pageSize = (byte)(pageSize > 100 ? 100 : pageSize);
-            pageSize = (byte)(pageSize < 0 ? 0 : pageSize);
 
             return await _context.Movie
                 .AsNoTracking()
@@ -36,13 +34,14 @@ namespace Application.Services
                     m.Time,
                     m.ImdbId,
                     m.ReleaseDate
-                )).ToArrayAsync();
+                )).ToArrayAsync()
+                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
         }
 
-        public async Task<MovieVM> GetMovie(byte movieId)
+        public async Task<MovieVM> GetMovieById(byte movieId)
         {
             if (movieId < 1)
-                return null;
+                throw new ArgumentException(_localizer["InvalidId"].Value);
 
             return await _context.Movie
                 .AsNoTracking()
@@ -55,7 +54,8 @@ namespace Application.Services
                     m.Time,
                     m.ImdbId,
                     m.ReleaseDate
-                )).FirstOrDefaultAsync();
+                )).FirstOrDefaultAsync()
+                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.Drawing;
+﻿using Application.Configurations;
 using Application.Data;
 using Application.Data.ViewModel;
-using Application.Model;
 using Application.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -19,16 +18,15 @@ namespace Application.Services
             _localizer = localizer;
         }
 
-        public async Task<IEnumerable<CastVM>> GetCasts(byte? page = 0, byte? pageSize = 100)
+        public async Task<IEnumerable<CastVM>> GetCastList(byte page = 0, byte pageSize = 100)
         {
-            var pageNumber = (!page.HasValue || page.Value < 0) ? (byte)0 : page.Value;
-            var size = (!pageSize.HasValue || pageSize.Value < 0) ? (byte)100 : pageSize.Value;
+            pageSize = pageSize > 100 ? (byte)100 : pageSize;
 
             return await _context.Cast
                 .AsNoTracking()
                 .OrderBy(c => c.CastId)
-                .Skip(pageNumber * size)
-                .Take(size)
+                .Skip(page * pageSize)
+                .Take(pageSize)
                 .Select(c => new CastVM {
                     Id = c.CastId,
                     Name = c.Name,
@@ -36,18 +34,27 @@ namespace Application.Services
                     DeathDate = c.DeathDate,
                     Country = _localizer[c.Country.ResourceName].Value
                 })
-                .ToArrayAsync();
+                .ToArrayAsync()
+                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
         }
 
-        public async Task<Cast> GetCast(byte castId)
+        public async Task<CastVM> GetCastById(int castId)
         {
             if (castId <= 0)
-                return null;
+                throw new ArgumentException(_localizer["InvalidId"].Value);
 
             return await _context.Cast
                 .AsNoTracking()
                 .Where(c => c.CastId == castId)
-                .FirstOrDefaultAsync();
+                .Select(c => new CastVM {
+                    Id = c.CastId,
+                    Name = c.Name,
+                    BirthDate = c.BirthDate,
+                    DeathDate = c.DeathDate,
+                    Country = _localizer[c.Country.ResourceName].Value
+                })
+                .FirstOrDefaultAsync()
+                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
         }
     }
 }

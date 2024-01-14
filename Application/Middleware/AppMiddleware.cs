@@ -28,7 +28,11 @@ namespace Application.Middleware
 
         private static Task HandleException(HttpContext context, Exception exception)
         {
-            var code = exception is ExceptionNofFound ? HttpStatusCode.NotFound : HttpStatusCode.InternalServerError;
+            var code = exception switch {
+                ExceptionNotFound => HttpStatusCode.NotFound,
+                ArgumentException => HttpStatusCode.BadRequest,
+                _ => HttpStatusCode.InternalServerError
+            };
             var result = JsonConvert.SerializeObject(new { error = exception.Message });
 
             context.Response.ContentType = ContentType.ApplicationJson.ToString();
