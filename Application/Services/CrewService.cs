@@ -7,28 +7,29 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class CastService
+    public class CrewService
     {
         private readonly StarTrekContext _context;
         private readonly IStringLocalizer<Messages> _localizer;
 
-        public CastService(StarTrekContext context, IStringLocalizer<Messages> localizer)
+        public CrewService(StarTrekContext context, IStringLocalizer<Messages> localizer)
         {
             _context = context;
             _localizer = localizer;
         }
 
-        public async Task<IEnumerable<CastVM>> GetCastList(byte page = 0, byte pageSize = 100)
+        public async Task<IEnumerable<CrewVM>> GetCrewList(byte page = 0, byte pageSize = 100)
         {
             pageSize = pageSize > 100 ? (byte)100 : pageSize;
 
-            return await _context.Cast
+            return await _context.Crew
                 .AsNoTracking()
-                .OrderBy(c => c.CastId)
+                .OrderBy(c => c.CrewId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .Select(c => new CastVM {
-                    Id = c.CastId,
+                .Select(c => new CrewVM
+                {
+                    Id = c.CrewId,
                     Name = c.Name,
                     BirthDate = c.BirthDate,
                     DeathDate = c.DeathDate,
@@ -38,16 +39,16 @@ namespace Application.Services
                 ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
         }
 
-        public async Task<CastVM> GetCastById(int castId)
+        public async Task<CrewVM> GetCrewById(int crewId)
         {
-            if (castId <= 0)
+            if (crewId <= 0)
                 throw new ArgumentException(_localizer["InvalidId"].Value);
 
-            return await _context.Cast
+            return await _context.Crew
                 .AsNoTracking()
-                .Where(c => c.CastId == castId)
-                .Select(c => new CastVM {
-                    Id = c.CastId,
+                .Where(c => c.CrewId == crewId)
+                .Select(c => new CrewVM {
+                    Id = c.CrewId,
                     Name = c.Name,
                     BirthDate = c.BirthDate,
                     DeathDate = c.DeathDate,

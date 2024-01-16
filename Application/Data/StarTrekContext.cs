@@ -10,9 +10,9 @@ namespace Application.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cast>()
-                .HasKey(c => c.CastId)
-                .HasName("FK_Cast_CountryId");
+            modelBuilder.Entity<Crew>()
+                .HasKey(c => c.CrewId)
+                .HasName("FK_Crew_CountryId");
 
             modelBuilder.Entity<Country>()
                 .HasKey(c => c.CountryId)
@@ -42,11 +42,11 @@ namespace Application.Data
                 .HasKey(t => t.TimelineId)
                 .HasName("PK_Timeline");
 
-            modelBuilder.Entity<Cast>()
+            modelBuilder.Entity<Crew>()
                 .HasOne(c => c.Country)
-                .WithMany(country => country.Casts)
+                .WithMany(country => country.Crews)
                 .HasForeignKey(c => c.CountryId)
-                .HasConstraintName("FK_Cast_CountryId");
+                .HasConstraintName("FK_Crew_CountryId");
 
             modelBuilder.Entity<Episode>()
                 .HasOne(e => e.Season)
@@ -85,7 +85,7 @@ namespace Application.Data
                 .HasConstraintName("FK_Serie_LanguageId");
         }
 
-        public DbSet<Cast> Cast { get; set; }
+        public DbSet<Crew> Crew { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<Movie> Movie { get; set; }

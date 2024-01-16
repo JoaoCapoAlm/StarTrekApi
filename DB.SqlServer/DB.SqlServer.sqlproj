@@ -63,7 +63,7 @@
     <Folder Include="DefaultData" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\Cast.sql" />
+    <Build Include="Tables\Crew.sql" />
     <Build Include="Tables\Country.sql" />
     <None Include="DefaultData\Country.sql" />
     <Build Include="Tables\Movie.sql" />
@@ -72,9 +72,6 @@
     <Build Include="Tables\Serie.sql" />
     <Build Include="Tables\Episode.sql" />
     <Build Include="Tables\Season.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="DB.SqlServer.refactorlog" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="DefaultData\Script.PostDeployment.sql" />

@@ -1,6 +1,6 @@
 ﻿namespace Application.Data.ViewModel
 {
-    public class CastVM
+    public class CrewVM
     {
         public int Id { get; set; }
         public string Name { get; set; }

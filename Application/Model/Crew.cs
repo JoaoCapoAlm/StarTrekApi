@@ -1,8 +1,8 @@
 ﻿namespace Application.Model
 {
-    public class Cast
+    public class Crew
     {
-        public int CastId { get; set; }
+        public int CrewId { get; set; }
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public short? CountryId { get; set; }
