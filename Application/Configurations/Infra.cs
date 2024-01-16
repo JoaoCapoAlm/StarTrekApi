@@ -15,6 +15,7 @@ namespace Application
             services.TryAddScoped(typeof(StarTrekContext));
             services.TryAddScoped<CastService>();
             services.TryAddScoped<MovieService>();
+            services.TryAddScoped<SerieService>();
 
             return services;
         }

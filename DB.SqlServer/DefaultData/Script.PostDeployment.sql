@@ -15,3 +15,6 @@ SET NOCOUNT ON;
 :r .\Languages.sql
 :r .\Timelines.sql
 :r .\Movies.sql
+:r .\Series.sql
+:r .\Seasons.sql
+:r .\Episodes.sql
