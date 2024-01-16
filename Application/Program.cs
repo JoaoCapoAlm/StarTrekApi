@@ -1,4 +1,5 @@
 using System.Net;
+using System.Reflection;
 using Application;
 using Application.Data;
 using Microsoft.AspNetCore.DataProtection;
@@ -42,6 +43,9 @@ builder.Services.AddSwaggerGen(opts =>
             Email = "contato@capoanisolucoes.com.br"
         }
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    opts.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
 });
 
 var app = builder.Build();

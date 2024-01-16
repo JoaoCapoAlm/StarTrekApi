@@ -84,5 +84,8 @@
     <None Include="DefaultData\Languages.sql" />
     <None Include="DefaultData\Movies.sql" />
     <None Include="DefaultData\Timelines.sql" />
+    <None Include="DefaultData\Series.sql" />
+    <None Include="DefaultData\Seasons.sql" />
+    <None Include="DefaultData\Episodes.sql" />
   </ItemGroup>
 </Project>

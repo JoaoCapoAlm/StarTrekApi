@@ -9,6 +9,7 @@
         public short TimelineId { get; set; }
         public virtual Timeline Timeline { get; set; }
         public string ImdbId { get; set; }
+        public string Abbreviation { get; set; }
         public string SynopsisResource { get; set; }
         public virtual ICollection<Season> Seasons { get; set; }
     }

@@ -1,7 +1,5 @@
-﻿using Application.Resources;
-using Application.Services;
+﻿using Application.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 
 namespace Application.Controllers
 {
