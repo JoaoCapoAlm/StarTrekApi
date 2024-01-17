@@ -72,6 +72,8 @@
     <Build Include="Tables\Serie.sql" />
     <Build Include="Tables\Episode.sql" />
     <Build Include="Tables\Season.sql" />
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\CrewRole.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="DefaultData\Script.PostDeployment.sql" />
@@ -84,5 +86,6 @@
     <None Include="DefaultData\Series.sql" />
     <None Include="DefaultData\Seasons.sql" />
     <None Include="DefaultData\Episodes.sql" />
+    <None Include="DefaultData\Roles.sql" />
   </ItemGroup>
 </Project>

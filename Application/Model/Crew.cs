@@ -8,5 +8,6 @@
         public short? CountryId { get; set; }
         public virtual Country Country { get; set; }
         public DateTime? DeathDate { get; set; }
+        public ICollection<CrewRole> CrewRoles { get; set; }
     }
 }

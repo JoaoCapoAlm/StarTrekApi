@@ -18,3 +18,4 @@ SET NOCOUNT ON;
 :r .\Series.sql
 :r .\Seasons.sql
 :r .\Episodes.sql
+:r .\Roles.sql

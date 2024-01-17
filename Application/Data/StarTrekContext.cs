@@ -14,6 +14,10 @@ namespace Application.Data
                 .HasKey(c => c.CrewId)
                 .HasName("FK_Crew_CountryId");
 
+            modelBuilder.Entity<CrewRole>()
+                .HasKey(c => c.CrewRoleId)
+                .HasName("PK_CrewRole");
+
             modelBuilder.Entity<Country>()
                 .HasKey(c => c.CountryId)
                 .HasName("PK_Country");
@@ -29,6 +33,10 @@ namespace Application.Data
             modelBuilder.Entity<Movie>()
                 .HasKey(m => m.MovieId)
                 .HasName("PK_Movie");
+
+            modelBuilder.Entity<Role>()
+                .HasKey(r => r.RoleId)
+                .HasName("PK_Roles");
 
             modelBuilder.Entity<Season>()
                 .HasKey(s => s.SeasonId)
@@ -47,6 +55,18 @@ namespace Application.Data
                 .WithMany(country => country.Crews)
                 .HasForeignKey(c => c.CountryId)
                 .HasConstraintName("FK_Crew_CountryId");
+
+            modelBuilder.Entity<CrewRole>()
+                .HasOne(c => c.Crew)
+                .WithMany(crew => crew.CrewRoles)
+                .HasForeignKey(c => c.CrewId)
+                .HasConstraintName("FK_CrewRole_Crew");
+
+            modelBuilder.Entity<CrewRole>()
+                .HasOne(c => c.Role)
+                .WithMany(r => r.CrewRoles)
+                .HasForeignKey(c => c.RoleId)
+                .HasConstraintName("FK_CrewRole_Role");
 
             modelBuilder.Entity<Episode>()
                 .HasOne(e => e.Season)
@@ -86,9 +106,11 @@ namespace Application.Data
         }
 
         public DbSet<Crew> Crew { get; set; }
+        public DbSet<CrewRole> CrewRole { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<Movie> Movie { get; set; }
+        public DbSet<Role> Role { get; set; }
         public DbSet<Season> Season { get; set; }
         public DbSet<Serie> Serie { get; set; }
         public DbSet<Timeline> Timeline { get; set; }
