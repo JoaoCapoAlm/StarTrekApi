@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Role]
 (
-	[RoleId] TINYINT NOT NULL,
+	[RoleId] TINYINT NOT NULL IDENTITY(1,1),
 	[RoleResource] VARCHAR(50) NOT NULL,
     CONSTRAINT PK_Roles PRIMARY KEY ([RoleId])
 )

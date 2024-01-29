@@ -1,5 +1,6 @@
 ﻿using Application.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 
 namespace Application.Data
 {
@@ -108,6 +109,7 @@ namespace Application.Data
         public DbSet<Crew> Crew { get; set; }
         public DbSet<CrewRole> CrewRole { get; set; }
         public DbSet<Country> Country { get; set; }
+        public DbSet<Episode> Episode { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<Movie> Movie { get; set; }
         public DbSet<Role> Role { get; set; }

@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Data.Common;
+using System.Net;
 using Application.Configurations;
 using Azure.Core;
 using Newtonsoft.Json;
@@ -33,7 +35,11 @@ namespace Application.Middleware
                 ArgumentException => HttpStatusCode.BadRequest,
                 _ => HttpStatusCode.InternalServerError
             };
-            var result = JsonConvert.SerializeObject(new { error = exception.Message });
+
+            bool isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production;
+            string errorMessage = isProduction ? exception.Message : $"{exception.Message} - {exception.InnerException}";
+
+            var result = JsonConvert.SerializeObject(new { error = errorMessage });
 
             context.Response.ContentType = ContentType.ApplicationJson.ToString();
             context.Response.StatusCode = code.GetHashCode();

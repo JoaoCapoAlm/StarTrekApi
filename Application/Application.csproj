@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TMDB\TMDB.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
       <DependentUpon>Messages.resx</DependentUpon>
       <DesignTime>True</DesignTime>

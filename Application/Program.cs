@@ -50,7 +50,7 @@ builder.Services.AddSwaggerGen(opts =>
 
 var app = builder.Build();
 
-app.ConfigMiddleware(app.Environment.IsDevelopment());
+app.ConfigMiddleware(app.Environment.IsProduction());
 
 app.MapControllers();
 

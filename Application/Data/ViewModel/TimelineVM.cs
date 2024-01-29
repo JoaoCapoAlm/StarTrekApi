@@ -2,7 +2,15 @@
 {
     public class TimelineVM
     {
-        public short ID { get; set; }
+        public byte ID { get; set; }
         public string Name { get; set; }
+        public TimelineVM()
+        {
+        }
+        public TimelineVM(byte id, string name)
+        {
+            ID = id;
+            Name = name;
+        }
     }
 }
