@@ -16,11 +16,12 @@ namespace Application
             services.TryAddScoped<CrewService>();
             services.TryAddScoped<MovieService>();
             services.TryAddScoped<SerieService>();
+            services.TryAddScoped<TmdbService>();
 
             return services;
         }
 
-        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, bool IsDevelopment)
+        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, bool IsProduction)
         {
             app.UseHttpsRedirection();
 
@@ -36,7 +37,7 @@ namespace Application
                     .SetDefaultCulture(supportedCultures[0]);
             });
             
-            if (IsDevelopment)
+            if (!IsProduction)
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(opts =>

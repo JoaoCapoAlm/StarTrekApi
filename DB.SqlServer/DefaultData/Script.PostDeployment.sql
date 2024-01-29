@@ -14,8 +14,8 @@ SET NOCOUNT ON;
 :r .\Country.sql
 :r .\Languages.sql
 :r .\Timelines.sql
-:r .\Movies.sql
+--:r .\Movies.sql
 :r .\Series.sql
-:r .\Seasons.sql
-:r .\Episodes.sql
-:r .\Roles.sql
+--:r .\Seasons.sql
+--:r .\Episodes.sql
+--:r .\Roles.sql

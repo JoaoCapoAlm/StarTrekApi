@@ -10,8 +10,10 @@
         public DateTime? ReleaseDate { get; set; }
         public short Time { get; set; }
         public string ImdbId { get; set; }
-        public short TimelineId { get; set; }
+        public byte TimelineId { get; set; }
         public Timeline Timeline { get; set; }
+        public int TmdbId { get; set; }
+        public DateTime? DateSyncTmdb { get; set; }
 
         public Movie() { }
     }

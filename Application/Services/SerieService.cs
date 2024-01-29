@@ -30,25 +30,10 @@ namespace Application.Services
                 {
                     ID = s.SerieId,
                     OriginalName = s.OriginalName,
-                    Language = s.Language.ResourceName,
+                    OriginalLanguage = s.Language.ResourceName,
                     ImdbId = s.ImdbId,
                     Abbreviation = s.Abbreviation,
-                    Seasons = s.Seasons.Select(se => new SeasonVM
-                    {
-                        ID = se.SeasonId,
-                        Number = se.Number,
-                        Episodes = se.Episodes.Select(e => new EpisodeVM
-                        {
-                            ID = e.EpisodeId,
-                            Number = e.Number,
-                            RealeaseDate = e.RealeaseDate,
-                            ImdbId = e.ImdbId,
-                            StardateFrom = e.StardateFrom,
-                            StardateTo = e.StardateTo,
-                            Time = e.Time,
-                            SeasonId = e.SeasonId
-                        }).ToArray()
-                    }).ToArray()
+                    Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray()
                 })
                 .ToArrayAsync();
 
@@ -70,25 +55,10 @@ namespace Application.Services
                 {
                     ID = s.SerieId,
                     OriginalName = s.OriginalName,
-                    Language = s.Language.ResourceName,
+                    OriginalLanguage = s.Language.ResourceName,
                     ImdbId = s.ImdbId,
                     Abbreviation = s.Abbreviation,
-                    Seasons = s.Seasons.Select(se => new SeasonVM
-                    {
-                        ID = se.SeasonId,
-                        Number = se.Number,
-                        Episodes = se.Episodes.Select(e => new EpisodeVM
-                        {
-                            ID = e.EpisodeId,
-                            Number = e.Number,
-                            RealeaseDate = e.RealeaseDate,
-                            ImdbId = e.ImdbId,
-                            StardateFrom = e.StardateFrom,
-                            StardateTo = e.StardateTo,
-                            Time = e.Time,
-                            SeasonId = e.SeasonId
-                        }).ToArray()
-                    }).ToArray()
+                    Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray()
                 })
                 .FirstOrDefaultAsync()
                 ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
