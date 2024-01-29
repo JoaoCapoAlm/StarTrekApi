@@ -7,7 +7,7 @@
         public string OriginalLanguage { get; set; }
         public string ImdbId { get; set; }
         public string Abbreviation { get; set; }
-        public TimelineVM Timeline { get; set; }
+        public byte Timeline { get; set; }
         public ICollection<SeasonVM> Seasons { get; set; }
     }
 }

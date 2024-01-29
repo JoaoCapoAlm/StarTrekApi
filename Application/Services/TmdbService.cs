@@ -21,19 +21,20 @@ namespace Application.Services
         public async Task<SerieVM> CreateNewSerieByTmdb(int tmdbId, CreateNewSerieDto dto)
         {
             Serie serie = await _context.Serie?.Where(s => s.TmdbId == tmdbId)?
-                .Include(s => s.Timeline)
-                .Include(s => s.Seasons)
+                .Include(s => s.Seasons).ThenInclude(s => s.Episodes)
+                .Include(s => s.Language)
                 .FirstOrDefaultAsync();
-            //if (serie is not null && serie.DateSyncTmdb.HasValue)
-            //    return new SerieVM
-            //    {
-            //        ID = serie.SerieId,
-            //        OriginalName = serie.OriginalName,
-            //        Abbreviation = serie.Abbreviation,
-            //        ImdbId = serie.ImdbId,
-            //        OriginalLanguage = serie.Language.CodeISO,
-            //        Timeline = new TimelineVM(serie.Timeline.TimelineId, serie.Timeline.Name)
-            //    };
+            if (serie is not null && serie.DateSyncTmdb.HasValue)
+                return new SerieVM
+                {
+                    ID = serie.SerieId,
+                    OriginalName = serie.OriginalName,
+                    Abbreviation = serie.Abbreviation,
+                    ImdbId = serie.ImdbId,
+                    Timeline = serie.TimelineId,
+                    Seasons = serie.Seasons.Select(s => new SeasonVM(s.SeasonId, s.Number, s.Episodes)).ToArray(),
+                    OriginalLanguage = serie.Language.CodeISO.Trim()
+                };
 
             var searchSerie = await new TmdbAPI().SearchSerie(tmdbId) ?? throw new Exception(_localizer["notFound"].Value);
 
@@ -44,9 +45,9 @@ namespace Application.Services
             serie.DateSyncTmdb = DateTime.UtcNow;
             serie.OriginalName = searchSerie.original_name;
             serie.SynopsisResource = string.IsNullOrWhiteSpace(dto.SynopsisResource) ? searchSerie.original_name.CreateResourceName("Synopsis") : dto.SynopsisResource;
-            serie.Abbreviation = string.IsNullOrWhiteSpace(dto.Abbreviation) ? null : dto.Abbreviation;
+            serie.Abbreviation = string.IsNullOrWhiteSpace(dto.Abbreviation) ? serie.Abbreviation : dto.Abbreviation;
             serie.TmdbId = tmdbId;
-            serie.ImdbId = string.IsNullOrWhiteSpace(dto.Imdb) ? null : dto.Imdb;
+            serie.ImdbId = string.IsNullOrWhiteSpace(dto.Imdb) ? serie.ImdbId : dto.Imdb;
             serie.TimelineId = dto.Timeline;
             
             short? originalLanguageId = await _context.Language
@@ -56,8 +57,15 @@ namespace Application.Services
                                             .FirstOrDefaultAsync();
             serie.OriginalLanguageId = originalLanguageId ?? 1;
 
-            if(isNew)
+            if (isNew)
+            {
                 await _context.Serie.AddAsync(serie);
+                await _context.SaveChangesAsync();
+                serie = await _context.Serie?.Where(s => s.TmdbId == tmdbId)?
+                .Include(s => s.Seasons).ThenInclude(s => s.Episodes)
+                .Include(s => s.Language)
+                .FirstOrDefaultAsync();
+            }
 
             var seassons = new List<Season>();
             Parallel.ForEach(searchSerie.seasons.Where(s => s.season_number != 0).ToArray(), (s) =>
@@ -72,9 +80,8 @@ namespace Application.Services
             await _context.Season.AddRangeAsync(seassons);
             await _context.SaveChangesAsync();
 
-            var serieSaved = await _context.Serie.Where(s => s.SerieId.Equals(serie.SerieId))
-                .Include(s => s.Seasons)
-                .Include(s => s.Timeline)
+            serie = await _context.Serie.Where(s => s.SerieId.Equals(serie.SerieId))
+                .Include(s => s.Seasons).ThenInclude(s => s.Episodes)
                 .Include(s => s.Language)
                 .FirstOrDefaultAsync();
 
@@ -85,13 +92,13 @@ namespace Application.Services
                 .ToArrayAsync() ?? Enumerable.Empty<Episode>();
 
             return new SerieVM {
-                ID = serieSaved.SerieId,
-                OriginalName = serieSaved.OriginalName,
-                Abbreviation = serieSaved.Abbreviation,
-                ImdbId = serieSaved.ImdbId,
-                Timeline = new TimelineVM(serieSaved.TimelineId, serieSaved.Timeline.Name),
-                Seasons = serieSaved.Seasons.Select(s => new SeasonVM(s.SeasonId, s.Number, episodes)).ToArray(),
-                OriginalLanguage = serieSaved.Language.CodeISO
+                ID = serie.SerieId,
+                OriginalName = serie.OriginalName,
+                Abbreviation = serie.Abbreviation,
+                ImdbId = serie.ImdbId,
+                Timeline = serie.TimelineId,
+                Seasons = serie.Seasons.Select(s => new SeasonVM(s.SeasonId, s.Number, episodes)).ToArray(),
+                OriginalLanguage = serie.Language.CodeISO
             };
         }
     }

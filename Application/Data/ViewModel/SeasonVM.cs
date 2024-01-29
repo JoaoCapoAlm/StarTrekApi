@@ -1,4 +1,5 @@
 ﻿using Application.Model;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Data.ViewModel
@@ -11,8 +12,7 @@ namespace Application.Data.ViewModel
         {
             ID = id;
             Number = number;
-
-            foreach(var episode in episodes)
+            foreach (var episode in episodes)
             {
                 Episodes.Add(new EpisodeVM
                 {
