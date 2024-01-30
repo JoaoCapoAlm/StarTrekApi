@@ -1,4 +1,5 @@
 ﻿using Application.Configurations;
+using Application.Data;
 using Application.Resources;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,14 @@ namespace Application.Controllers
             var movie = await _movieService.GetMovieById(movieId);
 
             return Ok(movie);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMovie(CreateMovieDto dto)
+        {
+            var movie = await _movieService.CreateMovie(dto);
+
+            return CreatedAtAction(nameof(GetMovie), nameof(SerieController), new { id = movie.Id }, movie);
         }
     }
 }

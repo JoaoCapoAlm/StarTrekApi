@@ -6,7 +6,7 @@
         public string OriginalName { get; set; }
         public string Synopsis { get; set; }
         public string OriginalLanguage { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public DateOnly? ReleaseDate { get; set; }
         public short Time { get; set; }
         public string ImdbId { get; set; }
 
@@ -16,7 +16,7 @@
             string originalLanguage,
             short time,
             string imdbId,
-            DateTime? releaseDate)
+            DateOnly? releaseDate)
         {
             Id = movieId;
             OriginalName = originalName;
@@ -24,9 +24,7 @@
             OriginalLanguage = originalLanguage;
             Time = time;
             ImdbId = imdbId;
-
-            if(releaseDate.HasValue)
-                ReleaseDate = releaseDate.Value;
+            ReleaseDate = releaseDate.Value;
         }
     }
 }

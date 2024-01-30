@@ -4,7 +4,7 @@
 	[OriginalName] VARCHAR(200) NULL, 
     [SynopsisResource] VARCHAR(25) NULL, 
     [OriginalLanguageId] SMALLINT NOT NULL,
-    [ReleaseDate] DATETIME NOT NULL, 
+    [ReleaseDate] DATE NOT NULL, 
     [Time] SMALLINT NOT NULL, 
     [TimelineId] TINYINT NOT NULL, 
     [ImdbId] VARCHAR(9) NULL,

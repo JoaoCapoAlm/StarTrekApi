@@ -18,7 +18,7 @@ namespace Application.Controllers
         {
             var serie = await _tmdbService.CreateNewSerieByTmdb(tmdbId, dto);
 
-            return CreatedAtAction(nameof(SerieController.GetSerieById), "Serie", new { id = serie.ID }, serie);
+            return CreatedAtAction(nameof(SerieController.GetSerieById), nameof(SerieController), new { id = serie.ID }, serie);
         }
     }
 }
