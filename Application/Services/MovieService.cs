@@ -1,8 +1,10 @@
 ﻿using System.Text;
+using System.Transactions;
 using Application.Configurations;
 using Application.Data;
 using Application.Data.Enum;
 using Application.Data.ViewModel;
+using Application.Helpers;
 using Application.Model;
 using Application.Resources;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -69,54 +71,85 @@ namespace Application.Services
                 throw new ArgumentException(_localizer["AlreadyExists"].Value);
 
             var errors = new List<string>();
-            try
+            if (string.IsNullOrWhiteSpace(dto.SynopsisResource))
+                errors.Add($"SynopsisResource: {_localizer["Required"].Value}");
+
+            if (dto.Time <= 0)
+                errors.Add($"Time: {_localizer["Invalid"].Value}");
+
+            if (!string.IsNullOrWhiteSpace(dto.ImdbId) && !dto.ImdbId.StartsWith("tt"))
+                errors.Add($"ImdbId: {_localizer["Invalid"].Value}");
+
+            if (!Enum.IsDefined(typeof(TimelineEnum), dto.TimelineId))
+                errors.Add($"TimelineId: {_localizer["Invalid"].Value}");
+
+            if(dto.ReleaseDate < DateOnly.FromDateTime(DateTime.Today))
+                errors.Add($"ReleaseDate: {_localizer["Invalid"].Value}");
+
+            if (errors.Any())
+                throw new ArgumentException(StringHelper.ErrorListToString(errors));
+
+            var movie = new Movie()
             {
-                if (string.IsNullOrWhiteSpace(dto.SynopsisResource))
-                    errors.Add($"SynopsisResource: {_localizer["Required"].Value}");
+                ImdbId = dto.ImdbId,
+                OriginalLanguageId = dto.OriginalLanguageId,
+                OriginalName = dto.OriginalName,
+                ReleaseDate = dto.ReleaseDate,
+                TimelineId = dto.TimelineId,
+                TmdbId = dto.TmdbId,
+                SynopsisResource = dto.SynopsisResource,
+                Time = dto.Time
+            };
 
-                if (dto.Time <= 0)
-                    errors.Add($"Time: {_localizer["Invalid"].Value}");
+            await _context.AddAsync(movie);
+            await _context.SaveChangesAsync();
 
-                if (!string.IsNullOrWhiteSpace(dto.ImdbId) && !dto.ImdbId.StartsWith("tt"))
-                    errors.Add($"ImdbId: {_localizer["Invalid"].Value}");
+            return await _context.Movie.Select(m => new MovieVM(m.MovieId,
+                m.OriginalName,
+                m.SynopsisResource,
+                m.Languages.CodeISO,
+                m.Time,
+                m.ImdbId,
+                m.ReleaseDate)).LastAsync();
+        }
 
-                if (!Enum.IsDefined(typeof(TimelineEnum), dto.TimelineId))
-                    errors.Add($"TimelineId: {_localizer["Invalid"].Value}");
+        public async Task UpdateMovie(byte movieId, UpdateMovieDto dto)
+        {
+            var errors = new List<string>();
+            if (dto.Time.HasValue && dto.Time.Value <= 0)
+                errors.Add($"Time: {_localizer["Invalid"].Value}");
 
-                if(dto.ReleaseDate < DateOnly.FromDateTime(DateTime.Today))
-                    errors.Add($"ReleaseDate: {_localizer["Invalid"].Value}");
+            if (dto.OriginalLanguageId <= 0)
+                errors.Add($"OriginalLanguageId: {_localizer["Invalid"].Value}");
 
-                if (errors.Any())
-                    throw new ArgumentException();
+            if (dto.ReleaseDate > DateOnly.FromDateTime(DateTime.Now))
+                errors.Add($"ReleaseDate: {_localizer["Invalid"].Value}");
 
-                var movie = new Movie()
-                {
-                    ImdbId = dto.ImdbId,
-                    OriginalLanguageId = dto.OriginalLanguageId,
-                    OriginalName = dto.OriginalName,
-                    ReleaseDate = dto.ReleaseDate,
-                    TimelineId = dto.TimelineId,
-                    TmdbId = dto.TmdbId,
-                    SynopsisResource = dto.SynopsisResource,
-                    Time = dto.Time
-                };
+            if (!dto.ImdbId.StartsWith("tt"))
+                errors.Add($"ImdbId: {_localizer["Invalid"].Value}");
 
-                await _context.AddAsync(movie);
-                await _context.SaveChangesAsync();
+            if (RegexHelper.StringIsNumeric(dto.ImdbId.Remove(2)))
+                errors.Add($"ImdbId: {_localizer["Invalid"].Value}");
 
-                return await _context.Movie.Select(m => new MovieVM(m.MovieId,
-                    m.OriginalName,
-                    m.SynopsisResource,
-                    m.Languages.CodeISO,
-                    m.Time,
-                    m.ImdbId,
-                    m.ReleaseDate)).LastAsync();
-            } catch (ArgumentException)
-            {
-                var message = new StringBuilder();
-                errors.ForEach(m => message.Append($"- {m}{Environment.NewLine}"));
-                throw new ArgumentException(message.ToString().Trim());
-            }
+            if (dto.TmdbId <= 0)
+                errors.Add($"TmdbId: {_localizer["Invalid"].Value}");
+
+            if (errors.Any())
+                throw new ArgumentException(StringHelper.ErrorListToString(errors));
+
+            var movie = await _context.Movie.Where(m => m.MovieId == movieId).FirstOrDefaultAsync()
+                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
+
+            movie.ImdbId = string.IsNullOrWhiteSpace(dto.ImdbId) ? movie.ImdbId : dto.ImdbId;
+            movie.OriginalLanguageId = dto.OriginalLanguageId ?? movie.OriginalLanguageId;
+            movie.OriginalName = string.IsNullOrWhiteSpace(dto.OriginalName) ? movie.OriginalName : dto.OriginalName;
+            movie.ReleaseDate = dto.ReleaseDate ?? movie.ReleaseDate;
+            movie.SynopsisResource = string.IsNullOrWhiteSpace(dto.SynopsisResource) ? movie.SynopsisResource : dto.SynopsisResource;
+            movie.Time = dto.Time ?? movie.Time;
+            movie.TimelineId = dto.TimelineId ?? movie.TimelineId;
+            movie.TmdbId = dto.TmdbId ?? movie.TmdbId;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

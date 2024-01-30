@@ -10,4 +10,13 @@
         string ImdbId,
         byte TimelineId,
         int TmdbId);
+
+    public record UpdateMovieDto(string OriginalName,
+        string SynopsisResource,
+        short? OriginalLanguageId,
+        DateOnly? ReleaseDate,
+        short? Time,
+        string ImdbId,
+        byte? TimelineId,
+        int? TmdbId);
 }

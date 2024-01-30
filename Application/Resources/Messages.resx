@@ -123,6 +123,9 @@
   <data name="EnglishUS" xml:space="preserve">
     <value>English (USA)</value>
   </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Invalid</value>
+  </data>
   <data name="InvalidId" xml:space="preserve">
     <value>Invalid ID</value>
   </data>

@@ -41,5 +41,11 @@ namespace Application.Controllers
 
             return CreatedAtAction(nameof(GetMovie), nameof(SerieController), new { id = movie.Id }, movie);
         }
+        [HttpPut("{movieId}")]
+        public async Task<IActionResult> UpdateMovie([FromRoute] byte movieId, [FromBody] UpdateMovieDto dto)
+        {
+            await _movieService.UpdateMovie(movieId, dto);
+            return NoContent();
+        }
     }
 }
