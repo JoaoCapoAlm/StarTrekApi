@@ -5,7 +5,6 @@ namespace Application.Helper
 {
     public static class StringExtention
     {
-        
         public static string CreateResourceName(this string originalName, string addInTheEndName = "")
         {
             var resourceName = RegexHelper.CaseInsensitiveReplace(originalName, "star", string.Empty);

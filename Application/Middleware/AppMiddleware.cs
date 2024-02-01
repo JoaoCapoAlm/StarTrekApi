@@ -37,7 +37,9 @@ namespace Application.Middleware
             };
 
             bool isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production;
-            string errorMessage = isProduction ? exception.Message : $"{exception.Message} - {exception.InnerException}";
+            string errorMessage = exception.Message;
+            if (!isProduction && !string.IsNullOrWhiteSpace(exception.InnerException.ToString()))
+                errorMessage = $"{exception.Message} - {exception.InnerException}";
 
             var result = JsonConvert.SerializeObject(new { error = errorMessage });
 

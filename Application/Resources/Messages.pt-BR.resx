@@ -120,6 +120,9 @@
   <data name="Canada" xml:space="preserve">
     <value>Canadá</value>
   </data>
+  <data name="CannotContainSpace" xml:space="preserve">
+    <value>Não pode conter espaço.</value>
+  </data>
   <data name="EnglishUS" xml:space="preserve">
     <value>Inglês (EUA)</value>
   </data>

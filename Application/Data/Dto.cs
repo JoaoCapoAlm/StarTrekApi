@@ -4,7 +4,7 @@
 
     public record CreateMovieDto(string OriginalName,
         string SynopsisResource,
-        short OriginalLanguageId,
+        string OriginalLanguageIso,
         DateOnly? ReleaseDate,
         short Time,
         string ImdbId,
@@ -13,7 +13,7 @@
 
     public record UpdateMovieDto(string OriginalName,
         string SynopsisResource,
-        short? OriginalLanguageId,
+        string OriginalLanguageIso,
         DateOnly? ReleaseDate,
         short? Time,
         string ImdbId,

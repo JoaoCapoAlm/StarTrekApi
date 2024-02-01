@@ -39,8 +39,8 @@ namespace Application.Services
 
             if (seriesList.Any())
                 return seriesList;
-            else
-                throw new ExceptionNotFound(_localizer["NotFound"].Value);
+            
+            throw new ExceptionNotFound(_localizer["NotFound"].Value);
         }
 
         public async Task<SerieVM> GetSerieById(byte serieId)
