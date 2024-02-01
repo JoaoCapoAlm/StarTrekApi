@@ -1,4 +1,4 @@
-﻿using Application.Configurations;
+﻿using Application.Data;
 using Application.Resources;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -25,12 +25,26 @@ namespace Application.Controllers
             return Ok(movies);
         }
 
-        [HttpGet("{movieId}")]
-        public async Task<IActionResult> GetMovie(byte movieId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMovieById(byte id)
         {
-            var movie = await _movieService.GetMovieById(movieId);
+            var movie = await _movieService.GetMovieById(id);
 
             return Ok(movie);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMovie(CreateMovieDto dto)
+        {
+            var movie = await _movieService.CreateMovie(dto);
+
+            return CreatedAtAction(nameof(GetMovieById), new { id = movie.Id}, movie);
+        }
+        [HttpPut("{movieId}")]
+        public async Task<IActionResult> UpdateMovie([FromRoute] byte movieId, [FromBody] UpdateMovieDto dto)
+        {
+            await _movieService.UpdateMovie(movieId, dto);
+            return NoContent();
         }
     }
 }

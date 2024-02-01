@@ -4,10 +4,9 @@ namespace Application.Helpers
 {
     public static class RegexHelper
     {
-
         public static string RemoveSpecialCharacters(string text)
         {
-            Regex regCharacters = new Regex("[*'\",_&#^@:]");
+            Regex regCharacters = new Regex("[*'\",_&#^@:-]");
             text = regCharacters.Replace(text, string.Empty);
 
             Regex regSpace = new Regex("[ ]");
@@ -22,5 +21,7 @@ namespace Application.Helpers
 
             return regex.Replace(originalString, newValue);
         }
+
+        public static bool StringIsNumeric(string text) => Regex.IsMatch(text, @"^\d+$");
     }
 }

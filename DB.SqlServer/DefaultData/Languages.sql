@@ -37,7 +37,7 @@ BEGIN
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(34, 'French', 'fr');
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(35, 'Frisian', 'fy');
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(36, 'Irish', 'ga');
-	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(37, 'Scots/Gaelic', 'gd');
+	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(37, 'ScotsGaelic', 'gd');
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(38, 'Galician', 'gl');
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(39, 'Guarani', 'gn');
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(40, 'Gujarati', 'gu');
@@ -136,8 +136,7 @@ BEGIN
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(133, 'Yoruba', 'yo');
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(134, 'Chinese', 'zh');
 	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(135, 'Zulu', 'zu');
-	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(136, 'Chinese', 'zh');
-	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(137, 'EnglishUSA', 'en-US');
-	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(138, 'PortugueseBrazil', 'pt-BR');
+	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(136, 'EnglishUSA', 'en-US');
+	INSERT INTO [dbo].[Language] (LanguageId, ResourceName, CodeISO) VALUES(137, 'PortugueseBrazil', 'pt-BR');
 	SET IDENTITY_INSERT [dbo].[Language] OFF;
 END

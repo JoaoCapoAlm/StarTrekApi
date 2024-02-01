@@ -70,11 +70,29 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot contain space..
+        /// </summary>
+        public static string CannotContainSpace {
+            get {
+                return ResourceManager.GetString("CannotContainSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English (USA).
         /// </summary>
         public static string EnglishUS {
             get {
                 return ResourceManager.GetString("EnglishUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid.
+        /// </summary>
+        public static string Invalid {
+            get {
+                return ResourceManager.GetString("Invalid", resourceCulture);
             }
         }
         

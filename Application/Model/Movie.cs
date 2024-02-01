@@ -7,7 +7,7 @@
         public string SynopsisResource { get; set; }
         public short OriginalLanguageId { get; set; }
         public virtual Language Languages { get; set; }
-        public DateTime? ReleaseDate { get; set; }
+        public DateOnly? ReleaseDate { get; set; }
         public short Time { get; set; }
         public string ImdbId { get; set; }
         public byte TimelineId { get; set; }
