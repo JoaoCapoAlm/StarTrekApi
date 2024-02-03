@@ -33,6 +33,11 @@ namespace Application.Controllers
             return Ok(movie);
         }
 
+        /// <summary>
+        /// Criação de filme
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateMovie(CreateMovieDto dto)
         {
