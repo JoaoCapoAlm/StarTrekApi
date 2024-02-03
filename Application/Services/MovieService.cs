@@ -2,14 +2,11 @@
 using Application.Data;
 using Application.Data.Enum;
 using Application.Data.ViewModel;
-using Application.Helper;
 using Application.Helpers;
 using Application.Model;
 using Application.Resources;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services
 {
@@ -72,7 +69,7 @@ namespace Application.Services
             var errors = new List<string>();
             if (string.IsNullOrWhiteSpace(dto.SynopsisResource))
                 errors.Add($"SynopsisResource: {_localizer["Required"].Value}");
-            else if(dto.SynopsisResource.Contains(" "))
+            else if (dto.SynopsisResource.Contains(' '))
                 errors.Add($"SynopsisResource: {_localizer["Invalid"].Value} - {_localizer["CannotContainSpace"].Value}");
 
             if (dto.Time <= 0)
@@ -91,6 +88,22 @@ namespace Application.Services
 
             if (!Enum.IsDefined(typeof(LanguageEnum), languageIso))
                 errors.Add($"OriginalLanguageIso: {_localizer["Invalid"].Value}");
+
+            var checkSynopsisNameAlreadyExists = await _context.Movie.AsNoTracking()
+                .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource))
+                .AnyAsync();
+
+            if (checkSynopsisNameAlreadyExists)
+                errors.Add($"SynopsisResource: {_localizer["AlreadyExists"].Value}");
+            else
+            {
+                checkSynopsisNameAlreadyExists = await _context.Serie.AsNoTracking()
+                    .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource))
+                    .AnyAsync();
+                
+                if (checkSynopsisNameAlreadyExists)
+                    errors.Add($"SynopsisResource: {_localizer["AlreadyExists"].Value}");
+            }
 
             if (errors.Any())
                 throw new ArgumentException(StringHelper.ErrorListToString(errors));
@@ -126,38 +139,61 @@ namespace Application.Services
         public async Task UpdateMovie(byte movieId, UpdateMovieDto dto)
         {
             var errors = new List<string>();
+            var checkExists = await _context.Movie.AsNoTracking()
+                .Where(m => m.MovieId.Equals(movieId))
+                .AnyAsync();
+            if (!checkExists)
+                throw new ExceptionNotFound(_localizer["NotFound"].Value);
+
+            if (!string.IsNullOrWhiteSpace(dto.SynopsisResource) && dto.SynopsisResource.Contains(' '))
+                errors.Add($"SynopsisResource: {_localizer["Invalid"].Value} - {_localizer["CannotContainSpace"].Value}");
+
             if (dto.Time.HasValue && dto.Time.Value <= 0)
                 errors.Add($"Time: {_localizer["Invalid"].Value}");
 
-            if (dto.OriginalLanguageIso.Length > 6
-                || (!string.IsNullOrWhiteSpace(dto.OriginalLanguageIso)
-                    && !Enum.IsDefined(typeof(LanguageEnum), dto.OriginalLanguageIso)))
-                errors.Add($"OriginalLanguageIso: {_localizer["Invalid"].Value}");
+            if (!string.IsNullOrWhiteSpace(dto.ImdbId) && !dto.ImdbId.StartsWith("tt"))
+                errors.Add($"ImdbId: {_localizer["Invalid"].Value}");
 
-            if (dto.ReleaseDate > DateOnly.FromDateTime(DateTime.Now))
+            if (dto.TimelineId.HasValue && !Enum.IsDefined(typeof(TimelineEnum), dto.TimelineId.Value))
+                errors.Add($"TimelineId: {_localizer["Invalid"].Value}");
+
+            if (dto.ReleaseDate.HasValue && dto.ReleaseDate.Value > DateOnly.FromDateTime(DateTime.Today))
                 errors.Add($"ReleaseDate: {_localizer["Invalid"].Value}");
 
-            if (!dto.ImdbId.StartsWith("tt"))
-                errors.Add($"ImdbId: {_localizer["Invalid"].Value}");
+            var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso ?? string.Empty);
+            LanguageEnum? languageParsed = null;
+            if (!string.IsNullOrWhiteSpace(languageIso))
+            {
+                if (Enum.IsDefined(typeof(LanguageEnum), languageIso))
+                    languageParsed = Enum.Parse<LanguageEnum>(languageIso);
+                else
+                    errors.Add($"OriginalLanguageIso: {_localizer["Invalid"].Value}");
+            }
 
-            if (RegexHelper.StringIsNumeric(dto.ImdbId.Remove(2)))
-                errors.Add($"ImdbId: {_localizer["Invalid"].Value}");
+            var checkSynopsisNameAlreadyExists = await _context.Movie.AsNoTracking()
+                .Where(m => m.MovieId != movieId && m.SynopsisResource.Equals(dto.SynopsisResource))
+                .AnyAsync();
 
-            if (dto.TmdbId <= 0)
-                errors.Add($"TmdbId: {_localizer["Invalid"].Value}");
+            if (checkSynopsisNameAlreadyExists)
+                errors.Add($"SynopsisResource: {_localizer["AlreadyExists"].Value}");
+            else
+            {
+                checkSynopsisNameAlreadyExists = await _context.Serie.AsNoTracking()
+                    .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource))
+                    .AnyAsync();
+
+                if (checkSynopsisNameAlreadyExists)
+                    errors.Add($"SynopsisResource: {_localizer["AlreadyExists"].Value}");
+            }
 
             if (errors.Any())
                 throw new ArgumentException(StringHelper.ErrorListToString(errors));
-
-            short? languageId = null;
-            if (!string.IsNullOrWhiteSpace(dto.OriginalLanguageIso))
-                languageId = (short)Enum.Parse<LanguageEnum>(dto.OriginalLanguageIso).GetHashCode();
 
             var qtdMoviesUpdated = await _context.Movie.AsNoTracking()
                 .Where(m => m.MovieId.Equals(movieId))
                 .ExecuteUpdateAsync(s =>
                     s.SetProperty(m => m.ImdbId, m => string.IsNullOrWhiteSpace(dto.ImdbId) ? m.ImdbId : dto.ImdbId)
-                        .SetProperty(m => m.OriginalLanguageId, m => languageId ?? m.OriginalLanguageId)
+                        .SetProperty(m => m.OriginalLanguageId, m => languageParsed.HasValue ? languageParsed.Value.GetHashCode() : m.OriginalLanguageId)
                         .SetProperty(m => m.OriginalName, m => string.IsNullOrWhiteSpace(dto.OriginalName) ? m.OriginalName : dto.OriginalName)
                         .SetProperty(m => m.ReleaseDate, m => dto.ReleaseDate ?? m.ReleaseDate)
                         .SetProperty(m => m.SynopsisResource, m => string.IsNullOrWhiteSpace(dto.SynopsisResource) ? m.SynopsisResource : dto.SynopsisResource)

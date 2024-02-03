@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using System.Net;
+﻿using System.Net;
 using Application.Configurations;
 using Azure.Core;
 using Newtonsoft.Json;
@@ -8,14 +6,9 @@ using Newtonsoft.Json;
 namespace Application.Middleware
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
-    public class AppMiddleware
+    public class AppMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
-
-        public AppMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+        private readonly RequestDelegate _next = next;
 
         public async Task Invoke(HttpContext httpContext)
         {
@@ -38,7 +31,7 @@ namespace Application.Middleware
 
             bool isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production;
             string errorMessage = exception.Message;
-            if (!isProduction && !string.IsNullOrWhiteSpace(exception.InnerException.ToString()))
+            if (!isProduction && exception.InnerException != null)
                 errorMessage = $"{exception.Message} - {exception.InnerException}";
 
             var result = JsonConvert.SerializeObject(new { error = errorMessage });
