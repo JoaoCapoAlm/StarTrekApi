@@ -1,7 +1,9 @@
 ﻿using Application.Data;
+using Application.Data.Validation;
 using Application.Middleware;
 using Application.Resources;
 using Application.Services;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 
@@ -13,11 +15,14 @@ namespace Application
         {
             services.TryAddTransient(typeof(IStringLocalizer<Messages>), typeof(StringLocalizer<Messages>));
             services.TryAddScoped(typeof(StarTrekContext));
+            
             services.TryAddScoped<CrewService>();
             services.TryAddScoped<MovieService>();
             services.TryAddScoped<SerieService>();
             services.TryAddScoped<TmdbService>();
 
+            services.TryAddScoped<IValidator<CreateMovieDto>, CreateMovieValidation>();
+            services.TryAddScoped<IValidator<UpdateMovieDto>, UpdateMovieValidation>();
             return services;
         }
 

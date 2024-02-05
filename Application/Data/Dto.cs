@@ -1,4 +1,6 @@
-﻿namespace Application.Data
+﻿using Application.Data.Enum;
+
+namespace Application.Data
 {
     public record CreateNewSerieDto(string Abbreviation, string Imdb, string SynopsisResource, byte Timeline);
 
@@ -8,7 +10,7 @@
         DateOnly? ReleaseDate,
         short Time,
         string ImdbId,
-        byte TimelineId,
+        TimelineEnum TimelineId,
         int TmdbId);
 
     public record UpdateMovieDto(string OriginalName,

@@ -1,9 +1,11 @@
-﻿using Application.Configurations;
+﻿using System.Net;
+using Application.Configurations;
 using Application.Data;
 using Application.Data.ViewModel;
 using Application.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using static Application.Middleware.AppMiddleware;
 
 namespace Application.Services
 {
@@ -40,7 +42,7 @@ namespace Application.Services
             if (seriesList.Any())
                 return seriesList;
             
-            throw new ExceptionNotFound(_localizer["NotFound"].Value);
+            throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), System.Net.HttpStatusCode.NotFound);
         }
 
         public async Task<SerieVM> GetSerieById(byte serieId)
@@ -61,7 +63,7 @@ namespace Application.Services
                     Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray()
                 })
                 .FirstOrDefaultAsync()
-                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
+                ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), HttpStatusCode.NotFound);
         }
     }
 }

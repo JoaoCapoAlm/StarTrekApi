@@ -2,8 +2,10 @@
 using Application.Data;
 using Application.Data.ViewModel;
 using Application.Resources;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using static Application.Middleware.AppMiddleware;
 
 namespace Application.Services
 {
@@ -36,7 +38,7 @@ namespace Application.Services
                     Country = _localizer[c.Country.ResourceName].Value
                 })
                 .ToArrayAsync()
-                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
+                ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), System.Net.HttpStatusCode.NotFound);
         }
 
         public async Task<CrewVM> GetCrewById(int crewId)
@@ -55,7 +57,7 @@ namespace Application.Services
                     Country = _localizer[c.Country.ResourceName].Value
                 })
                 .FirstOrDefaultAsync()
-                ?? throw new ExceptionNotFound(_localizer["NotFound"].Value);
+                ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), System.Net.HttpStatusCode.NotFound);
         }
     }
 }
