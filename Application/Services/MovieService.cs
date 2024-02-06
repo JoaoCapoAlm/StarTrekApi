@@ -122,30 +122,18 @@ namespace Application.Services
                 ).LastAsync();
         }
 
-        public async Task UpdateMovie(byte movieId, UpdateMovieDto dto)
+        public async Task UpdateMovie(byte id, UpdateMovieDto dto)
         {
-            var errors = new List<ErrorContent>();
-            if (dto.Time.HasValue && dto.Time.Value <= 0)
-                errors.Add(new ErrorContent("Time", _localizer["Invalid"].Value));
-
-            if (!string.IsNullOrWhiteSpace(dto.ImdbId) && !dto.ImdbId.StartsWith("tt"))
-                errors.Add(new ErrorContent("ImdbId", _localizer["Invalid"].Value));
-
-            if (dto.TimelineId.HasValue && !Enum.IsDefined(typeof(TimelineEnum), dto.TimelineId.Value))
-                errors.Add(new ErrorContent("TimelineId", _localizer["Invalid"].Value));
-
-            if (dto.ReleaseDate.HasValue && dto.ReleaseDate.Value > DateOnly.FromDateTime(DateTime.Today))
-                errors.Add(new ErrorContent("ReleaseDate", _localizer["Invalid"].Value));
-
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso ?? string.Empty);
             LanguageEnum? languageParsed = null;
             if (!string.IsNullOrWhiteSpace(languageIso) && Enum.IsDefined(typeof(LanguageEnum), languageIso))
                 languageParsed = Enum.Parse<LanguageEnum>(languageIso);
 
             var checkSynopsisNameAlreadyExists = await _context.Movie.AsNoTracking()
-                .Where(m => m.MovieId != movieId && m.SynopsisResource.Equals(dto.SynopsisResource))
+                .Where(m => m.MovieId != id && m.SynopsisResource.Equals(dto.SynopsisResource))
                 .AnyAsync();
 
+            var errors = new List<ErrorContent>();
             if (checkSynopsisNameAlreadyExists)
                 errors.Add(new ErrorContent("SynopsisResource", _localizer["AlreadyExists"].Value));
             else
@@ -162,13 +150,14 @@ namespace Application.Services
                 throw new AppException("Existem erros nos dados", errors);
 
             var checkExists = await _context.Movie.AsNoTracking()
-                .Where(m => m.MovieId.Equals(movieId))
-                .AnyAsync();
-            if (!checkExists)
-                throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), HttpStatusCode.NotFound);
+                .Where(m => m.MovieId.Equals(id))
+                .FirstOrDefaultAsync()
+                ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), HttpStatusCode.NotFound);
+
+            var timeline = dto.TimelineId.HasValue ? (byte)dto.TimelineId.Value.GetHashCode() : checkExists.TimelineId;
 
             var qtdMoviesUpdated = await _context.Movie.AsNoTracking()
-                .Where(m => m.MovieId.Equals(movieId))
+                .Where(m => m.MovieId.Equals(id))
                 .ExecuteUpdateAsync(s =>
                     s.SetProperty(m => m.ImdbId, m => string.IsNullOrWhiteSpace(dto.ImdbId) ? m.ImdbId : dto.ImdbId)
                         .SetProperty(m => m.OriginalLanguageId, m => languageParsed.HasValue ? languageParsed.Value.GetHashCode() : m.OriginalLanguageId)
@@ -176,7 +165,7 @@ namespace Application.Services
                         .SetProperty(m => m.ReleaseDate, m => dto.ReleaseDate ?? m.ReleaseDate)
                         .SetProperty(m => m.SynopsisResource, m => string.IsNullOrWhiteSpace(dto.SynopsisResource) ? m.SynopsisResource : dto.SynopsisResource)
                         .SetProperty(m => m.Time, m => dto.Time ?? m.Time)
-                        .SetProperty(m => m.TimelineId, m => dto.TimelineId ?? m.TimelineId)
+                        .SetProperty(m => m.TimelineId, m => timeline)
                         .SetProperty(m => m.TmdbId, m => dto.TmdbId ?? m.TmdbId)
                 );
 

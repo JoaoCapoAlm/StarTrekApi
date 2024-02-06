@@ -18,7 +18,7 @@ namespace Application.Controllers
             _localizer = localizer;
         }
         [HttpGet]
-        public async Task<IActionResult> GetMovieList(byte page = 0, byte pageSize = 100)
+        public async Task<IActionResult> GetMovieList([FromQuery]byte page = 0, [FromQuery]byte pageSize = 100)
         {
             var movies = await _movieService.GetMovieList(page, pageSize);
 
@@ -39,16 +39,16 @@ namespace Application.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateMovie(CreateMovieDto dto)
+        public async Task<IActionResult> CreateMovie([FromBody]CreateMovieDto dto)
         {
             var movie = await _movieService.CreateMovie(dto);
 
             return CreatedAtAction(nameof(GetMovieById), new { id = movie.Id}, movie);
         }
-        [HttpPut("{movieId}")]
-        public async Task<IActionResult> UpdateMovie([FromRoute] byte movieId, [FromBody] UpdateMovieDto dto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMovie([FromRoute] byte id, [FromBody] UpdateMovieDto dto)
         {
-            await _movieService.UpdateMovie(movieId, dto);
+            await _movieService.UpdateMovie(id, dto);
             return NoContent();
         }
     }

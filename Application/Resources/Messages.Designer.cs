@@ -106,6 +106,15 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The language code must be an ISO 690 code.
+        /// </summary>
+        public static string LanguageCodeMustIso {
+            get {
+                return ResourceManager.GetString("LanguageCodeMustIso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not found.
         /// </summary>
         public static string NotFound {
@@ -124,11 +133,29 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It should just be letters without accents.
+        /// </summary>
+        public static string ShouldBeLettersWithoutAccents {
+            get {
+                return ResourceManager.GetString("ShouldBeLettersWithoutAccents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to United States of America.
         /// </summary>
         public static string UnitedStates {
             get {
                 return ResourceManager.GetString("UnitedStates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be greater than zero.
+        /// </summary>
+        public static string ValueGreaterThanZero {
+            get {
+                return ResourceManager.GetString("ValueGreaterThanZero", resourceCulture);
             }
         }
     }

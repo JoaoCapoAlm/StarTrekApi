@@ -4,12 +4,14 @@ namespace Application.Helpers
 {
     public static partial class RegexHelper
     {
-        [GeneratedRegex(@"^\d+$")]
+        [GeneratedRegex(@"^[0-9]+$")]
         private static partial Regex NumericRegex();
         [GeneratedRegex("[ ]")]
         private static partial Regex SpaceRegex();
-        [GeneratedRegex("[*'\",_&#^@:-]")]
+        [GeneratedRegex("[*'\",_&#^@>:<-]")]
         private static partial Regex SpecialCharacters();
+        [GeneratedRegex("^[A-Za-z]+$")]
+        private static partial Regex SimpleAlphabetRegex();
 
         public static string RemoveSpecialCharacters(string text)
         {
@@ -26,5 +28,7 @@ namespace Application.Helpers
         }
 
         public static bool StringIsNumeric(string text) => NumericRegex().IsMatch(text);
+
+        public static bool StringIsSimpleAlphabet(string text) => SimpleAlphabetRegex().IsMatch(text);
     }
 }

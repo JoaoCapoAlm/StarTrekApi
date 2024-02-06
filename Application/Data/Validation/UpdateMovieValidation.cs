@@ -2,45 +2,56 @@
 using Application.Helpers;
 using Application.Resources;
 using FluentValidation;
-using Humanizer;
+using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
+using NuGet.Protocol;
 
 namespace Application.Data.Validation
 {
     public class UpdateMovieValidation : AbstractValidator<UpdateMovieDto>
     {
-        public UpdateMovieValidation(IStringLocalizer<Messages> localizer) // TODO: verificar se aplicar apenas caso tenha valor
+        public UpdateMovieValidation(IStringLocalizer<Messages> localizer)
         {
             RuleFor(m => m.Time)
                 .GreaterThan((short)0)
+                .WithMessage(localizer["ValueGreaterThanZero"].Value);
+
+            When(m => !string.IsNullOrWhiteSpace(m.ImdbId), () =>
+            {
+                RuleFor(m => m.ImdbId)
+                    .Length(8, 14)
+                        .WithMessage(localizer["Invalid"].Value)
+                    .Must(m => m.StartsWith("tt") && RegexHelper.StringIsNumeric(m[2..]))
+                        .WithMessage(localizer["Invalid"].Value);
+            });
+
+            RuleFor(m => m.TimelineId)
+                .IsInEnum()
                 .WithMessage(localizer["Invalid"].Value);
 
-            RuleFor(m => m.ImdbId)
-                .Must(m => m.StartsWith("tt"))
-                .WithMessage(localizer["Invalid"].Value);
+            When(x => x.ReleaseDate.HasValue, () =>
+            {
+                RuleFor(m => m.ReleaseDate)
+                    .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
+                    .WithMessage(localizer["Invalid"].Value);
+            });
 
-            RuleFor(m => m.TimelineId).Must(m => m.Value == 1 || m.Value == 2)
-                .WithMessage(localizer["Invalid"].Value);
-
-            RuleFor(m => m.ReleaseDate)
-                .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
-                .WithMessage(localizer["Invalid"].Value);
-
-            RuleFor(m => m.OriginalLanguageIso); // TODO: adicionar validação para ver se existe no ENUM
             When(m => !string.IsNullOrWhiteSpace(m.SynopsisResource), () =>
             {
                 RuleFor(m => m.SynopsisResource)
-                    .Matches(@"\A\S+\z")
-                    .WithMessage($"{localizer["Invalid"].Value} - {localizer["CannotContainSpace"].Value}");
+                    .Must(RegexHelper.StringIsSimpleAlphabet)
+                    .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}");
             });
 
             When(m => !string.IsNullOrWhiteSpace(m.OriginalLanguageIso), () =>
             {
-                RuleFor(m => RegexHelper.RemoveSpecialCharacters(m.OriginalLanguageIso))
-                    .IsEnumName(typeof(LanguageEnum), false)
-                    .WithMessage(localizer["Invalid"].Value);
+                RuleFor(x => x.OriginalLanguageIso)
+                    .Must((dto, language) =>
+                    {
+                        var languageIso = RegexHelper.RemoveSpecialCharacters(language);
+                        return System.Enum.IsDefined(typeof(LanguageEnum), languageIso);
+                    }).WithMessage(localizer["LanguageCodeMustIso"].Value);
             });
-
         }
     }
 }

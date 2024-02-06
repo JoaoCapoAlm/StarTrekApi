@@ -5,13 +5,14 @@ using Application.Data;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddCors(opts => opts.AddPolicy("cors", b =>
 {
-    b.AllowAnyOrigin().WithMethods("GET");
+    b.AllowAnyOrigin().DisallowCredentials().WithMethods("GET");
 }));
 
 builder.Services.AddDbContext<StarTrekContext>(opts =>
@@ -42,12 +43,13 @@ builder.Services.AddSwaggerGen(opts =>
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
             Name = "João",
-            Email = "   ato@capoanisolucoes.com.br"
+            Email = "contato@capoanisolucoes.com.br"
         }
     });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     opts.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
+    opts.OperationFilter<AddRequiredHeaderParameter>();
 });
 
 var app = builder.Build();

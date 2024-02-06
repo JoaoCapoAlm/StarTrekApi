@@ -37,7 +37,7 @@ namespace Application
 
             app.UseRequestLocalization(opts =>
             {
-                string[] supportedCultures = ["en-US", "pt-BR"];
+                string[] supportedCultures = SupportedCultures();
                 opts.AddSupportedCultures(supportedCultures)
                     .SetDefaultCulture(supportedCultures[0]);
             });
@@ -55,6 +55,11 @@ namespace Application
             app.UseAuthorization();
 
             return app;
+        }
+
+        internal static string[] SupportedCultures()
+        {
+            return ["en-US", "pt-BR"];
         }
     }
 }

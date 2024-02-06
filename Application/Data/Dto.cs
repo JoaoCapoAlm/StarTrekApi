@@ -19,6 +19,6 @@ namespace Application.Data
         DateOnly? ReleaseDate,
         short? Time,
         string ImdbId,
-        byte? TimelineId,
+        TimelineEnum? TimelineId,
         int? TmdbId);
 }

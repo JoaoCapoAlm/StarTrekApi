@@ -31,13 +31,18 @@ namespace Application.Middleware
             };
 
             bool isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production;
+            
             string message = exception.Message;
-            if (!isProduction && exception.InnerException != null)
+            if (isProduction && code.Equals(HttpStatusCode.InternalServerError))
+            {
+                message = "Internal Server Error";
+            } else if (exception.InnerException != null)
                 message = $"{exception.Message} - {exception.InnerException}";
 
             var responseBody = new ContentResponse()
             {
-                message = message
+                message = message,
+                errors = Enumerable.Empty<ErrorContent>()
             };
 
             if (exception.GetType().Equals(typeof(AppException)))
@@ -49,7 +54,7 @@ namespace Application.Middleware
 
             context.Response.ContentType = ContentType.ApplicationJson.ToString();
             context.Response.StatusCode = code.GetHashCode();
-            return context.Response.WriteAsync(JsonConvert.SerializeObject(new { message, errors = exception.Data }));
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(responseBody));
         }
 
         internal class ContentResponse
