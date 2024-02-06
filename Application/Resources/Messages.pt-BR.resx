@@ -132,13 +132,22 @@
   <data name="InvalidId" xml:space="preserve">
     <value>ID inválido</value>
   </data>
+  <data name="LanguageCodeMustIso" xml:space="preserve">
+    <value>O código do idioma deve ser um código ISO 690</value>
+  </data>
   <data name="NotFound" xml:space="preserve">
     <value>Não encontrado</value>
   </data>
   <data name="PortuguesBR" xml:space="preserve">
     <value>Português (Brasil)</value>
   </data>
+  <data name="ShouldBeLettersWithoutAccents" xml:space="preserve">
+    <value>Deve ser apenas letras sem acentos</value>
+  </data>
   <data name="UnitedStates" xml:space="preserve">
     <value>Estados Unidos da América</value>
+  </data>
+  <data name="ValueGreaterThanZero" xml:space="preserve">
+    <value>Valor deve ser maior que zero</value>
   </data>
 </root>

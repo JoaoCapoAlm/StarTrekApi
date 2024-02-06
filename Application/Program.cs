@@ -2,15 +2,17 @@ using System.Net;
 using System.Reflection;
 using Application;
 using Application.Data;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddCors(opts => opts.AddPolicy("cors", b =>
 {
-    b.AllowAnyOrigin().WithMethods("GET");
+    b.AllowAnyOrigin().DisallowCredentials().WithMethods("GET");
 }));
 
 builder.Services.AddDbContext<StarTrekContext>(opts =>
@@ -20,8 +22,9 @@ builder.Services.AddDbContext<StarTrekContext>(opts =>
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 
 builder.Services.AddLocalization();
-builder.Services.DependencyInjection();
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.DependencyInjection();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureHttpClientDefaults(opts =>
 {
@@ -46,6 +49,7 @@ builder.Services.AddSwaggerGen(opts =>
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     opts.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
+    opts.OperationFilter<AddRequiredHeaderParameter>();
 });
 
 var app = builder.Build();
