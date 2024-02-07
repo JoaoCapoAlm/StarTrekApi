@@ -1,4 +1,5 @@
-﻿using Application.Data.ViewModel;
+﻿using Application.Data;
+using Application.Data.ViewModel;
 using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,19 @@ namespace Application.Controllers
         public async Task<SerieVM> GetSerieById([FromRoute] byte id)
         {
             return await _serieService.GetSerieById(id);
+        }
+        
+        /// <summary>
+        /// Create new serie
+        /// </summary>
+        /// <param name="dto">Informtion about serie</param>
+        /// <returns>Return new serie</returns>
+        /// <response code="201">Created</response>
+        [HttpPost]
+        public async Task<IActionResult> CreateNewSerie([FromBody] CreateSerieDto dto)
+        {
+            var newSerie = await _serieService.CreateNewSerie(dto);
+            return CreatedAtAction(nameof(GetSerieById), new { id = newSerie.ID }, newSerie);
         }
     }
 }

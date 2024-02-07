@@ -2,7 +2,27 @@
 
 namespace Application.Data
 {
-    public record CreateNewSerieDto(string Abbreviation, string Imdb, string SynopsisResource, byte Timeline);
+    public record CreateSerieDto(
+        string Abbreviation,
+        string ImdbId,
+        string OriginalLanguageIso,
+        string OriginalName,
+        string SynopsisResource,
+        TimelineEnum TimelineId,
+        int TmdbId,
+        IList<CreateSeasonDto> Seasons);
+
+    public record CreateNewSerieByTmdbDto(string Abbreviation, string Imdb, string SynopsisResource, byte Timeline);
+
+    public record CreateEpisodeDto(
+        DateOnly? RealeaseDate,
+        string TitleResource,
+        string SynopsisResource,
+        byte? Time,
+        byte Number,
+        float? StardateFrom,
+        float? StardateTo,
+        string ImdbId);
 
     public record CreateMovieDto(string OriginalName,
         string SynopsisResource,
@@ -21,4 +41,6 @@ namespace Application.Data
         string ImdbId,
         TimelineEnum? TimelineId,
         int? TmdbId);
+
+    public record CreateSeasonDto(byte Number, IList<CreateEpisodeDto> Episodes);
 }

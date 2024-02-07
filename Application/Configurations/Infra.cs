@@ -21,7 +21,10 @@ namespace Application
             services.TryAddScoped<SerieService>();
             services.TryAddScoped<TmdbService>();
 
+            services.TryAddScoped<IValidator<CreateEpisodeDto>, CreateEpisodeValidator>();
             services.TryAddScoped<IValidator<CreateMovieDto>, CreateMovieValidation>();
+            services.TryAddScoped<IValidator<CreateSeasonDto>, CreateSeasonValidation>();
+            services.TryAddScoped<IValidator<CreateSerieDto>, CreateSerieValidation>();
             services.TryAddScoped<IValidator<UpdateMovieDto>, UpdateMovieValidation>();
             return services;
         }

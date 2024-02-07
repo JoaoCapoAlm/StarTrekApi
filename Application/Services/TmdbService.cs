@@ -18,7 +18,7 @@ namespace Application.Services
             _context = context;
             _localizer = localizer;
         }
-        public async Task<SerieVM> CreateNewSerieByTmdb(int tmdbId, CreateNewSerieDto dto)
+        public async Task<SerieVM> CreateNewSerieByTmdb(int tmdbId, CreateNewSerieByTmdbDto dto)
         {
             Serie serie = await _context.Serie?.Where(s => s.TmdbId == tmdbId)?
                 .Include(s => s.Seasons).ThenInclude(s => s.Episodes)

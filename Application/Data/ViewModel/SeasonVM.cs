@@ -1,4 +1,5 @@
-﻿using Application.Model;
+﻿using System.Collections.ObjectModel;
+using Application.Model;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -12,6 +13,7 @@ namespace Application.Data.ViewModel
         {
             ID = id;
             Number = number;
+            Episodes = new Collection<EpisodeVM>();
             foreach (var episode in episodes)
             {
                 Episodes.Add(new EpisodeVM
@@ -22,8 +24,7 @@ namespace Application.Data.ViewModel
                     RealeaseDate = episode.RealeaseDate,
                     StardateFrom = episode.StardateFrom,
                     StardateTo = episode.StardateTo,
-                    Time = episode.Time,
-                    SeasonId = episode.SeasonId
+                    Time = episode.Time
                 });
             };
         }
