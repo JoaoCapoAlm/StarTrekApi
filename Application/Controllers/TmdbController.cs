@@ -14,7 +14,7 @@ namespace Application.Controllers
             _tmdbService = tmdbService;
         }
         [HttpPost("serie/{tmdbId}")]
-        public async Task<IActionResult> CreateNewSerieByTmdb([FromRoute] int tmdbId, [FromBody] CreateNewSerieDto dto)
+        public async Task<IActionResult> CreateNewSerieByTmdb([FromRoute] int tmdbId, [FromBody] CreateNewSerieByTmdbDto dto)
         {
             var serie = await _tmdbService.CreateNewSerieByTmdb(tmdbId, dto);
 

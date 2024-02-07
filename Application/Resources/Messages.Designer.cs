@@ -61,6 +61,15 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Already exists.
+        /// </summary>
+        public static string AlreadyExists {
+            get {
+                return ResourceManager.GetString("AlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Canada.
         /// </summary>
         public static string Canada {
@@ -88,6 +97,15 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IMDB or TMDB ID already registered.
+        /// </summary>
+        public static string ImdbOrTmdbIdAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("ImdbOrTmdbIdAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid.
         /// </summary>
         public static string Invalid {
@@ -111,6 +129,24 @@ namespace Application.Resources {
         public static string LanguageCodeMustIso {
             get {
                 return ResourceManager.GetString("LanguageCodeMustIso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be greater than zero.
+        /// </summary>
+        public static string MustBeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("MustBeGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not created.
+        /// </summary>
+        public static string NotCreated {
+            get {
+                return ResourceManager.GetString("NotCreated", resourceCulture);
             }
         }
         

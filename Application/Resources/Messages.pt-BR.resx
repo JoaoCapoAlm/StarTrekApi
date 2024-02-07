@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlreadyExists" xml:space="preserve">
+    <value>Já existente</value>
+  </data>
   <data name="Canada" xml:space="preserve">
     <value>Canadá</value>
   </data>
@@ -126,6 +129,9 @@
   <data name="EnglishUS" xml:space="preserve">
     <value>Inglês (EUA)</value>
   </data>
+  <data name="ImdbOrTmdbIdAlreadyRegistered" xml:space="preserve">
+    <value>ID do IMDB ou TMDB já cadastrado</value>
+  </data>
   <data name="Invalid" xml:space="preserve">
     <value>Inválido</value>
   </data>
@@ -134,6 +140,12 @@
   </data>
   <data name="LanguageCodeMustIso" xml:space="preserve">
     <value>O código do idioma deve ser um código ISO 690</value>
+  </data>
+  <data name="MustBeGreaterThanZero" xml:space="preserve">
+    <value>Deve ser maior que zero</value>
+  </data>
+  <data name="NotCreated" xml:space="preserve">
+    <value>Não criado</value>
   </data>
   <data name="NotFound" xml:space="preserve">
     <value>Não encontrado</value>

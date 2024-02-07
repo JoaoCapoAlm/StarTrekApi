@@ -67,9 +67,9 @@ namespace Application.Services
                 .Where(m => m.ImdbId.Equals(dto.ImdbId) || m.TmdbId.Equals(dto.TmdbId))
                 .AnyAsync();
             if (checkExists)
-                throw new AppException(_localizer["AlreadyExists"].Value, new List<ErrorContent>()
+                throw new AppException(_localizer["NotCreated"].Value, new List<ErrorContent>()
                 {
-                    new("ImdbId/TmdbId", _localizer["AlreadyExists"].Value)
+                    new("ImdbId/TmdbId", _localizer["ImdbOrTmdbIdAlreadyRegistered"].Value)
                 });
 
             var errors = new List<ErrorContent>();
@@ -87,10 +87,9 @@ namespace Application.Services
 
                 if (checkSynopsisNameAlreadyExists)
                     errors.Add(new ErrorContent("SynopsisResource", _localizer["AlreadyExists"].Value));
-
-                if (errors.Any())
-                    throw new AppException("Não foi possível criar o filme", errors);
             }
+            if (errors.Any())
+                throw new AppException(_localizer["NotCreated"].Value, errors);
 
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso);
 

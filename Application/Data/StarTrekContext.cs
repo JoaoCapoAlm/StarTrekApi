@@ -51,6 +51,9 @@ namespace Application.Data
                 .HasKey(t => t.TimelineId)
                 .HasName("PK_Timeline");
 
+            modelBuilder.Entity<vwResourcesName>()
+                .HasNoKey();
+
             modelBuilder.Entity<Crew>()
                 .HasOne(c => c.Country)
                 .WithMany(country => country.Crews)
@@ -116,5 +119,6 @@ namespace Application.Data
         public DbSet<Season> Season { get; set; }
         public DbSet<Serie> Serie { get; set; }
         public DbSet<Timeline> Timeline { get; set; }
+        public DbSet<vwResourcesName> vwResourcesName { get; set; }
     }
 }

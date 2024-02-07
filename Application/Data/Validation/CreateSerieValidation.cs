@@ -6,10 +6,17 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Data.Validation
 {
-    public class CreateMovieValidation : AbstractValidator<CreateMovieDto>
+    public class CreateSerieValidation : AbstractValidator<CreateSerieDto>
     {
-        public CreateMovieValidation(IStringLocalizer<Messages> localizer)
+        public CreateSerieValidation(IStringLocalizer<Messages> localizer)
         {
+            RuleFor(s => s.Abbreviation)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                    .WithMessage(localizer["Required"].Value)
+                .Length(3)
+                    .WithMessage(localizer["Invalid"].Value);
+
             When(x => !string.IsNullOrWhiteSpace(x.ImdbId), () =>
             {
                 RuleFor(m => m.ImdbId)
@@ -19,7 +26,8 @@ namespace Application.Data.Validation
                         .WithMessage(localizer["Invalid"].Value);
             });
 
-            RuleFor(x => x.OriginalLanguageIso)
+            RuleFor(s => s.OriginalLanguageIso)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage(localizer["Required"].Value)
                 .Must((dto, language) =>
@@ -28,25 +36,27 @@ namespace Application.Data.Validation
                     return System.Enum.IsDefined(typeof(LanguageEnum), languageIso);
                 }).WithMessage(localizer["LanguageCodeMustIso"].Value);
 
-            RuleFor(m => m.Time)
-                .NotEmpty().WithMessage(localizer["ValueGreaterThanZero"].Value);
+            RuleFor(s => s.OriginalName)
+                .NotEmpty()
+                .WithMessage(localizer["Required"].Value);
 
-            RuleFor(m => m.TimelineId)
-                .IsInEnum()
-                .WithMessage(localizer["Invalid"].Value);
+            RuleForEach(s => s.Seasons)
+                .SetValidator(new CreateSeasonValidation(localizer));
 
-            RuleFor(m => m.SynopsisResource)
+            RuleFor(s => s.SynopsisResource)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage(localizer["Required"].Value)
                 .Must(RegexHelper.StringIsSimpleAlphabet)
                     .WithMessage(localizer["ShouldBeLettersWithoutAccents"].Value);
 
-            When(x => x.ReleaseDate.HasValue, () =>
-            {
-                RuleFor(m => m.ReleaseDate)
-                    .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
-                    .WithMessage(localizer["Invalid"].Value);
-            });
+            RuleFor(s => s.TimelineId)
+                .IsInEnum()
+                .WithMessage(localizer["Invalid"].Value);
+
+            RuleFor(s => s.TmdbId)
+                .GreaterThan(0)
+                .WithMessage(localizer["Invalid"].Value);
         }
     }
 }

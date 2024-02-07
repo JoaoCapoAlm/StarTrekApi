@@ -61,6 +61,7 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="DefaultData" />
+    <Folder Include="View" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Crew.sql" />
@@ -74,6 +75,7 @@
     <Build Include="Tables\Season.sql" />
     <Build Include="Tables\Role.sql" />
     <Build Include="Tables\CrewRole.sql" />
+    <Build Include="View\vwResourcesName.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="DefaultData\Script.PostDeployment.sql" />
