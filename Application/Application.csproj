@@ -30,6 +30,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="Resources\TitleSynopsis.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TitleSynopsis.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +45,13 @@
     <EmbeddedResource Update="Resources\Messages.resx">
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\TitleSynopsis.pt-BR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\TitleSynopsis.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TitleSynopsis.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

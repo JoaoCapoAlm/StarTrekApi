@@ -13,19 +13,16 @@ namespace Application
     {
         public static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
-            services.TryAddTransient(typeof(IStringLocalizer<Messages>), typeof(StringLocalizer<Messages>));
-            services.TryAddScoped(typeof(StarTrekContext));
-            
+            services.TryAddScoped<StarTrekContext>();
+            services.AddValidatorsFromAssemblyContaining<CreateEpisodeValidator>();
+
+            services.TryAddTransient<IStringLocalizer<Messages>, StringLocalizer<Messages>>();
+            services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
+
             services.TryAddScoped<CrewService>();
             services.TryAddScoped<MovieService>();
             services.TryAddScoped<SerieService>();
             services.TryAddScoped<TmdbService>();
-
-            services.TryAddScoped<IValidator<CreateEpisodeDto>, CreateEpisodeValidator>();
-            services.TryAddScoped<IValidator<CreateMovieDto>, CreateMovieValidation>();
-            services.TryAddScoped<IValidator<CreateSeasonDto>, CreateSeasonValidation>();
-            services.TryAddScoped<IValidator<CreateSerieDto>, CreateSerieValidation>();
-            services.TryAddScoped<IValidator<UpdateMovieDto>, UpdateMovieValidation>();
             return services;
         }
 

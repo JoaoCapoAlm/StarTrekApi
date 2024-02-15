@@ -43,8 +43,8 @@ namespace Application.Data.Validation
 
             When(e => e.StardateFrom.HasValue && e.StardateTo.HasValue, () =>
             {
-                RuleFor(e => e.StardateFrom)
-                    .LessThanOrEqualTo(e => e.StardateTo)
+                RuleFor(e => e.StardateFrom) // FIX teste
+                    .LessThanOrEqualTo(e => e.StardateTo) // FIXME ajustar
                     .WithMessage("StardateFrom deve ser menor que StardateTo"); // TODO criar tradução
             });
 

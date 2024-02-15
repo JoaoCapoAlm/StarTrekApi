@@ -2,6 +2,7 @@
 (
 	[MovieId] SMALLINT NOT NULL IDENTITY,
 	[OriginalName] VARCHAR(200) NULL, 
+    [TitleResource] VARCHAR(30) NOT NULL,
     [SynopsisResource] VARCHAR(25) NULL, 
     [OriginalLanguageId] SMALLINT NOT NULL,
     [ReleaseDate] DATE NOT NULL, 

@@ -35,7 +35,15 @@ namespace Application.Data.Validation
                 .IsInEnum()
                 .WithMessage(localizer["Invalid"].Value);
 
+            RuleFor(m => m.TitleResource)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                    .WithMessage(localizer["Required"].Value)
+                .Must(RegexHelper.StringIsSimpleAlphabet)
+                    .WithMessage(localizer["ShouldBeLettersWithoutAccents"].Value);
+
             RuleFor(m => m.SynopsisResource)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage(localizer["Required"].Value)
                 .Must(RegexHelper.StringIsSimpleAlphabet)

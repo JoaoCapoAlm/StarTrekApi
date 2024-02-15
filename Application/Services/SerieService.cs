@@ -15,15 +15,13 @@ using static Application.Middleware.AppMiddleware;
 
 namespace Application.Services
 {
-    public class SerieService
+    public class SerieService(StarTrekContext context,
+        IStringLocalizer<Messages> localizer,
+        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer)
     {
-        private readonly StarTrekContext _context;
-        private readonly IStringLocalizer<Messages> _localizer;
-        public SerieService(StarTrekContext context, IStringLocalizer<Messages> localizer)
-        {
-            _context = context;
-            _localizer = localizer;
-        }
+        private readonly StarTrekContext _context = context;
+        private readonly IStringLocalizer<Messages> _localizer = localizer;
+        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
 
         public async Task<IEnumerable<SerieVM>> GetSeriesList(byte page, byte pageSize)
         {
@@ -42,13 +40,15 @@ namespace Application.Services
                     ImdbId = s.ImdbId,
                     Abbreviation = s.Abbreviation,
                     Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray(),
-                    Timeline = s.TimelineId
+                    Timeline = s.TimelineId,
+                    NameTranslated = _titleSynopsisLocalizer[s.TitleResource].Value,
+                    Synopsis = _titleSynopsisLocalizer[s.SynopsisResource].Value
                 })
                 .ToArrayAsync();
 
             if (seriesList.Any())
                 return seriesList;
-            
+
             throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), System.Net.HttpStatusCode.NotFound);
         }
 
@@ -67,7 +67,10 @@ namespace Application.Services
                     OriginalLanguage = s.Language.CodeISO,
                     ImdbId = s.ImdbId,
                     Abbreviation = s.Abbreviation,
-                    Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray()
+                    Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray(),
+                    NameTranslated = _titleSynopsisLocalizer[s.TitleResource].Value,
+                    Synopsis = _titleSynopsisLocalizer[s.SynopsisResource].Value,
+                    Timeline = s.TimelineId
                 })
                 .FirstOrDefaultAsync()
                 ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), HttpStatusCode.NotFound);
@@ -174,7 +177,9 @@ namespace Application.Services
                     OriginalLanguage = s.Language.CodeISO,
                     OriginalName = s.OriginalName,
                     Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes.ToArray())).ToArray(),
-                    Timeline = s.TimelineId
+                    Timeline = s.TimelineId,
+                    NameTranslated = _titleSynopsisLocalizer[s.TitleResource] ?? _localizer["NotFound"].Value,
+                    Synopsis = _titleSynopsisLocalizer[s.SynopsisResource] ?? _localizer["NotFound"].Value
                 })
                 .LastAsync();
 

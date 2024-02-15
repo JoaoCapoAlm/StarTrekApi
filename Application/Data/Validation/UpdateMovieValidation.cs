@@ -2,9 +2,7 @@
 using Application.Helpers;
 using Application.Resources;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
-using NuGet.Protocol;
 
 namespace Application.Data.Validation
 {
@@ -29,6 +27,13 @@ namespace Application.Data.Validation
                 .IsInEnum()
                 .WithMessage(localizer["Invalid"].Value);
 
+            When(m => !string.IsNullOrEmpty(m.TitleResource), () =>
+            {
+                RuleFor(m => m.TitleResource)
+                    .Must(RegexHelper.StringIsSimpleAlphabet)
+                    .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}");
+            });
+
             When(x => x.ReleaseDate.HasValue, () =>
             {
                 RuleFor(m => m.ReleaseDate)
@@ -36,11 +41,19 @@ namespace Application.Data.Validation
                     .WithMessage(localizer["Invalid"].Value);
             });
 
-            When(m => !string.IsNullOrWhiteSpace(m.SynopsisResource), () =>
+            When(m => !string.IsNullOrEmpty(m.SynopsisResource), () =>
             {
                 RuleFor(m => m.SynopsisResource)
                     .Must(RegexHelper.StringIsSimpleAlphabet)
                     .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}");
+            });
+
+            When(m => !string.IsNullOrEmpty(m.SynopsisResource) && !string.IsNullOrEmpty(m.TitleResource), () =>
+            {
+                RuleFor(m => m.SynopsisResource)
+                    .NotEqual(m => m.TitleResource)
+                    .WithName("Resources")
+                    .WithMessage("Cannot be equal"); // TODO translate
             });
 
             When(m => !string.IsNullOrWhiteSpace(m.OriginalLanguageIso), () =>

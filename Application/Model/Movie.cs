@@ -4,6 +4,7 @@
     {
         public short MovieId { get; set; }
         public string OriginalName { get; set; }
+        public string TitleResource { get; set; }
         public string SynopsisResource { get; set; }
         public short OriginalLanguageId { get; set; }
         public virtual Language Languages { get; set; }

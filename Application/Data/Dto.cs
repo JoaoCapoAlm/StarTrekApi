@@ -7,12 +7,13 @@ namespace Application.Data
         string ImdbId,
         string OriginalLanguageIso,
         string OriginalName,
+        string TitleResource,
         string SynopsisResource,
         TimelineEnum TimelineId,
         int TmdbId,
         IList<CreateSeasonDto> Seasons);
 
-    public record CreateNewSerieByTmdbDto(string Abbreviation, string Imdb, string SynopsisResource, byte Timeline);
+    public record CreateNewSerieByTmdbDto(string Abbreviation, string Imdb, string TitleResource, string SynopsisResource, byte Timeline);
 
     public record CreateEpisodeDto(
         DateOnly? RealeaseDate,
@@ -25,6 +26,7 @@ namespace Application.Data
         string ImdbId);
 
     public record CreateMovieDto(string OriginalName,
+        string TitleResource,
         string SynopsisResource,
         string OriginalLanguageIso,
         DateOnly? ReleaseDate,
@@ -34,6 +36,7 @@ namespace Application.Data
         int TmdbId);
 
     public record UpdateMovieDto(string OriginalName,
+        string TitleResource,
         string SynopsisResource,
         string OriginalLanguageIso,
         DateOnly? ReleaseDate,

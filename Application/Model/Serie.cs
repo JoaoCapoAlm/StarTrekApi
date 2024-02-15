@@ -13,6 +13,7 @@ namespace Application.Model
         public string ImdbId { get; set; }
         public string Abbreviation { get; set; }
         public string SynopsisResource { get; set; }
+        public string TitleResource { get; set; }
         public virtual ICollection<Season> Seasons { get; set; }
         public int TmdbId { get; set; }
         public DateTime? DateSyncTmdb { get; set; }

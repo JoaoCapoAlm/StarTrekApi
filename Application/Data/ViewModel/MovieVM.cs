@@ -1,10 +1,11 @@
 ﻿namespace Application.Data.ViewModel
 {
     public class MovieVM(short movieId, string originalName, string synopsis, string originalLanguage,
-        short time, string imdbId, DateOnly? releaseDate, byte timelineId)
+        short time, string imdbId, DateOnly? releaseDate, byte timelineId, string nameTranslated)
     {
         public short Id { get; set; } = movieId;
         public string OriginalName { get; set; } = originalName;
+        public string NameTranslated { get; set; } = nameTranslated;
         public string Synopsis { get; set; } = synopsis;
         public string OriginalLanguage { get; set; } = originalLanguage;
         public DateOnly? ReleaseDate { get; set; } = releaseDate;

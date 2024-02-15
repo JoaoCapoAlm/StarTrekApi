@@ -13,37 +13,41 @@ using static Application.Middleware.AppMiddleware;
 
 namespace Application.Services
 {
-    public class MovieService(StarTrekContext context, IStringLocalizer<Messages> localizer)
+    public class MovieService(StarTrekContext context,
+        IStringLocalizer<Messages> localizer,
+        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer)
     {
         private readonly StarTrekContext _context = context;
         private readonly IStringLocalizer<Messages> _localizer = localizer;
+        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
 
         public async Task<IEnumerable<MovieVM>> GetMovieList(byte page = byte.MinValue, byte pageSize = 100)
         {
             pageSize = (byte)(pageSize > 100 ? 100 : pageSize);
+            int beginRange = page * pageSize;
 
             return await _context.Movie
                 .AsNoTracking()
                 .OrderBy(m => m.ReleaseDate)
-                .Skip(page * pageSize)
-                .Take(pageSize)
+                .Take(beginRange..(beginRange + pageSize))
                 .Select(m => new MovieVM(
                     m.MovieId,
                     m.OriginalName,
-                    m.SynopsisResource,
-                    _localizer[m.Languages.ResourceName].Value,
+                    _localizer[m.SynopsisResource].Value,
+                    m.Languages.CodeISO,
                     m.Time,
                     m.ImdbId,
                     m.ReleaseDate,
-                    m.TimelineId
+                    m.TimelineId,
+                    _localizer[m.TitleResource].Value
                 )).ToArrayAsync()
                 ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), HttpStatusCode.NotFound);
         }
 
         public async Task<MovieVM> GetMovieById(byte movieId)
         {
-            if (movieId < 1)
-                throw new ArgumentException(_localizer["InvalidId"].Value);
+            if (movieId.Equals(byte.MinValue))
+                throw new AppException(_localizer["InvalidId"].Value, new List<ErrorContent>() { new("id", _localizer["invalid"].Value) });
 
             return await _context.Movie
                 .AsNoTracking()
@@ -51,12 +55,13 @@ namespace Application.Services
                 .Select(m => new MovieVM(
                     m.MovieId,
                     m.OriginalName,
-                    m.SynopsisResource,
-                    _localizer[m.Languages.ResourceName].Value,
+                    _titleSynopsisLocalizer[m.SynopsisResource].Value,
+                    m.Languages.CodeISO,
                     m.Time,
                     m.ImdbId,
                     m.ReleaseDate,
-                    m.TimelineId
+                    m.TimelineId,
+                    _titleSynopsisLocalizer[m.TitleResource].Value
                 )).FirstOrDefaultAsync()
                 ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), HttpStatusCode.NotFound);
         }
@@ -73,21 +78,22 @@ namespace Application.Services
                 });
 
             var errors = new List<ErrorContent>();
-            var checkSynopsisNameAlreadyExists = await _context.Movie.AsNoTracking()
-                .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource))
-                .AnyAsync();
+            var resources = await _context.vwResourcesName.AsNoTracking().ToArrayAsync();
 
-            if (checkSynopsisNameAlreadyExists)
+            var checkResourceAlreadyExists = resources
+                .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource) || m.TitleResource.Equals(dto.SynopsisResource))
+                .Any();
+            
+            if (checkResourceAlreadyExists)
                 errors.Add(new ErrorContent("SynopsisResource", _localizer["AlreadyExists"].Value));
-            else
-            {
-                checkSynopsisNameAlreadyExists = await _context.Serie.AsNoTracking()
-                    .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource))
-                    .AnyAsync();
 
-                if (checkSynopsisNameAlreadyExists)
-                    errors.Add(new ErrorContent("SynopsisResource", _localizer["AlreadyExists"].Value));
-            }
+            checkResourceAlreadyExists = resources
+                .Where(m => m.SynopsisResource.Equals(dto.TitleResource) || m.TitleResource.Equals(dto.TitleResource))
+                .Any();
+
+            if (checkResourceAlreadyExists)
+                errors.Add(new ErrorContent("TitleResource", _localizer["AlreadyExists"].Value));
+
             if (errors.Any())
                 throw new AppException(_localizer["NotCreated"].Value, errors);
 
@@ -112,41 +118,44 @@ namespace Application.Services
                 .OrderBy(m => m.MovieId)
                 .Select(m => new MovieVM(m.MovieId,
                     m.OriginalName,
-                    m.SynopsisResource,
+                    _titleSynopsisLocalizer[m.SynopsisResource].Value,
                     m.Languages.CodeISO,
                     m.Time,
                     m.ImdbId,
                     m.ReleaseDate,
-                    m.TimelineId)
+                    m.TimelineId,
+                    _titleSynopsisLocalizer[m.TitleResource].Value)
                 ).LastAsync();
         }
 
-        public async Task UpdateMovie(byte id, UpdateMovieDto dto)
+        public async Task UpdateMovie(short id, UpdateMovieDto dto)
         {
+            var errors = new List<ErrorContent>();
+            if (id <= 0)
+                errors.Add(new ErrorContent("id", _localizer["MustBeGreaterThanZero"].Value));
+
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso ?? string.Empty);
             LanguageEnum? languageParsed = null;
             if (!string.IsNullOrWhiteSpace(languageIso) && Enum.IsDefined(typeof(LanguageEnum), languageIso))
                 languageParsed = Enum.Parse<LanguageEnum>(languageIso);
 
-            var checkSynopsisNameAlreadyExists = await _context.Movie.AsNoTracking()
-                .Where(m => m.MovieId != id && m.SynopsisResource.Equals(dto.SynopsisResource))
-                .AnyAsync();
+            var resources = await _context.vwResourcesName.AsNoTracking().ToArrayAsync();
 
-            var errors = new List<ErrorContent>();
-            if (checkSynopsisNameAlreadyExists)
+            var checkResourcesAlreadyExists = resources
+                .Where(m => m.MovieId != id && (m.SynopsisResource.Equals(dto.SynopsisResource) || m.TitleResource.Equals(dto.SynopsisResource)))
+                .Any();
+
+            if (checkResourcesAlreadyExists)
                 errors.Add(new ErrorContent("SynopsisResource", _localizer["AlreadyExists"].Value));
-            else
-            {
-                checkSynopsisNameAlreadyExists = await _context.Serie.AsNoTracking()
-                    .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource))
-                    .AnyAsync();
 
-                if (checkSynopsisNameAlreadyExists)
-                    errors.Add(new ErrorContent("SynopsisResource", _localizer["AlreadyExists"].Value));
-            }
+            checkResourcesAlreadyExists = resources
+                .Where(m => m.MovieId != id && (m.SynopsisResource.Equals(dto.TitleResource) || m.TitleResource.Equals(dto.TitleResource)))
+                .Any();
+            if (checkResourcesAlreadyExists)
+                errors.Add(new ErrorContent("TitleResource", _localizer["AlreadyExists"].Value));
 
             if (errors.Any())
-                throw new AppException("Existem erros nos dados", errors);
+                throw new AppException("Existem erros nos dados informados.", errors); // TODO traduzir
 
             var checkExists = await _context.Movie.AsNoTracking()
                 .Where(m => m.MovieId.Equals(id))
@@ -160,11 +169,12 @@ namespace Application.Services
                 .ExecuteUpdateAsync(s =>
                     s.SetProperty(m => m.ImdbId, m => string.IsNullOrWhiteSpace(dto.ImdbId) ? m.ImdbId : dto.ImdbId)
                         .SetProperty(m => m.OriginalLanguageId, m => languageParsed.HasValue ? languageParsed.Value.GetHashCode() : m.OriginalLanguageId)
-                        .SetProperty(m => m.OriginalName, m => string.IsNullOrWhiteSpace(dto.OriginalName) ? m.OriginalName : dto.OriginalName)
+                        .SetProperty(m => m.OriginalName, m => string.IsNullOrWhiteSpace(dto.OriginalName.Trim()) ? m.OriginalName : dto.OriginalName)
                         .SetProperty(m => m.ReleaseDate, m => dto.ReleaseDate ?? m.ReleaseDate)
-                        .SetProperty(m => m.SynopsisResource, m => string.IsNullOrWhiteSpace(dto.SynopsisResource) ? m.SynopsisResource : dto.SynopsisResource)
+                        .SetProperty(m => m.SynopsisResource, m => string.IsNullOrEmpty(dto.SynopsisResource) ? m.SynopsisResource : dto.SynopsisResource)
                         .SetProperty(m => m.Time, m => dto.Time ?? m.Time)
                         .SetProperty(m => m.TimelineId, m => timeline)
+                        .SetProperty(m => m.TitleResource, m => string.IsNullOrEmpty(dto.TitleResource) ? m.TitleResource : dto.SynopsisResource)
                         .SetProperty(m => m.TmdbId, m => dto.TmdbId ?? m.TmdbId)
                 );
 
