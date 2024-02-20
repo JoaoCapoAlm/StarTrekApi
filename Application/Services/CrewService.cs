@@ -38,7 +38,7 @@ namespace Application.Services
                     Country = _localizer[c.Country.ResourceName].Value
                 })
                 .ToArrayAsync()
-                ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), System.Net.HttpStatusCode.NotFound);
+                ?? throw new AppException(_localizer["NotFound"].Value, System.Net.HttpStatusCode.NotFound);
         }
 
         public async Task<CrewVM> GetCrewById(int crewId)
@@ -57,7 +57,7 @@ namespace Application.Services
                     Country = _localizer[c.Country.ResourceName].Value
                 })
                 .FirstOrDefaultAsync()
-                ?? throw new AppException(_localizer["NotFound"].Value, Enumerable.Empty<ErrorContent>(), System.Net.HttpStatusCode.NotFound);
+                ?? throw new AppException(_localizer["NotFound"].Value, System.Net.HttpStatusCode.NotFound);
         }
     }
 }

@@ -124,6 +124,15 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid size.
+        /// </summary>
+        public static string InvalidSize {
+            get {
+                return ResourceManager.GetString("InvalidSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The language code must be an ISO 690 code.
         /// </summary>
         public static string LanguageCodeMustIso {
@@ -133,11 +142,38 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum size exceeded.
+        /// </summary>
+        public static string MaximumSizeExceeded {
+            get {
+                return ResourceManager.GetString("MaximumSizeExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Must be greater than zero.
         /// </summary>
         public static string MustBeGreaterThanZero {
             get {
                 return ResourceManager.GetString("MustBeGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must contain &quot;Synopsis&quot; at the end.
+        /// </summary>
+        public static string MustContainSynopsisAtTheEnd {
+            get {
+                return ResourceManager.GetString("MustContainSynopsisAtTheEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must not contain &quot;Synopsis&quot; at the end.
+        /// </summary>
+        public static string MustNotContainSynopsisAtTheEnd {
+            get {
+                return ResourceManager.GetString("MustNotContainSynopsisAtTheEnd", resourceCulture);
             }
         }
         
@@ -160,11 +196,29 @@ namespace Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One or more validation errors occurred.
+        /// </summary>
+        public static string OneOrMoreValidationErrorsOccurred {
+            get {
+                return ResourceManager.GetString("OneOrMoreValidationErrorsOccurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Portuguese (Brazil).
         /// </summary>
         public static string PortuguesBR {
             get {
                 return ResourceManager.GetString("PortuguesBR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required.
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
             }
         }
         

@@ -45,18 +45,36 @@ namespace Application.Controllers
         {
             return await _serieService.GetSerieById(id);
         }
-        
+
         /// <summary>
         /// Create new serie
         /// </summary>
         /// <param name="dto">Informtion about serie</param>
         /// <returns>Return new serie</returns>
         /// <response code="201">Created</response>
+        /// <response code="400">Invalid data</response>
+        /// <response code="500">Internal error</response>
         [HttpPost]
         public async Task<IActionResult> CreateNewSerie([FromBody] CreateSerieDto dto)
         {
             var newSerie = await _serieService.CreateNewSerie(dto);
             return CreatedAtAction(nameof(GetSerieById), new { id = newSerie.ID }, newSerie);
+        }
+
+        /// <summary>
+        /// Update serie data
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dto"></param>
+        /// <response code="204">Updated</response>
+        /// <response code="400">Invalid data</response>
+        /// <response code="404">Not found</response>
+        /// <response code="500">Internal error</response>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSerieById([FromRoute] byte id, [FromBody] UpdateSerieDto dto)
+        {
+            await _serieService.UpdateSerieById(id, dto);
+            return NoContent();
         }
     }
 }

@@ -126,7 +126,7 @@
   <data name="CannotContainSpace" xml:space="preserve">
     <value>Não pode conter espaço.</value>
   </data>
-  <data name="EnglishUS" xml:space="preserve">
+  <data name="EnglishUSA" xml:space="preserve">
     <value>Inglês (EUA)</value>
   </data>
   <data name="ImdbOrTmdbIdAlreadyRegistered" xml:space="preserve">
@@ -138,11 +138,23 @@
   <data name="InvalidId" xml:space="preserve">
     <value>ID inválido</value>
   </data>
+  <data name="InvalidSize" xml:space="preserve">
+    <value>Tamanho inválido</value>
+  </data>
   <data name="LanguageCodeMustIso" xml:space="preserve">
     <value>O código do idioma deve ser um código ISO 690</value>
   </data>
+  <data name="MaximumSizeExceeded" xml:space="preserve">
+    <value>Tamanho máximo excedido</value>
+  </data>
   <data name="MustBeGreaterThanZero" xml:space="preserve">
     <value>Deve ser maior que zero</value>
+  </data>
+  <data name="MustContainSynopsisAtTheEnd" xml:space="preserve">
+    <value>Devem conter "Synopsis" no final</value>
+  </data>
+  <data name="MustNotContainSynopsisAtTheEnd" xml:space="preserve">
+    <value>Não deve conter "Synopsis" no final</value>
   </data>
   <data name="NotCreated" xml:space="preserve">
     <value>Não criado</value>
@@ -150,11 +162,17 @@
   <data name="NotFound" xml:space="preserve">
     <value>Não encontrado</value>
   </data>
+  <data name="OneOrMoreValidationErrorsOccurred" xml:space="preserve">
+    <value>Ocorreram um ou mais erros de validação</value>
+  </data>
   <data name="PortuguesBR" xml:space="preserve">
     <value>Português (Brasil)</value>
   </data>
+  <data name="Required" xml:space="preserve">
+    <value>Obrigatório</value>
+  </data>
   <data name="ShouldBeLettersWithoutAccents" xml:space="preserve">
-    <value>Deve ser apenas letras sem acentos</value>
+    <value>Deve ter apenas letras sem acentos</value>
   </data>
   <data name="UnitedStates" xml:space="preserve">
     <value>Estados Unidos da América</value>

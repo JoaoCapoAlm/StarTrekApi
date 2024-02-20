@@ -21,9 +21,7 @@ builder.Services.AddDbContext<StarTrekContext>(opts =>
 });
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 
-builder.Services.AddLocalization();
-builder.Services.AddControllers();
-builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddLocalization().AddControllers();
 builder.Services.DependencyInjection();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureHttpClientDefaults(opts =>

@@ -46,4 +46,14 @@ namespace Application.Data
         int? TmdbId);
 
     public record CreateSeasonDto(byte Number, IList<CreateEpisodeDto> Episodes);
+
+    public record UpdateSerieDto(
+        string Abbreviation,
+        string ImdbId,
+        string OriginalLanguageIso,
+        string OriginalName,
+        string TitleResource,
+        string SynopsisResource,
+        TimelineEnum? TimelineId,
+        int? TmdbId);
 }
