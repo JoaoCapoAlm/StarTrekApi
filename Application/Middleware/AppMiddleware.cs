@@ -1,7 +1,10 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using Application.Configurations;
 using Azure.Core;
 using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json;
 
 namespace Application.Middleware
@@ -36,31 +39,35 @@ namespace Application.Middleware
             if (isProduction && code.Equals(HttpStatusCode.InternalServerError))
             {
                 message = "Internal Server Error";
-            } else if (exception.InnerException != null)
+            } else if (!isProduction && exception.InnerException != null)
                 message = $"{exception.Message} - {exception.InnerException}";
 
             var responseBody = new ContentResponse()
             {
                 message = message,
-                errors = Enumerable.Empty<ErrorContent>()
+                errors = new Dictionary<string, IEnumerable<string>>()
             };
 
             if (exception.GetType().Equals(typeof(AppException)))
             {
                 var appEx = (AppException)exception;
-                responseBody.errors = appEx.Errors;
                 code = appEx.StatusCode;
+                responseBody.errors = appEx.ErrorDic;
             }
+
+            responseBody.status = code.GetHashCode();
 
             context.Response.ContentType = ContentType.ApplicationJson.ToString();
             context.Response.StatusCode = code.GetHashCode();
+
             return context.Response.WriteAsync(JsonConvert.SerializeObject(responseBody));
         }
 
         internal class ContentResponse
         {
             public string message { get; set; }
-            public IEnumerable<ErrorContent> errors { get; set; }
+            public int status { get; set; }
+            public IDictionary<string, IEnumerable<string>> errors { get; set; }
         }
 
         public class ErrorContent

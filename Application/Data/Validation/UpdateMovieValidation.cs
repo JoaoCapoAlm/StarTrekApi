@@ -27,12 +27,13 @@ namespace Application.Data.Validation
                 .IsInEnum()
                 .WithMessage(localizer["Invalid"].Value);
 
-            When(m => !string.IsNullOrEmpty(m.TitleResource), () =>
-            {
-                RuleFor(m => m.TitleResource)
-                    .Must(RegexHelper.StringIsSimpleAlphabet)
-                    .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}");
-            });
+            RuleFor(m => m.TitleResource)
+                .NotEmpty()
+                .WithMessage(localizer["Required"])
+                .Must(RegexHelper.StringIsSimpleAlphabet)
+                    .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}")
+                .Must(s => !s.Trim().EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
+                    .WithMessage(localizer["MustNotContainSynopsisAtTheEnd"].Value);
 
             When(x => x.ReleaseDate.HasValue, () =>
             {
@@ -45,15 +46,9 @@ namespace Application.Data.Validation
             {
                 RuleFor(m => m.SynopsisResource)
                     .Must(RegexHelper.StringIsSimpleAlphabet)
-                    .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}");
-            });
-
-            When(m => !string.IsNullOrEmpty(m.SynopsisResource) && !string.IsNullOrEmpty(m.TitleResource), () =>
-            {
-                RuleFor(m => m.SynopsisResource)
-                    .NotEqual(m => m.TitleResource)
-                    .WithName("Resources")
-                    .WithMessage("Cannot be equal"); // TODO translate
+                        .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}")
+                    .Must(s => s.EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
+                        .WithMessage(localizer["MustContainSynopsisAtTheEnd"]);
             });
 
             When(m => !string.IsNullOrWhiteSpace(m.OriginalLanguageIso), () =>

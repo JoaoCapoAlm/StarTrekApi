@@ -138,11 +138,23 @@
   <data name="InvalidId" xml:space="preserve">
     <value>Invalid ID</value>
   </data>
+  <data name="InvalidSize" xml:space="preserve">
+    <value>Invalid size</value>
+  </data>
   <data name="LanguageCodeMustIso" xml:space="preserve">
     <value>The language code must be an ISO 690 code</value>
   </data>
+  <data name="MaximumSizeExceeded" xml:space="preserve">
+    <value>Maximum size exceeded</value>
+  </data>
   <data name="MustBeGreaterThanZero" xml:space="preserve">
     <value>Must be greater than zero</value>
+  </data>
+  <data name="MustContainSynopsisAtTheEnd" xml:space="preserve">
+    <value>Must contain "Synopsis" at the end</value>
+  </data>
+  <data name="MustNotContainSynopsisAtTheEnd" xml:space="preserve">
+    <value>Must not contain "Synopsis" at the end</value>
   </data>
   <data name="NotCreated" xml:space="preserve">
     <value>Not created</value>
@@ -150,8 +162,14 @@
   <data name="NotFound" xml:space="preserve">
     <value>Not found</value>
   </data>
+  <data name="OneOrMoreValidationErrorsOccurred" xml:space="preserve">
+    <value>One or more validation errors occurred</value>
+  </data>
   <data name="PortuguesBR" xml:space="preserve">
     <value>Portuguese (Brazil)</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
   </data>
   <data name="ShouldBeLettersWithoutAccents" xml:space="preserve">
     <value>It should just be letters without accents</value>
