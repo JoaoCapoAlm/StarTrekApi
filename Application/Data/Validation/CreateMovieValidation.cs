@@ -1,4 +1,5 @@
-﻿using Application.Data.Enum;
+﻿using Application.Data;
+using Application.Data.Enums;
 using Application.Helpers;
 using Application.Resources;
 using FluentValidation;
@@ -25,7 +26,7 @@ namespace Application.Data.Validation
                 .Must((dto, language) =>
                 {
                     var languageIso = RegexHelper.RemoveSpecialCharacters(language);
-                    return System.Enum.IsDefined(typeof(LanguageEnum), languageIso);
+                    return Enum.IsDefined(typeof(LanguageEnum), languageIso);
                 }).WithMessage(localizer["LanguageCodeMustIso"].Value);
 
             RuleFor(m => m.Time)

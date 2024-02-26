@@ -1,4 +1,5 @@
 ﻿using Application.Resources;
+using Domain;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 

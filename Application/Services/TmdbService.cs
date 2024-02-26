@@ -1,8 +1,9 @@
 ﻿using Application.Data;
 using Application.Data.ViewModel;
 using Application.Helper;
-using Application.Model;
 using Application.Resources;
+using Domain;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using TMDB;

@@ -1,7 +1,6 @@
-using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Repositories
+namespace Domain.Repositories
 {
     public class ViewsRepository
     {
@@ -12,7 +11,7 @@ namespace Application.Repositories
         }
         public async Task<bool> CheckResourceExists(string resource, string id = null, CancellationToken cancellationToken = default)
         {
-            var result =  await _context.vwResourcesName.AsNoTracking()
+            var result = await _context.vwResourcesName.AsNoTracking()
                 .Where(r => (r.SynopsisResource.Equals(resource) || r.TitleResource.Equals(resource))
                     && (string.IsNullOrWhiteSpace(id) || r.Id == id))
                 .AnyAsync(cancellationToken);

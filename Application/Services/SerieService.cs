@@ -1,13 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Net;
+﻿using System.Net;
 using Application.Configurations;
 using Application.Data;
-using Application.Data.Enum;
+using Application.Data.Enums;
 using Application.Data.Validation;
 using Application.Data.ViewModel;
 using Application.Helpers;
-using Application.Model;
 using Application.Resources;
+using Domain;
+using Domain.Model;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -21,6 +21,7 @@ namespace Application.Services
         private readonly StarTrekContext _context = context;
         private readonly IStringLocalizer<Messages> _localizer = localizer;
         private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
+
 
         public async Task<IEnumerable<SerieVM>> GetSeriesList(byte page, byte pageSize)
         {
@@ -132,7 +133,7 @@ namespace Application.Services
 
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso);
 
-            var newSerie = new Serie()
+            var newSerie = new Domain.Model.Serie()
             {
                 Abbreviation = dto.Abbreviation,
                 ImdbId = dto.ImdbId,

@@ -1,12 +1,13 @@
 ﻿using System.Net;
 using Application.Configurations;
 using Application.Data;
-using Application.Data.Enum;
+using Application.Data.Enums;
 using Application.Data.Validation;
 using Application.Data.ViewModel;
 using Application.Helpers;
-using Application.Model;
 using Application.Resources;
+using Domain;
+using Domain.Model;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;

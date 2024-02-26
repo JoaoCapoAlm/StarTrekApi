@@ -1,7 +1,7 @@
 using System.Net;
 using System.Reflection;
 using Application;
-using Application.Data;
+using Domain;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Filters;

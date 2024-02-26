@@ -1,7 +1,6 @@
-using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Repositories
+namespace Domain.Repositories
 {
     public class SerieRepository
     {
@@ -13,8 +12,8 @@ namespace Application.Repositories
         public async Task<bool> CheckImdbOrTmdbExists(string imdb, int? tmdb, CancellationToken cancellationToken)
         {
             return await _context.Serie.AsNoTracking()
-                .Where(s => (imdb != string.Empty && s.ImdbId.Equals(imdb))
-                    || (tmdb.HasValue && s.TmdbId.Equals(tmdb.Value))
+                .Where(s => imdb != string.Empty && s.ImdbId.Equals(imdb)
+                    || tmdb.HasValue && s.TmdbId.Equals(tmdb.Value)
                 ).AnyAsync(cancellationToken);
         }
     }

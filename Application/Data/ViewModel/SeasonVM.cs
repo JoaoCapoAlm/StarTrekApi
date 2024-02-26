@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Application.Model;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Domain.Model;
 
 namespace Application.Data.ViewModel
 {

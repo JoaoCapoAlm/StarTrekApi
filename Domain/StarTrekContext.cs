@@ -1,12 +1,12 @@
-﻿using Application.Model;
+﻿using Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 
-namespace Application.Data
+namespace Domain
 {
     public class StarTrekContext : DbContext
     {
-        public StarTrekContext(DbContextOptions<StarTrekContext> opts) : base(opts) {
+        public StarTrekContext(DbContextOptions<StarTrekContext> opts) : base(opts)
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

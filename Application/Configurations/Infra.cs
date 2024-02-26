@@ -1,11 +1,10 @@
-﻿using Application.Data;
-using Application.Data.Validation;
-using Application.Middleware;
+﻿using Application.Middleware;
 using Application.Resources;
 using Application.Services;
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
+using Application.Data.Validation;
+using Domain;
 
 namespace Application
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application.Model
+﻿namespace Domain.Model
 {
     public class Serie
     {

@@ -2,6 +2,7 @@
 using Application.Data;
 using Application.Data.ViewModel;
 using Application.Resources;
+using Domain;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;

@@ -1,4 +1,4 @@
-﻿namespace Application.Data.Enum
+﻿namespace Application.Data.Enums
 {
     public enum LanguageEnum : short
     {
