@@ -44,12 +44,19 @@ namespace Application.Services
         public async Task<CrewVM> GetCrewById(int crewId)
         {
             if (crewId <= 0)
-                throw new ArgumentException(_localizer["InvalidId"].Value);
+            {
+                var error = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "ID", [_localizer["InvalidId"].Value] }
+                };
+                throw new AppException(_localizer["InvalidId"].Value, error);
+            }
 
             return await _context.Crew
                 .AsNoTracking()
                 .Where(c => c.CrewId == crewId)
-                .Select(c => new CrewVM {
+                .Select(c => new CrewVM
+                {
                     Id = c.CrewId,
                     Name = c.Name,
                     BirthDate = c.BirthDate,

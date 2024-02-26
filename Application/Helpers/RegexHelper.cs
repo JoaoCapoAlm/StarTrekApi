@@ -11,7 +11,9 @@ namespace Application.Helpers
         [GeneratedRegex("[*'\",_&#^@>:</-]")]
         private static partial Regex SpecialCharacters();
         [GeneratedRegex("^[A-Za-z]+$")]
-        private static partial Regex OnlyAlphabetRegex();
+        private static partial Regex OnlySimpleAlphabetRegex();
+        [GeneratedRegex("^[A-Za-z0-9]+$")]
+        private static partial Regex OnlySimpleAlphabetOrNumberRegex();
 
         public static string RemoveSpecialCharacters(string text)
         {
@@ -29,6 +31,8 @@ namespace Application.Helpers
 
         public static bool StringIsNumeric(string text) => OnlyNumbersRegex().IsMatch(text);
 
-        public static bool StringIsSimpleAlphabet(string text) => OnlyAlphabetRegex().IsMatch(text);
+        public static bool StringIsSimpleAlphabet(string text) => OnlySimpleAlphabetRegex().IsMatch(text);
+
+        public static bool StringIsSimpleAlphabetOrNumber(string text) => OnlySimpleAlphabetOrNumberRegex().IsMatch(text);
     }
 }

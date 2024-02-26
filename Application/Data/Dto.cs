@@ -52,8 +52,6 @@ namespace Application.Data
         string ImdbId,
         string OriginalLanguageIso,
         string OriginalName,
-        string TitleResource,
-        string SynopsisResource,
         TimelineEnum? TimelineId,
         int? TmdbId);
 }

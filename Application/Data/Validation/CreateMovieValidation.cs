@@ -39,15 +39,15 @@ namespace Application.Data.Validation
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage(localizer["Required"].Value)
-                .Must(RegexHelper.StringIsSimpleAlphabet)
-                    .WithMessage(localizer["ShouldBeLettersWithoutAccents"].Value);
+                .Must(RegexHelper.StringIsSimpleAlphabetOrNumber)
+                    .WithMessage(localizer["ShouldBeLettersWithoutAccentsOrNumbers"].Value);
 
             RuleFor(m => m.SynopsisResource)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage(localizer["Required"].Value)
-                .Must(RegexHelper.StringIsSimpleAlphabet)
-                    .WithMessage(localizer["ShouldBeLettersWithoutAccents"].Value);
+                .Must(RegexHelper.StringIsSimpleAlphabetOrNumber)
+                    .WithMessage(localizer["ShouldBeLettersWithoutAccentsOrNumbers"].Value);
 
             When(x => x.ReleaseDate.HasValue, () =>
             {

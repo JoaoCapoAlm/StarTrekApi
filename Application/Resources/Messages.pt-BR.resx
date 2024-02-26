@@ -138,7 +138,7 @@
   <data name="InvalidId" xml:space="preserve">
     <value>ID inválido</value>
   </data>
-  <data name="InvalidSize" xml:space="preserve">
+  <data name="InvalidLength" xml:space="preserve">
     <value>Tamanho inválido</value>
   </data>
   <data name="LanguageCodeMustIso" xml:space="preserve">
@@ -151,10 +151,10 @@
     <value>Deve ser maior que zero</value>
   </data>
   <data name="MustContainSynopsisAtTheEnd" xml:space="preserve">
-    <value>Devem conter "Synopsis" no final</value>
+    <value>Devem conter 'Synopsis' no final</value>
   </data>
   <data name="MustNotContainSynopsisAtTheEnd" xml:space="preserve">
-    <value>Não deve conter "Synopsis" no final</value>
+    <value>Não deve conter 'Synopsis' no final</value>
   </data>
   <data name="NotCreated" xml:space="preserve">
     <value>Não criado</value>
@@ -179,5 +179,14 @@
   </data>
   <data name="ValueGreaterThanZero" xml:space="preserve">
     <value>Valor deve ser maior que zero</value>
+  </data>
+  <data name="SomeResourceIsDuplicated" xml:space="preserve">
+    <value>Algum resource está duplicado</value>
+  </data>
+  <data name="StardateFromLessThanOrEqualStardateTo" xml:space="preserve">
+    <value>StardateFrom deve ser um valor menor ou igual à StardateTo</value>
+  </data>
+  <data name="ShouldBeLettersWithoutAccentsOrNumbers" xml:space="preserve">
+    <value>Devem ser apenas letras sem acentos ou números</value>
   </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using Application.Data.Enum;
 using Application.Helpers;
+using Application.Repositories;
 using Application.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
@@ -8,8 +9,10 @@ namespace Application.Data.Validation
 {
     public class UpdateMovieValidation : AbstractValidator<UpdateMovieDto>
     {
-        public UpdateMovieValidation(IStringLocalizer<Messages> localizer)
+        public UpdateMovieValidation(IStringLocalizer<Messages> localizer, StarTrekContext context)
         {
+            var viewsRepository = new ViewsRepository(context);
+
             RuleFor(m => m.Time)
                 .GreaterThan((short)0)
                 .WithMessage(localizer["ValueGreaterThanZero"].Value);
@@ -27,13 +30,20 @@ namespace Application.Data.Validation
                 .IsInEnum()
                 .WithMessage(localizer["Invalid"].Value);
 
-            RuleFor(m => m.TitleResource)
-                .NotEmpty()
-                .WithMessage(localizer["Required"])
-                .Must(RegexHelper.StringIsSimpleAlphabet)
-                    .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}")
-                .Must(s => !s.Trim().EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
-                    .WithMessage(localizer["MustNotContainSynopsisAtTheEnd"].Value);
+            When(x => !string.IsNullOrEmpty(x.TitleResource), () =>
+            {
+                RuleFor(m => m.TitleResource)
+                    .Cascade(CascadeMode.Stop)
+                    .Must(RegexHelper.StringIsSimpleAlphabetOrNumber)
+                        .WithMessage($"{localizer["ShouldBeLettersWithoutAccentsOrNumbers"].Value}")
+                    .Must(s => !s.EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
+                        .WithMessage(localizer["MustNotContainSynopsisAtTheEnd"].Value)
+                    .MustAsync(async (resource, cancellationToken) =>
+                        {
+                            var checkExist = await viewsRepository.CheckResourceExists(resource, cancellationToken: cancellationToken);
+                            return !checkExist;
+                        }).WithMessage(localizer["AlreadyExists"]);
+            });
 
             When(x => x.ReleaseDate.HasValue, () =>
             {
@@ -45,10 +55,16 @@ namespace Application.Data.Validation
             When(m => !string.IsNullOrEmpty(m.SynopsisResource), () =>
             {
                 RuleFor(m => m.SynopsisResource)
-                    .Must(RegexHelper.StringIsSimpleAlphabet)
-                        .WithMessage($"{localizer["ShouldBeLettersWithoutAccents"].Value}")
+                    .Cascade(CascadeMode.Stop)
+                    .Must(RegexHelper.StringIsSimpleAlphabetOrNumber)
+                        .WithMessage($"{localizer["ShouldBeLettersWithoutAccentsOrNumbers"].Value}")
                     .Must(s => s.EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
-                        .WithMessage(localizer["MustContainSynopsisAtTheEnd"]);
+                        .WithMessage(localizer["MustContainSynopsisAtTheEnd"])
+                    .MustAsync(async (resource, cancellationToken) =>
+                    {
+                        var checkExist = await viewsRepository.CheckResourceExists(resource, cancellationToken: cancellationToken);
+                        return !checkExist;
+                    }).WithMessage(localizer["AlreadyExists"]);
             });
 
             When(m => !string.IsNullOrWhiteSpace(m.OriginalLanguageIso), () =>

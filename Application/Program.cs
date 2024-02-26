@@ -2,7 +2,6 @@ using System.Net;
 using System.Reflection;
 using Application;
 using Application.Data;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Filters;
@@ -40,7 +39,7 @@ builder.Services.AddSwaggerGen(opts =>
         Version = "v1",
         Contact = new Microsoft.OpenApi.Models.OpenApiContact
         {
-            Name = "Jo„o",
+            Name = "Jo√£o",
             Email = "contato@capoanisolucoes.com.br"
         }
     });

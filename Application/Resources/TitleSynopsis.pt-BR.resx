@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,79 +26,79 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,44 +119,62 @@
   </resheader>
   <data name="AnimatedSeries" xml:space="preserve">
     <value>Jornada nas Estrelas: A Série Animada</value>
+    <comment/>
   </data>
   <data name="AnimatedSeriesSynopsis" xml:space="preserve">
     <value>Muitos anos após p fim da série Star Trek, a equipe aparece novamente nesta versão animada. Ela dá continuidade às aventuras da série original e está no ano 4 da missão de cinco anos. Com a vantagem dos efeitos especiais ilimitados da animação, a série agora se utiliza de paisagens mais elaboradas, efeitos mais avassaladores e alienígenas mais detalhados e intrigantes.</value>
+    <comment/>
   </data>
   <data name="DeepSpaceNine" xml:space="preserve">
     <value>Jornada nas Estrelas: Deep Space Nine</value>
+    <comment/>
   </data>
   <data name="ds9Emissary" xml:space="preserve">
     <value>O Emissário</value>
+    <comment/>
   </data>
   <data name="ds9EmissarySynopsis" xml:space="preserve">
     <value>Após assumir o comando de uma estação espacial, o pertubado Sisko descobre que ela se encontra na fronteira de um raro buraco de minhoca estável.</value>
+    <comment/>
   </data>
   <data name="MotionPictureSynopsis" xml:space="preserve">
     <value>Quando uma entidade espacial destrutiva é avistada a aproximar-se da Terra, o Almirante James T. Kirk regressa à nova e transformada nave U.S.S. Enterprise para interceptar, examinar e, principalmente, deter a ameaça.</value>
+    <comment/>
   </data>
   <data name="NextGeneration" xml:space="preserve">
     <value>Jornada nas Estrelas: A Nova Geração</value>
+    <comment/>
   </data>
   <data name="NextGenerationSynopsis" xml:space="preserve">
     <value>Quase 100 anos depois da misão de cinco anos do Capitão Kirk, uma nova geração con sua própria misão va onde ninguem tem ido antes.</value>
+    <comment/>
   </data>
   <data name="OriginalSeries" xml:space="preserve">
     <value>Jornada nas Estrelas</value>
+    <comment/>
   </data>
   <data name="OriginalSeriesSynopsis" xml:space="preserve">
     <value>No século vinte e três, o capitão James T Kirk e sua tripulação exploram a galáxia e defendem a Federação de Planetas Unidos.</value>
+    <comment/>
   </data>
   <data name="tngEncounteratFarpoint" xml:space="preserve">
     <value>Encontro em Longínqua</value>
+    <comment/>
   </data>
   <data name="tngEncounteratFarpointSynopsis" xml:space="preserve">
     <value>A primeira missão da nova Enterprise é explorar o mistério que cerca a criação da estação Farpoint no planeta Deneb IV.</value>
+    <comment/>
   </data>
   <data name="WrathOfKhan" xml:space="preserve">
     <value>Jornada nas Estrelas II: A Ira de Khan</value>
+    <comment/>
   </data>
   <data name="WrathOfKhanSynopsis" xml:space="preserve">
     <value>A U.S.S. Enterprise está em manobras de treino e James T. Kirk parece resignado com o facto de esta poder ser a sua última missão. Contudo, um incidente na Estação Espacial Regula One revela o regresso de Khan, um velho inimigo de Kirk.</value>
+    <comment/>
+  </data>
+  <data name="MotionPicture" xml:space="preserve">
+    <value>Star Trek: The Motion Picture</value>
+    <comment/>
   </data>
 </root>

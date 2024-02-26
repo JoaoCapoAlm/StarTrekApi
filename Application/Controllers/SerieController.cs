@@ -66,7 +66,7 @@ namespace Application.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dto"></param>
-        /// <response code="204">Updated</response>
+        /// <response code="204">Updated / No Content</response>
         /// <response code="400">Invalid data</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>

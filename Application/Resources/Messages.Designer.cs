@@ -126,9 +126,9 @@ namespace Application.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Invalid size.
         /// </summary>
-        public static string InvalidSize {
+        public static string InvalidLength {
             get {
-                return ResourceManager.GetString("InvalidSize", resourceCulture);
+                return ResourceManager.GetString("InvalidLength", resourceCulture);
             }
         }
         
@@ -160,7 +160,7 @@ namespace Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Must contain &quot;Synopsis&quot; at the end.
+        ///   Looks up a localized string similar to Must contain &apos;Synopsis&apos; at the end.
         /// </summary>
         public static string MustContainSynopsisAtTheEnd {
             get {
@@ -169,7 +169,7 @@ namespace Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Must not contain &quot;Synopsis&quot; at the end.
+        ///   Looks up a localized string similar to Must not contain &apos;Synopsis&apos; at the end.
         /// </summary>
         public static string MustNotContainSynopsisAtTheEnd {
             get {
@@ -228,6 +228,33 @@ namespace Application.Resources {
         public static string ShouldBeLettersWithoutAccents {
             get {
                 return ResourceManager.GetString("ShouldBeLettersWithoutAccents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It should just be letters without accents or numbers.
+        /// </summary>
+        public static string ShouldBeLettersWithoutAccentsOrNumbers {
+            get {
+                return ResourceManager.GetString("ShouldBeLettersWithoutAccentsOrNumbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some resource is duplicated.
+        /// </summary>
+        public static string SomeResourceIsDuplicated {
+            get {
+                return ResourceManager.GetString("SomeResourceIsDuplicated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StardateFrom must be a value less than or equal to StardateTo.
+        /// </summary>
+        public static string StardateFromLessThanOrEqualStardateTo {
+            get {
+                return ResourceManager.GetString("StardateFromLessThanOrEqualStardateTo", resourceCulture);
             }
         }
         

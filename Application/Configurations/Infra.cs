@@ -14,7 +14,6 @@ namespace Application
         public static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
             services.TryAddScoped<StarTrekContext>();
-            services.AddValidatorsFromAssemblyContaining<CreateEpisodeValidator>();
 
             services.TryAddTransient<IStringLocalizer<Messages>, StringLocalizer<Messages>>();
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
@@ -23,6 +22,13 @@ namespace Application
             services.TryAddScoped<MovieService>();
             services.TryAddScoped<SerieService>();
             services.TryAddScoped<TmdbService>();
+
+            services.TryAddScoped<CreateEpisodeValidator>();
+            services.TryAddScoped<CreateMovieValidation>();
+            services.TryAddScoped<CreateSeasonValidation>();
+            services.TryAddScoped<CreateSerieValidation>();
+            services.TryAddScoped<UpdateMovieValidation>();
+            services.TryAddScoped<UpdateSerieValidation>();
             return services;
         }
 
@@ -41,7 +47,7 @@ namespace Application
                 opts.AddSupportedCultures(supportedCultures)
                     .SetDefaultCulture(supportedCultures[0]);
             });
-            
+
             if (!IsProduction)
             {
                 app.UseSwagger();

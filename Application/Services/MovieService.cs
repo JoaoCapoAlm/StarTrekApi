@@ -10,7 +10,6 @@ using Application.Resources;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using static Application.Middleware.AppMiddleware;
 
 namespace Application.Services
 {
@@ -25,12 +24,12 @@ namespace Application.Services
         public async Task<IEnumerable<MovieVM>> GetMovieList(byte page = byte.MinValue, byte pageSize = 100)
         {
             pageSize = (byte)(pageSize > 100 ? 100 : pageSize);
-            int beginRange = page * pageSize;
 
             return await _context.Movie
                 .AsNoTracking()
-                .OrderBy(m => m.ReleaseDate)
-                .Take(beginRange..(beginRange + pageSize))
+                .OrderBy(m => m.MovieId)
+                .Skip(page * pageSize)
+                .Take(pageSize)
                 .Select(m => new MovieVM(
                     m.MovieId,
                     m.OriginalName,
@@ -83,32 +82,14 @@ namespace Application.Services
                 .Where(m => m.ImdbId.Equals(dto.ImdbId) || m.TmdbId.Equals(dto.TmdbId))
                 .AnyAsync();
 
-            var errors = new Dictionary<string, IEnumerable<string>>();
-
             if (checkExists)
             {
-                errors.Add("ImdbId/TmdbId", [_localizer["ImdbOrTmdbIdAlreadyRegistered"].Value]);
+                var errors = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "ImdbId/TmdbId", [_localizer["ImdbOrTmdbIdAlreadyRegistered"].Value] }
+                };
                 throw new AppException(_localizer["NotCreated"].Value, errors);
             }
-
-            var resources = await _context.vwResourcesName.AsNoTracking().ToArrayAsync();
-
-            var checkResourceAlreadyExists = resources
-                .Where(m => m.SynopsisResource.Equals(dto.SynopsisResource) || m.TitleResource.Equals(dto.SynopsisResource))
-                .Any();
-            
-            if (checkResourceAlreadyExists)
-                errors.Add("SynopsisResource", [_localizer["AlreadyExists"].Value]);
-
-            checkResourceAlreadyExists = resources
-                .Where(m => m.SynopsisResource.Equals(dto.TitleResource) || m.TitleResource.Equals(dto.TitleResource))
-                .Any();
-
-            if (checkResourceAlreadyExists)
-                errors.Add("TitleResource", [_localizer["AlreadyExists"].Value]);
-
-            if (errors.Any())
-                throw new AppException(_localizer["NotCreated"].Value, errors);
 
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso);
 
@@ -119,6 +100,7 @@ namespace Application.Services
                 OriginalName = dto.OriginalName,
                 ReleaseDate = dto.ReleaseDate,
                 TimelineId = (byte)dto.TimelineId,
+                TitleResource = dto.TitleResource,
                 TmdbId = dto.TmdbId,
                 SynopsisResource = dto.SynopsisResource,
                 Time = dto.Time
@@ -143,64 +125,44 @@ namespace Application.Services
 
         public async Task UpdateMovie(short id, UpdateMovieDto dto)
         {
-            var dtoValidation = new UpdateMovieValidation(_localizer);
-            var validation = dtoValidation.Validate(dto);
+            var dtoValidation = new UpdateMovieValidation(_localizer, _context);
+            var validation = await dtoValidation.ValidateAsync(dto);
             if (!validation.IsValid)
                 throw new AppException(_localizer["OneOrMoreValidationErrorsOccurred"], validation.Errors);
 
-            var errors = new Dictionary<string, IEnumerable<string>>();
-
             if (id <= 0)
-                errors.Add("id", [_localizer["MustBeGreaterThanZero"].Value]);
+            {
+                var errors = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "id", [_localizer["MustBeGreaterThanZero"]] }
+                };
+                throw new AppException(_localizer["OneOrMoreValidationErrorsOccurred"], errors);
+            }
 
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso ?? string.Empty);
             LanguageEnum? languageParsed = null;
             if (!string.IsNullOrWhiteSpace(languageIso) && Enum.IsDefined(typeof(LanguageEnum), languageIso))
                 languageParsed = Enum.Parse<LanguageEnum>(languageIso);
 
-            var resources = await _context.vwResourcesName.AsNoTracking().ToArrayAsync();
-
-            var checkResourcesAlreadyExists = resources
-                .Where(m => !m.Id.Equals($"m{id}")
-                    && (m.SynopsisResource.Equals(dto.SynopsisResource) || m.TitleResource.Equals(dto.SynopsisResource)))
-                .Any();
-
-            if (checkResourcesAlreadyExists)
-                errors.Add("SynopsisResource", [_localizer["AlreadyExists"].Value]);
-
-            checkResourcesAlreadyExists = resources
-                .Where(m => !m.Id.Equals($"m{id}")
-                    && (m.SynopsisResource.Equals(dto.TitleResource) || m.TitleResource.Equals(dto.TitleResource)))
-                .Any();
-            if (checkResourcesAlreadyExists)
-                errors.Add("TitleResource", [_localizer["AlreadyExists"].Value]);
-
-            if (errors.Any())
-                throw new AppException("Existem erros nos dados informados.", errors); // TODO traduzir
-
-            var checkExists = await _context.Movie.AsNoTracking()
+            var movie = await _context.Movie
                 .Where(m => m.MovieId.Equals(id))
                 .FirstOrDefaultAsync()
                 ?? throw new AppException(_localizer["NotFound"].Value, HttpStatusCode.NotFound);
 
-            var timeline = dto.TimelineId.HasValue ? (byte)dto.TimelineId.Value.GetHashCode() : checkExists.TimelineId;
+            movie.ImdbId = string.IsNullOrWhiteSpace(dto.ImdbId) ? movie.ImdbId : dto.ImdbId;
+            movie.OriginalLanguageId = languageParsed.HasValue ? (short)languageParsed.Value.GetHashCode() : movie.OriginalLanguageId;
+            movie.OriginalName = string.IsNullOrWhiteSpace(dto.OriginalName) ? movie.OriginalName.Trim() : dto.OriginalName;
+            movie.ReleaseDate = dto.ReleaseDate ?? movie.ReleaseDate;
+            movie.SynopsisResource = string.IsNullOrEmpty(dto.SynopsisResource) ? movie.SynopsisResource : dto.SynopsisResource;
+            movie.Time = dto.Time ?? movie.Time;
+            movie.TimelineId = dto.TimelineId.HasValue ? (byte)dto.TimelineId.Value.GetHashCode() : movie.TimelineId;
+            movie.TitleResource = string.IsNullOrEmpty(dto.TitleResource) ? movie.TitleResource : dto.TitleResource;
+            movie.TmdbId = dto.TmdbId ?? movie.TmdbId;
 
-            var qtdMoviesUpdated = await _context.Movie.AsNoTracking()
-                .Where(m => m.MovieId.Equals(id))
-                .ExecuteUpdateAsync(s =>
-                    s.SetProperty(m => m.ImdbId, m => string.IsNullOrWhiteSpace(dto.ImdbId) ? m.ImdbId : dto.ImdbId)
-                        .SetProperty(m => m.OriginalLanguageId, m => languageParsed.HasValue ? languageParsed.Value.GetHashCode() : m.OriginalLanguageId)
-                        .SetProperty(m => m.OriginalName, m => string.IsNullOrWhiteSpace(dto.OriginalName.Trim()) ? m.OriginalName : dto.OriginalName)
-                        .SetProperty(m => m.ReleaseDate, m => dto.ReleaseDate ?? m.ReleaseDate)
-                        .SetProperty(m => m.SynopsisResource, m => string.IsNullOrEmpty(dto.SynopsisResource) ? m.SynopsisResource : dto.SynopsisResource)
-                        .SetProperty(m => m.Time, m => dto.Time ?? m.Time)
-                        .SetProperty(m => m.TimelineId, m => timeline)
-                        .SetProperty(m => m.TitleResource, m => string.IsNullOrEmpty(dto.TitleResource) ? m.TitleResource : dto.SynopsisResource)
-                        .SetProperty(m => m.TmdbId, m => dto.TmdbId ?? m.TmdbId)
-                );
 
-            if (qtdMoviesUpdated.Equals(0))
-                throw new AppException(_localizer["NotFound"].Value, HttpStatusCode.NotFound);
+            _context.Entry(movie).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
         }
     }
 }

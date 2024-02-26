@@ -23,9 +23,9 @@ namespace Application.Data.Validation
             {
                 RuleFor(m => m.ImdbId)
                     .Length(9, 12)
-                        .WithMessage(localizer["InvalidSize"])
+                        .WithMessage(localizer["InvalidLength"])
                     .Must(m => m.StartsWith("tt") && RegexHelper.StringIsNumeric(m[2..]))
-                        .WithMessage(localizer["Invalid"].Value);
+                        .WithMessage(localizer["InvalidId"].Value);
             });
 
             When(s => !string.IsNullOrWhiteSpace(s.OriginalLanguageIso), () =>
@@ -36,17 +36,6 @@ namespace Application.Data.Validation
                         var languageIso = RegexHelper.RemoveSpecialCharacters(language);
                         return System.Enum.IsDefined(typeof(LanguageEnum), languageIso);
                     }).WithMessage(localizer["LanguageCodeMustIso"].Value);
-            });
-
-            When(s => !string.IsNullOrEmpty(s.SynopsisResource), () =>
-            {
-                RuleFor(s => s.SynopsisResource)
-                    .Must(RegexHelper.StringIsSimpleAlphabet)
-                        .WithMessage(localizer["ShouldBeLettersWithoutAccents"].Value)
-                    .MinimumLength("Synopsis".Length + 1)
-                        .WithMessage("Tamanho inválido")
-                    .Must(s => s.EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
-                        .WithMessage(localizer["MustContainSynopsisAtTheEnd"]);
             });
 
             When(s => s.TimelineId.HasValue, () =>
@@ -61,15 +50,6 @@ namespace Application.Data.Validation
                 RuleFor(s => s.TmdbId)
                     .GreaterThan(0)
                     .WithMessage(localizer["Invalid"].Value);
-            });
-
-            When(s => !string.IsNullOrEmpty(s.TitleResource), () =>
-            {
-                RuleFor(s => s.TitleResource)
-                    .Must(RegexHelper.StringIsSimpleAlphabet)
-                        .WithMessage(localizer["ShouldBeLettersWithoutAccents"].Value)
-                    .Must(s => !s.EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
-                        .WithMessage(localizer["MustNotContainSynopsisAtTheEnd"].Value);
             });
         }
     }
