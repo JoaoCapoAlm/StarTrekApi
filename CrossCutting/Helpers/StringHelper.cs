@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Application.Helpers
+namespace CrossCutting.Helpers
 {
     public static class StringHelper
     {

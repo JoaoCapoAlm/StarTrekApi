@@ -1,6 +1,6 @@
 ﻿using Application.Data.Enums;
-using Application.Helpers;
 using Application.Resources;
+using CrossCutting.Helpers;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 

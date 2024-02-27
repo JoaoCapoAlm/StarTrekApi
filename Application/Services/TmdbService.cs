@@ -1,6 +1,6 @@
 ﻿using Application.Data;
 using Application.Data.ViewModel;
-using Application.Helper;
+using CrossCutting.Extensions;
 using Application.Resources;
 using Domain;
 using Domain.Model;

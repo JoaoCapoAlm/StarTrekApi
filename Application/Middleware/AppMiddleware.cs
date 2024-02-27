@@ -52,7 +52,7 @@ namespace Application.Middleware
             {
                 var appEx = (AppException)exception;
                 code = appEx.StatusCode;
-                responseBody.errors = appEx.ErrorDic;
+                responseBody.errors = appEx.Errors;
             }
 
             responseBody.status = code.GetHashCode();

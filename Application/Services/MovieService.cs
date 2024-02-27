@@ -4,7 +4,7 @@ using Application.Data;
 using Application.Data.Enums;
 using Application.Data.Validation;
 using Application.Data.ViewModel;
-using Application.Helpers;
+using CrossCutting.Helpers;
 using Application.Resources;
 using Domain;
 using Domain.Model;

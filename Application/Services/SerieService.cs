@@ -4,8 +4,8 @@ using Application.Data;
 using Application.Data.Enums;
 using Application.Data.Validation;
 using Application.Data.ViewModel;
-using Application.Helpers;
 using Application.Resources;
+using CrossCutting.Helpers;
 using Domain;
 using Domain.Model;
 using FluentValidation;
@@ -133,7 +133,7 @@ namespace Application.Services
 
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso);
 
-            var newSerie = new Domain.Model.Serie()
+            var newSerie = new Serie()
             {
                 Abbreviation = dto.Abbreviation,
                 ImdbId = dto.ImdbId,

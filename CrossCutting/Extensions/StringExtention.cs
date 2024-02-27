@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using Application.Helpers;
+using CrossCutting.Helpers;
 
-namespace Application.Helper
+namespace CrossCutting.Extensions
 {
     public static class StringExtention
     {
@@ -9,7 +9,7 @@ namespace Application.Helper
         {
             var resourceName = RegexHelper.CaseInsensitiveReplace(originalName, "star", string.Empty);
             resourceName = RegexHelper.CaseInsensitiveReplace(resourceName, "trek", string.Empty);
-            
+
             TextInfo res = CultureInfo.CurrentCulture.TextInfo;
             res.ToTitleCase(resourceName);
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Application.Helpers
+namespace CrossCutting.Helpers
 {
     public static partial class RegexHelper
     {

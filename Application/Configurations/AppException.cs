@@ -10,9 +10,8 @@ namespace Application.Configurations
         /// <summary>
         /// Validation errors
         /// </summary>
-        internal IEnumerable<ErrorContent> Errors { get; private set; }
         public HttpStatusCode StatusCode { get; set; }
-        internal IDictionary<string, IEnumerable<string>> ErrorDic { get; set; }
+        internal IDictionary<string, IEnumerable<string>> Errors { get; set; }
 
         public AppException(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
             : this(message, new Dictionary<string, IEnumerable<string>>(), statusCode)
@@ -24,7 +23,7 @@ namespace Application.Configurations
             HttpStatusCode statusCode = HttpStatusCode.BadRequest
             ) : base(message)
         {
-            ErrorDic = errors;
+            Errors = errors;
             StatusCode = statusCode;
         }
 
@@ -32,7 +31,7 @@ namespace Application.Configurations
             : this(message)
         {
             var mensagemPorPropriedade = validationFailures.GroupBy(e => e.PropertyName);
-            ErrorDic = mensagemPorPropriedade.ToDictionary(e => e.Key, e => e.Select(s => s.ErrorMessage));
+            Errors = mensagemPorPropriedade.ToDictionary(e => e.Key, e => e.Select(s => s.ErrorMessage));
         }
     }
 }
