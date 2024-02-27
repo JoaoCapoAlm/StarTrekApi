@@ -1,12 +1,12 @@
 ﻿using Application.Middleware;
-using Application.Resources;
 using Application.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
-using Application.Data.Validation;
 using Domain;
+using CrossCutting.Resources;
+using Domain.Validation;
 
-namespace Application
+namespace Application.Configurations
 {
     public static class Infra
     {

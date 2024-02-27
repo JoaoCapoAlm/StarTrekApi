@@ -1,13 +1,12 @@
 ﻿using System.Net;
 using Application.Configurations;
-using Application.Data;
-using Application.Data.Enums;
-using Application.Data.Validation;
 using Application.Data.ViewModel;
-using Application.Resources;
+using CrossCutting.Enums;
 using CrossCutting.Helpers;
+using CrossCutting.Resources;
 using Domain;
 using Domain.Model;
+using Domain.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -21,7 +20,6 @@ namespace Application.Services
         private readonly StarTrekContext _context = context;
         private readonly IStringLocalizer<Messages> _localizer = localizer;
         private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
-
 
         public async Task<IEnumerable<SerieVM>> GetSeriesList(byte page, byte pageSize)
         {

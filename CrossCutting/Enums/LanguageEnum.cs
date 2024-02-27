@@ -1,4 +1,4 @@
-﻿namespace Application.Data.Enums
+﻿namespace CrossCutting.Enums
 {
     public enum LanguageEnum : short
     {

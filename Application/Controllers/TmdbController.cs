@@ -1,5 +1,5 @@
-﻿using Application.Data;
-using Application.Services;
+﻿using Application.Services;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers

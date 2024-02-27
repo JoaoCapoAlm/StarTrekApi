@@ -1,10 +1,10 @@
-﻿using Application.Data.Enums;
-using Application.Resources;
+﻿using CrossCutting.Enums;
 using CrossCutting.Helpers;
+using CrossCutting.Resources;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
-namespace Application.Data.Validation
+namespace Domain.Validation
 {
     public class UpdateSerieValidation : AbstractValidator<UpdateSerieDto>
     {

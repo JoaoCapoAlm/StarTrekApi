@@ -1,6 +1,6 @@
-﻿using Application.Data.Enums;
+﻿using CrossCutting.Enums;
 
-namespace Application.Data
+namespace Domain
 {
     public record CreateSerieDto(
         string Abbreviation,

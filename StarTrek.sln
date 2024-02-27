@@ -9,9 +9,9 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DB.SqlServer", "DB.SqlServe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMDB", "TMDB\TMDB.csproj", "{02E91992-52CD-49AE-86B3-890FDA6DB130}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{C13A2E1B-C296-49C0-A695-691B38C32602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{C13A2E1B-C296-49C0-A695-691B38C32602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossCutting", "CrossCutting\CrossCutting.csproj", "{69FFEB24-6E52-4F77-88B6-1C6E4754C580}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCutting", "CrossCutting\CrossCutting.csproj", "{69FFEB24-6E52-4F77-88B6-1C6E4754C580}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

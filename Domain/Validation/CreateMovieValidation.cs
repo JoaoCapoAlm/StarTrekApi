@@ -1,10 +1,10 @@
-﻿using Application.Data.Enums;
-using CrossCutting.Helpers;
-using Application.Resources;
+﻿using CrossCutting.Helpers;
 using FluentValidation;
+using CrossCutting.Enums;
+using CrossCutting.Resources;
 using Microsoft.Extensions.Localization;
 
-namespace Application.Data.Validation
+namespace Domain.Validation
 {
     public class CreateMovieValidation : AbstractValidator<CreateMovieDto>
     {

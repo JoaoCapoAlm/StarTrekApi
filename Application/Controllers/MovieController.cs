@@ -1,6 +1,6 @@
-﻿using Application.Data;
-using Application.Resources;
-using Application.Services;
+﻿using Application.Services;
+using CrossCutting.Resources;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 

@@ -1,10 +1,9 @@
 using System.Net;
 using System.Reflection;
-using Application;
+using Application.Configurations;
 using Domain;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 

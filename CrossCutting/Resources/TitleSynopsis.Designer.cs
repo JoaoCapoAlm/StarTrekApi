@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Resources {
+namespace CrossCutting.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Application.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Application.Resources.TitleSynopsis", typeof(TitleSynopsis).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CrossCutting.Resources.TitleSynopsis", typeof(TitleSynopsis).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -102,6 +102,15 @@ namespace Application.Resources {
         public static string ds9EmissarySynopsis {
             get {
                 return ResourceManager.GetString("ds9EmissarySynopsis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: The Motion Picture.
+        /// </summary>
+        public static string MotionPicture {
+            get {
+                return ResourceManager.GetString("MotionPicture", resourceCulture);
             }
         }
         

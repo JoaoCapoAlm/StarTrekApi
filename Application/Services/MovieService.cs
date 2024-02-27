@@ -1,16 +1,15 @@
 ﻿using System.Net;
 using Application.Configurations;
-using Application.Data;
-using Application.Data.Enums;
-using Application.Data.Validation;
 using Application.Data.ViewModel;
 using CrossCutting.Helpers;
-using Application.Resources;
 using Domain;
 using Domain.Model;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using CrossCutting.Resources;
+using Domain.Validation;
+using CrossCutting.Enums;
 
 namespace Application.Services
 {
