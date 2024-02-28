@@ -1,9 +1,10 @@
-﻿using Application.Data;
-using Application.Services;
+﻿using Application.Services;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class TmdbController : ControllerBase

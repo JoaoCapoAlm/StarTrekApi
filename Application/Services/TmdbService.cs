@@ -1,11 +1,11 @@
-﻿using Application.Data;
-using Application.Data.ViewModel;
-using Application.Helper;
-using Application.Model;
-using Application.Resources;
+﻿using Application.Data.ViewModel;
+using CrossCutting.Extensions;
+using Domain;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using TMDB;
+using CrossCutting.Resources;
 
 namespace Application.Services
 {
@@ -49,7 +49,7 @@ namespace Application.Services
             serie.TmdbId = tmdbId;
             serie.ImdbId = string.IsNullOrWhiteSpace(dto.Imdb) ? serie.ImdbId : dto.Imdb;
             serie.TimelineId = dto.Timeline;
-            
+
             short? originalLanguageId = await _context.Language
                                             .AsNoTracking()
                                             .Where(l => l.CodeISO.Equals(searchSerie.original_language))
@@ -91,7 +91,8 @@ namespace Application.Services
                                     .Contains(e.SeasonId))
                 .ToArrayAsync() ?? Enumerable.Empty<Episode>();
 
-            return new SerieVM {
+            return new SerieVM
+            {
                 ID = serie.SerieId,
                 OriginalName = serie.OriginalName,
                 Abbreviation = serie.Abbreviation,

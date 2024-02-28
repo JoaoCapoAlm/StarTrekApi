@@ -1,15 +1,15 @@
 ﻿using System.Net;
 using Application.Configurations;
-using Application.Data;
-using Application.Data.Enum;
-using Application.Data.Validation;
 using Application.Data.ViewModel;
-using Application.Helpers;
-using Application.Model;
-using Application.Resources;
+using CrossCutting.Helpers;
+using Domain;
+using Domain.Model;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using CrossCutting.Resources;
+using Domain.Validation;
+using CrossCutting.Enums;
 
 namespace Application.Services
 {
@@ -41,7 +41,7 @@ namespace Application.Services
                     m.TimelineId,
                     _localizer[m.TitleResource].Value
                 )).ToArrayAsync()
-                ?? throw new AppException(_localizer["NotFound"].Value, HttpStatusCode.NotFound);
+                ?? Enumerable.Empty<MovieVM>();
         }
 
         public async Task<MovieVM> GetMovieById(byte movieId)
@@ -55,7 +55,7 @@ namespace Application.Services
                 throw new AppException(_localizer["InvalidId"].Value, errors);
             }
 
-            return await _context.Movie
+            var movie = await _context.Movie
                 .AsNoTracking()
                 .Where(m => m.MovieId == movieId)
                 .Select(m => new MovieVM(
@@ -68,8 +68,18 @@ namespace Application.Services
                     m.ReleaseDate,
                     m.TimelineId,
                     _titleSynopsisLocalizer[m.TitleResource].Value
-                )).FirstOrDefaultAsync()
-                ?? throw new AppException(_localizer["NotFound"].Value, HttpStatusCode.NotFound);
+                )).FirstOrDefaultAsync();
+
+            if(movie == null)
+            {
+                var errors = new Dictionary<string, IEnumerable<string>>()
+                {
+                    { "id", [_localizer["NotFound"]] }
+                };
+                throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
+            }
+
+            return movie;
         }
 
         public async Task<MovieVM> CreateMovie(CreateMovieDto dto)

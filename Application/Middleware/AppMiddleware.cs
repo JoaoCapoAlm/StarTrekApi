@@ -44,18 +44,18 @@ namespace Application.Middleware
 
             var responseBody = new ContentResponse()
             {
-                message = message,
-                errors = new Dictionary<string, IEnumerable<string>>()
+                Message = message,
+                Errors = new Dictionary<string, IEnumerable<string>>()
             };
 
             if (exception.GetType().Equals(typeof(AppException)))
             {
                 var appEx = (AppException)exception;
                 code = appEx.StatusCode;
-                responseBody.errors = appEx.ErrorDic;
+                responseBody.Errors = appEx.Errors;
             }
 
-            responseBody.status = code.GetHashCode();
+            responseBody.Status = code.GetHashCode();
 
             context.Response.ContentType = ContentType.ApplicationJson.ToString();
             context.Response.StatusCode = code.GetHashCode();
@@ -65,20 +65,20 @@ namespace Application.Middleware
 
         internal class ContentResponse
         {
-            public string message { get; set; }
-            public int status { get; set; }
-            public IDictionary<string, IEnumerable<string>> errors { get; set; }
+            public string Message { get; set; }
+            public int Status { get; set; }
+            public IDictionary<string, IEnumerable<string>> Errors { get; set; }
         }
 
         public class ErrorContent
         {
             public ErrorContent(string property, string message)
             {
-                this.property = property;
-                this.message = message;
+                Property = property;
+                Message = message;
             }
-            public string property { get; set; }
-            public string message { get; set; }
+            public string Property { get; set; }
+            public string Message { get; set; }
         }
     }
 

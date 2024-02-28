@@ -1,9 +1,8 @@
-﻿using Application;
-using Microsoft.OpenApi.Any;
+﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace WebApplication1.Filters
+namespace Application.Configurations
 {
     public class AddRequiredHeaderParameter : IOperationFilter
     {
@@ -13,7 +12,7 @@ namespace WebApplication1.Filters
 
             string[] supportedCultures = Infra.SupportedCultures();
             var listLanguage = new List<IOpenApiAny>();
-            foreach(var lang in supportedCultures)
+            foreach (var lang in supportedCultures)
             {
                 listLanguage.Add(new OpenApiString(lang));
             }

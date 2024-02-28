@@ -1,13 +1,12 @@
-﻿using Application.Data;
-using Application.Data.Validation;
-using Application.Middleware;
-using Application.Resources;
+﻿using Application.Middleware;
 using Application.Services;
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
+using Domain;
+using CrossCutting.Resources;
+using Domain.Validation;
 
-namespace Application
+namespace Application.Configurations
 {
     public static class Infra
     {
@@ -32,7 +31,7 @@ namespace Application
             return services;
         }
 
-        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, bool IsProduction)
+        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
 
@@ -48,15 +47,12 @@ namespace Application
                     .SetDefaultCulture(supportedCultures[0]);
             });
 
-            if (!IsProduction)
+            app.UseSwagger();
+            app.UseSwaggerUI(opts =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(opts =>
-                {
-                    opts.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                    opts.RoutePrefix = string.Empty;
-                });
-            }
+                opts.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                opts.RoutePrefix = string.Empty;
+            });
             app.UseAppMiddleware();
             app.UseAuthorization();
 

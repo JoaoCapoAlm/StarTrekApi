@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DB.SqlServer", "DB.SqlServer\DB.SqlServer.sqlproj", "{3290B4A0-1718-4329-BB27-08924EA3383B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMDB", "TMDB\TMDB.csproj", "{02E91992-52CD-49AE-86B3-890FDA6DB130}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMDB", "TMDB\TMDB.csproj", "{02E91992-52CD-49AE-86B3-890FDA6DB130}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{C13A2E1B-C296-49C0-A695-691B38C32602}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCutting", "CrossCutting\CrossCutting.csproj", "{69FFEB24-6E52-4F77-88B6-1C6E4754C580}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,14 @@ Global
 		{02E91992-52CD-49AE-86B3-890FDA6DB130}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02E91992-52CD-49AE-86B3-890FDA6DB130}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02E91992-52CD-49AE-86B3-890FDA6DB130}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C13A2E1B-C296-49C0-A695-691B38C32602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13A2E1B-C296-49C0-A695-691B38C32602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13A2E1B-C296-49C0-A695-691B38C32602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13A2E1B-C296-49C0-A695-691B38C32602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69FFEB24-6E52-4F77-88B6-1C6E4754C580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69FFEB24-6E52-4F77-88B6-1C6E4754C580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69FFEB24-6E52-4F77-88B6-1C6E4754C580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69FFEB24-6E52-4F77-88B6-1C6E4754C580}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

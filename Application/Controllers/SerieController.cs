@@ -1,6 +1,6 @@
-﻿using Application.Data;
-using Application.Data.ViewModel;
+﻿using Application.Data.ViewModel;
 using Application.Services;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -54,6 +54,7 @@ namespace Application.Controllers
         /// <response code="201">Created</response>
         /// <response code="400">Invalid data</response>
         /// <response code="500">Internal error</response>
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<IActionResult> CreateNewSerie([FromBody] CreateSerieDto dto)
         {
@@ -70,6 +71,7 @@ namespace Application.Controllers
         /// <response code="400">Invalid data</response>
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSerieById([FromRoute] byte id, [FromBody] UpdateSerieDto dto)
         {
