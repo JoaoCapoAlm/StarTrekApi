@@ -14,7 +14,7 @@ namespace Domain.Validation
             {
                 RuleFor(s => s.Abbreviation)
                     .MaximumLength(3)
-                    .WithMessage(localizer["MaximumSizeExceeded"])
+                    .WithMessage(localizer["MaximumLengthExceeded"])
                     .Must(RegexHelper.StringIsSimpleAlphabet)
                     .WithMessage(localizer["ShouldBeLettersWithoutAccents"]);
             });

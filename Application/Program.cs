@@ -1,5 +1,6 @@
 using System.Net;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Application.Configurations;
 using Domain;
 using Microsoft.AspNetCore.DataProtection;

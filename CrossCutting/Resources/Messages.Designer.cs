@@ -124,7 +124,7 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid size.
+        ///   Looks up a localized string similar to Invalid length.
         /// </summary>
         public static string InvalidLength {
             get {
@@ -138,6 +138,15 @@ namespace CrossCutting.Resources {
         public static string LanguageCodeMustIso {
             get {
                 return ResourceManager.GetString("LanguageCodeMustIso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum length exceeded.
+        /// </summary>
+        public static string MaximumLengthExceeded {
+            get {
+                return ResourceManager.GetString("MaximumLengthExceeded", resourceCulture);
             }
         }
         

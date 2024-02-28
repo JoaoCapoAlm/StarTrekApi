@@ -34,17 +34,21 @@ namespace Application.Controllers
         }
 
         /// <summary>
-        /// Criação de filme
+        /// Add new movie
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        /// <response code="201">Created</response>
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<IActionResult> CreateMovie([FromBody]CreateMovieDto dto)
         {
             var movie = await _movieService.CreateMovie(dto);
 
-            return CreatedAtAction(nameof(GetMovieById), new { id = movie.Id}, movie);
+            return CreatedAtAction(nameof(GetMovieById), new { id = movie.Id }, movie);
         }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMovie([FromRoute] short id, [FromBody] UpdateMovieDto dto)
         {

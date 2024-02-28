@@ -15,10 +15,11 @@ namespace Domain.Validation
             When(x => !string.IsNullOrWhiteSpace(x.ImdbId), () =>
             {
                 RuleFor(e => e.ImdbId)
-                    .MinimumLength(9)
-                        .WithMessage(localizer["Invalid"].Value)
+                    .Cascade(CascadeMode.Stop)
+                    .Length(8, 13)
+                        .WithMessage(localizer["InvalidLength"])
                     .Must(e => e.StartsWith("tt") && RegexHelper.StringIsNumeric(e[2..]))
-                        .WithMessage(localizer["Invalid"].Value);
+                        .WithMessage(localizer["Invalid"]);
             });
 
             RuleFor(e => e.Number)
@@ -28,7 +29,7 @@ namespace Domain.Validation
             When(e => e.RealeaseDate.HasValue, () =>
             {
                 RuleFor(e => e.RealeaseDate)
-                    .LessThan(DateOnly.FromDateTime(DateTime.Today));
+                    .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today));
             });
 
             When(e => e.StardateFrom.HasValue, () =>

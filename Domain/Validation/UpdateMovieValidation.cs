@@ -20,8 +20,9 @@ namespace Domain.Validation
             When(m => !string.IsNullOrWhiteSpace(m.ImdbId), () =>
             {
                 RuleFor(m => m.ImdbId)
+                    .Cascade(CascadeMode.Stop)
                     .Length(8, 14)
-                        .WithMessage(localizer["Invalid"].Value)
+                        .WithMessage(localizer["InvalidLength"])
                     .Must(m => m.StartsWith("tt") && RegexHelper.StringIsNumeric(m[2..]))
                         .WithMessage(localizer["Invalid"].Value);
             });

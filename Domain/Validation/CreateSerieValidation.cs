@@ -19,7 +19,7 @@ namespace Domain.Validation
                 .NotEmpty()
                     .WithMessage(localizer["Required"].Value)
                 .Length(3)
-                    .WithMessage(localizer["Invalid"].Value);
+                    .WithMessage(localizer["InvalidLength"].Value);
 
             When(x => !string.IsNullOrWhiteSpace(x.ImdbId), () =>
             {

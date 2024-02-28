@@ -31,7 +31,7 @@ namespace Application.Configurations
             return services;
         }
 
-        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, bool IsProduction)
+        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, bool isProduction)
         {
             app.UseHttpsRedirection();
 
@@ -47,15 +47,12 @@ namespace Application.Configurations
                     .SetDefaultCulture(supportedCultures[0]);
             });
 
-            if (!IsProduction)
+            app.UseSwagger();
+            app.UseSwaggerUI(opts =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(opts =>
-                {
-                    opts.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-                    opts.RoutePrefix = string.Empty;
-                });
-            }
+                opts.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                opts.RoutePrefix = string.Empty;
+            });
             app.UseAppMiddleware();
             app.UseAuthorization();
 

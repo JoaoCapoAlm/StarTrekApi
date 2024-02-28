@@ -139,7 +139,7 @@
     <value>Invalid ID</value>
   </data>
   <data name="InvalidLength" xml:space="preserve">
-    <value>Invalid size</value>
+    <value>Invalid length</value>
   </data>
   <data name="LanguageCodeMustIso" xml:space="preserve">
     <value>The language code must be an ISO 690 code</value>
@@ -188,5 +188,8 @@
   </data>
   <data name="ShouldBeLettersWithoutAccentsOrNumbers" xml:space="preserve">
     <value>It should just be letters without accents or numbers</value>
+  </data>
+  <data name="MaximumLengthExceeded" xml:space="preserve">
+    <value>Maximum length exceeded</value>
   </data>
 </root>

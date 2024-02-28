@@ -25,7 +25,7 @@ namespace Application.Services
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 
-            var seriesList = await _context.Serie
+            return await _context.Serie
                 .AsNoTracking()
                 .AsSplitQuery()
                 .OrderBy(s => s.SerieId)
@@ -40,14 +40,10 @@ namespace Application.Services
                     Abbreviation = s.Abbreviation,
                     Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray(),
                     Timeline = s.TimelineId,
-                    NameTranslated = _titleSynopsisLocalizer[s.TitleResource].Value,
+                    TranslatedName = _titleSynopsisLocalizer[s.TitleResource].Value,
                     Synopsis = _titleSynopsisLocalizer[s.SynopsisResource].Value
-                }).ToArrayAsync();
-
-            if (seriesList.Any())
-                return seriesList;
-
-            throw new AppException(_localizer["NotFound"].Value, HttpStatusCode.NotFound);
+                }).ToArrayAsync()
+                ?? [];
         }
 
         public async Task<SerieVM> GetSerieById(byte serieId)
@@ -61,7 +57,7 @@ namespace Application.Services
                 throw new AppException(_localizer["InvalidId"].Value, error);
             }
 
-            return await _context.Serie
+            var serie = await _context.Serie
                 .AsNoTracking()
                 .Where(s => s.SerieId == serieId)
                 .Select(s => new SerieVM
@@ -72,12 +68,21 @@ namespace Application.Services
                     ImdbId = s.ImdbId,
                     Abbreviation = s.Abbreviation,
                     Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray(),
-                    NameTranslated = _titleSynopsisLocalizer[s.TitleResource].Value,
+                    TranslatedName = _titleSynopsisLocalizer[s.TitleResource].Value,
                     Synopsis = _titleSynopsisLocalizer[s.SynopsisResource].Value,
                     Timeline = s.TimelineId
                 })
-                .FirstOrDefaultAsync()
-                ?? throw new AppException(_localizer["NotFound"].Value, HttpStatusCode.NotFound);
+                .FirstOrDefaultAsync();
+
+            if (serie == null)
+            {
+                var errors = new Dictionary<string, IEnumerable<string>>()
+                {
+                    { "id", [_localizer["NotFound"]] }
+                };
+                throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
+            }
+            return serie;
         }
 
         public async Task<SerieVM> CreateNewSerie(CreateSerieDto dto)
@@ -187,7 +192,7 @@ namespace Application.Services
                 OriginalName = serieSaved.OriginalName,
                 Seasons = serieSaved.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes.ToList())).ToList(),
                 Timeline = serieSaved.TimelineId,
-                NameTranslated = _titleSynopsisLocalizer[serieSaved.TitleResource],
+                TranslatedName = _titleSynopsisLocalizer[serieSaved.TitleResource],
                 Synopsis = _titleSynopsisLocalizer[serieSaved.SynopsisResource]
             };
         }

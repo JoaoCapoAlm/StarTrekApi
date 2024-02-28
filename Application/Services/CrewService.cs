@@ -50,7 +50,7 @@ namespace Application.Services
                 throw new AppException(_localizer["InvalidId"].Value, error);
             }
 
-            return await _context.Crew
+            var crew = await _context.Crew
                 .AsNoTracking()
                 .Where(c => c.CrewId == crewId)
                 .Select(c => new CrewVM
@@ -61,8 +61,18 @@ namespace Application.Services
                     DeathDate = c.DeathDate,
                     Country = _localizer[c.Country.ResourceName].Value
                 })
-                .FirstOrDefaultAsync()
-                ?? throw new AppException(_localizer["NotFound"].Value, System.Net.HttpStatusCode.NotFound);
+                .FirstOrDefaultAsync();
+
+            if(crew == null)
+            {
+                var error = new Dictionary<string, IEnumerable<string>>()
+                {
+                    { "id", [_localizer["NotFound"]] }
+                };
+                throw new AppException(_localizer["NotFound"].Value, error, System.Net.HttpStatusCode.NotFound);
+            }
+
+            return crew;
         }
     }
 }

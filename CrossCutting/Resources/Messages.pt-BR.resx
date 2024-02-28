@@ -189,4 +189,7 @@
   <data name="ShouldBeLettersWithoutAccentsOrNumbers" xml:space="preserve">
     <value>Devem ser apenas letras sem acentos ou números</value>
   </data>
+  <data name="MaximumLengthExceeded" xml:space="preserve">
+    <value>Tamanho máximo excedido</value>
+  </data>
 </root>
