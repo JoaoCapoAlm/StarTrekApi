@@ -31,7 +31,7 @@ namespace Application.Configurations
             return services;
         }
 
-        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app, bool isProduction)
+        public static IApplicationBuilder ConfigMiddleware(this IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
 

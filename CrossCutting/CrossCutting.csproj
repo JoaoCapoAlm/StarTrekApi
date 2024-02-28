@@ -4,13 +4,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <NoWarn>1591;CA1860</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
-      <DependentUpon>Messages.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\TitleSynopsis.Designer.cs">
       <DependentUpon>TitleSynopsis.resx</DependentUpon>
@@ -25,8 +26,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Messages.resx">
-      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\TitleSynopsis.pt-BR.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
