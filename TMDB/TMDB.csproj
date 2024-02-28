@@ -7,8 +7,4 @@
     <NoWarn>1591;CA1860</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CrossCutting\CrossCutting.csproj" />
-  </ItemGroup>
-
 </Project>
