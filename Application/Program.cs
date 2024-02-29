@@ -1,6 +1,5 @@
 using System.Net;
 using System.Reflection;
-using System.Text.Json.Serialization;
 using Application.Configurations;
 using Domain;
 using Microsoft.AspNetCore.DataProtection;
@@ -22,7 +21,6 @@ builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(P
 
 builder.Services.AddLocalization().AddControllers();
 builder.Services.DependencyInjection();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureHttpClientDefaults(opts =>
 {
     opts.ConfigureHttpClient(o =>

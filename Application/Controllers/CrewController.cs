@@ -21,7 +21,7 @@ namespace Application.Controllers
         }
 
         [HttpGet("{crewId}")]
-        public async Task<IActionResult> GetCrewById([FromRoute]int crewId)
+        public async Task<IActionResult> GetCrewById([FromRoute] int crewId)
         {
             var crew = await _crewService.GetCrewById(crewId);
 

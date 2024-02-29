@@ -1,15 +1,15 @@
 ﻿using System.Net;
 using Application.Configurations;
 using Application.Data.ViewModel;
+using CrossCutting.Enums;
 using CrossCutting.Helpers;
+using CrossCutting.Resources;
 using Domain;
 using Domain.Model;
+using Domain.Validation;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using CrossCutting.Resources;
-using Domain.Validation;
-using CrossCutting.Enums;
 
 namespace Application.Services
 {
@@ -70,7 +70,7 @@ namespace Application.Services
                     _titleSynopsisLocalizer[m.TitleResource].Value
                 )).FirstOrDefaultAsync();
 
-            if(movie == null)
+            if (movie == null)
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
                 {

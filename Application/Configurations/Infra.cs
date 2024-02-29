@@ -1,10 +1,10 @@
 ﻿using Application.Middleware;
 using Application.Services;
+using CrossCutting.Resources;
+using Domain;
+using Domain.Validation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
-using Domain;
-using CrossCutting.Resources;
-using Domain.Validation;
 
 namespace Application.Configurations
 {
@@ -19,6 +19,7 @@ namespace Application.Configurations
 
             services.TryAddScoped<CrewService>();
             services.TryAddScoped<MovieService>();
+            services.TryAddScoped<SeasonService>();
             services.TryAddScoped<SerieService>();
             services.TryAddScoped<TmdbService>();
 

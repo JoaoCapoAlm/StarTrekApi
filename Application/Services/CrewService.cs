@@ -63,7 +63,7 @@ namespace Application.Services
                 })
                 .FirstOrDefaultAsync();
 
-            if(crew == null)
+            if (crew == null)
             {
                 var error = new Dictionary<string, IEnumerable<string>>()
                 {

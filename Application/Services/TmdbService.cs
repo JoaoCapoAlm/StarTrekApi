@@ -1,11 +1,11 @@
 ﻿using Application.Data.ViewModel;
 using CrossCutting.Extensions;
+using CrossCutting.Resources;
 using Domain;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using TMDB;
-using CrossCutting.Resources;
 
 namespace Application.Services
 {

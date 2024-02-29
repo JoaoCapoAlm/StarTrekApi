@@ -3,7 +3,8 @@ using Domain.Model;
 
 namespace Application.Data.ViewModel
 {
-    public class SeasonVM {
+    public class SeasonVM
+    {
         public short ID { get; set; }
         public byte Number { get; set; }
         public ICollection<EpisodeVM> Episodes { get; set; }

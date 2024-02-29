@@ -1,7 +1,5 @@
 ﻿using System.Net;
 using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
-using static Application.Middleware.AppMiddleware;
 
 namespace Application.Configurations
 {

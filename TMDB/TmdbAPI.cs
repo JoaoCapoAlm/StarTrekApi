@@ -48,7 +48,7 @@ namespace TMDB
         public async Task<MovieGetDetails?> SearchMovie(int movieId)
         {
             var response = new HttpResponseMessage();
-            
+
             using (var _client = GenerateClient())
             {
                 response = await _client.GetAsync($"{TmdbTypeEnum.movie}/{movieId}");
