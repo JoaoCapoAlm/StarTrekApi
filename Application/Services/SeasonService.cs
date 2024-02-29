@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using Application.Configurations;
 using Application.Data.ViewModel;
+using AutoMapper;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Model;
+using Domain.Validation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
@@ -12,15 +14,14 @@ namespace Application.Services
     public class SeasonService
     {
         private readonly StarTrekContext _context;
-        private readonly IStringLocalizer<Messages> _localizer;
-        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer;
+        private readonly IStringLocalizer<Messages> _localizerMessages;
+        private readonly IMapper _mapper;
 
-        public SeasonService(StarTrekContext context, IStringLocalizer<Messages> localizer,
-            IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer)
+        public SeasonService(StarTrekContext context, IStringLocalizer<Messages> localizer, IMapper mapper)
         {
             _context = context;
-            _localizer = localizer;
-            _titleSynopsisLocalizer = titleSynopsisLocalizer;
+            _localizerMessages = localizer;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<SeasonVM>> GetSeasons(byte page, byte pageSize)
@@ -42,9 +43,9 @@ namespace Application.Services
             {
                 var error = new Dictionary<string, IEnumerable<string>>
                 {
-                    { "ID", [_localizer["InvalidId"].Value] }
+                    { "ID", [_localizerMessages["InvalidId"].Value] }
                 };
-                throw new AppException(_localizer["InvalidId"].Value, error);
+                throw new AppException(_localizerMessages["InvalidId"].Value, error);
             }
 
             var season = await _context.Season.AsNoTracking()
@@ -56,9 +57,9 @@ namespace Application.Services
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
                 {
-                    { "id", [_localizer["NotFound"]] }
+                    { "id", [_localizerMessages["NotFound"]] }
                 };
-                throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
+                throw new AppException(_localizerMessages["NotFound"], errors, HttpStatusCode.NotFound);
             }
 
             return season;
@@ -66,13 +67,14 @@ namespace Application.Services
 
         public async Task<SeasonVM> CreateSeason(CreateSeasonWithSerieIdDto dto)
         {
+            var validator = new CreateSeasonWithSerieIdValidation(_mapper, _localizerMessages, _context);
             if (dto.SerieId <= 0)
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
                 {
-                    { "ID", [_localizer["Invalid"]] }
+                    { "ID", [_localizerMessages["Invalid"]] }
                 };
-                throw new AppException(_localizer["InvalidId"], errors, HttpStatusCode.NotFound);
+                throw new AppException(_localizerMessages["InvalidId"], errors, HttpStatusCode.NotFound);
             }
 
             var serie = await _context.Serie.FirstOrDefaultAsync(x => x.SerieId.Equals(dto.SerieId));
@@ -81,9 +83,9 @@ namespace Application.Services
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
                 {
-                    { "Serie", [_localizer["NotFound"]] }
+                    { "Serie", [_localizerMessages["NotFound"]] }
                 };
-                throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
+                throw new AppException(_localizerMessages["NotFound"], errors, HttpStatusCode.NotFound);
             }
 
             var newSeason = new Season()
@@ -120,9 +122,9 @@ namespace Application.Services
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
                 {
-                    { "ID", [_localizer["Invalid"]] }
+                    { "ID", [_localizerMessages["Invalid"]] }
                 };
-                throw new AppException(_localizer["InvalidId"], errors, HttpStatusCode.NotFound);
+                throw new AppException(_localizerMessages["InvalidId"], errors, HttpStatusCode.NotFound);
             }
 
             var season = await _context.Season.Where(x => x.SeasonId.Equals(seasonId)).FirstOrDefaultAsync();
@@ -131,9 +133,9 @@ namespace Application.Services
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
                 {
-                    { "Season", [_localizer["NotFound"]] }
+                    { "Season", [_localizerMessages["NotFound"]] }
                 };
-                throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
+                throw new AppException(_localizerMessages["NotFound"], errors, HttpStatusCode.NotFound);
             }
 
             season.SerieId = dto.SerieId;
