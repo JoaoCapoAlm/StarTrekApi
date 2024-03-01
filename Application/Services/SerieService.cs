@@ -2,6 +2,7 @@
 using Application.Configurations;
 using Application.Data.ViewModel;
 using CrossCutting.Enums;
+using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain;
@@ -92,48 +93,6 @@ namespace Application.Services
             if (!validation.IsValid)
                 throw new AppException(_localizer["OneOrMoreValidationErrorsOccurred"], validation.Errors);
 
-            var errors = new Dictionary<string, IEnumerable<string>>();
-
-            var checkResourceAlreadyExists = false;
-
-            var newResources = new List<string>
-            {
-                dto.SynopsisResource,
-                dto.TitleResource
-            };
-
-            List<string> messages = [];
-            foreach (var se in dto.Seasons)
-            {
-                foreach (var ep in se.Episodes)
-                {
-                    checkResourceAlreadyExists = newResources
-                        .Where(m => m.Equals(ep.SynopsisResource) || m.Equals(ep.SynopsisResource))
-                        .Any();
-
-                    if (checkResourceAlreadyExists)
-                        messages.Add($"SynopsisResource: {_localizer["AlreadyExists"].Value}");
-
-                    checkResourceAlreadyExists = newResources
-                        .Where(m => m.Equals(ep.TitleResource) || m.Equals(ep.TitleResource))
-                        .Any();
-
-                    if (checkResourceAlreadyExists)
-                        messages.Add($"TitleResource: {_localizer["AlreadyExists"].Value}");
-
-                    if (messages.Any())
-                    {
-                        errors.Add($"Episode {se.Number:00} x {ep.Number:00}", messages);
-                        messages.Clear();
-                    }
-
-                    newResources.AddRange([ep.SynopsisResource, ep.TitleResource]);
-                }
-            }
-
-            if (errors.Any())
-                throw new AppException(_localizer["NotCreated"].Value, errors);
-
             var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso);
 
             var newSerie = new Serie()
@@ -166,7 +125,7 @@ namespace Application.Services
                         RealeaseDate = episode.RealeaseDate,
                         StardateFrom = episode.StardateFrom,
                         StardateTo = episode.StardateTo,
-                        SynopsisResource = episode.SynopsisResource,
+                        SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
                         Time = episode.Time,
                         TitleResource = episode.TitleResource
                     });
@@ -190,7 +149,7 @@ namespace Application.Services
                 ImdbId = serieSaved.ImdbId,
                 OriginalLanguage = serieSaved.Language.CodeISO,
                 OriginalName = serieSaved.OriginalName,
-                Seasons = serieSaved.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes.ToList())).ToList(),
+                Seasons = serieSaved.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, [.. se.Episodes])).ToList(),
                 Timeline = serieSaved.TimelineId,
                 TranslatedName = _titleSynopsisLocalizer[serieSaved.TitleResource],
                 Synopsis = _titleSynopsisLocalizer[serieSaved.SynopsisResource]

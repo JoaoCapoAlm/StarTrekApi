@@ -18,7 +18,6 @@ namespace Domain
     public record CreateEpisodeDto(
         DateOnly? RealeaseDate,
         string TitleResource,
-        string SynopsisResource,
         byte? Time,
         byte Number,
         float? StardateFrom,

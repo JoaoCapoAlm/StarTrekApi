@@ -2,6 +2,7 @@
 using Application.Services;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Profiles;
 using Domain.Validation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
@@ -13,6 +14,7 @@ namespace Application.Configurations
         public static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
             services.TryAddScoped<StarTrekContext>();
+            services.AddAutoMapper(typeof(SeasonProfile));
 
             services.TryAddTransient<IStringLocalizer<Messages>, StringLocalizer<Messages>>();
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
@@ -26,6 +28,7 @@ namespace Application.Configurations
             services.TryAddScoped<CreateEpisodeValidator>();
             services.TryAddScoped<CreateMovieValidation>();
             services.TryAddScoped<CreateSeasonValidation>();
+            services.TryAddScoped<CreateSeasonWithSerieIdValidation>();
             services.TryAddScoped<CreateSerieValidation>();
             services.TryAddScoped<UpdateMovieValidation>();
             services.TryAddScoped<UpdateSerieValidation>();

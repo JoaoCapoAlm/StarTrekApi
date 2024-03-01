@@ -44,15 +44,15 @@ namespace Application.Middleware
 
             var responseBody = new ContentResponse()
             {
-                Message = message,
-                Errors = new Dictionary<string, IEnumerable<string>>()
+                title = message,
+                errors = new Dictionary<string, IEnumerable<string>>()
             };
 
             if (exception.GetType().Equals(typeof(AppException)))
             {
                 var appEx = (AppException)exception;
                 code = appEx.StatusCode;
-                responseBody.Errors = appEx.Errors;
+                responseBody.errors = appEx.Errors;
             }
 
             context.Response.ContentType = ContentType.ApplicationJson.ToString();
@@ -63,8 +63,10 @@ namespace Application.Middleware
 
         internal class ContentResponse
         {
-            public string Message { get; set; }
-            public IDictionary<string, IEnumerable<string>> Errors { get; set; }
+#pragma warning disable IDE1006 // Naming Styles
+            public string title { get; set; }
+            public IDictionary<string, IEnumerable<string>> errors { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
         }
     }
 

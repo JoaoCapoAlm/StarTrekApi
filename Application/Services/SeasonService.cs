@@ -2,6 +2,7 @@
 using Application.Configurations;
 using Application.Data.ViewModel;
 using AutoMapper;
+using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Model;
@@ -68,6 +69,10 @@ namespace Application.Services
         public async Task<SeasonVM> CreateSeason(CreateSeasonWithSerieIdDto dto)
         {
             var validator = new CreateSeasonWithSerieIdValidation(_mapper, _localizerMessages, _context);
+            var validation = await validator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                throw new AppException(_localizerMessages["OneOrMoreValidationErrorsOccurred"], validation.Errors);
+
             if (dto.SerieId <= 0)
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
@@ -104,7 +109,7 @@ namespace Application.Services
                     RealeaseDate = episode.RealeaseDate,
                     StardateFrom = episode.StardateFrom,
                     StardateTo = episode.StardateTo,
-                    SynopsisResource = episode.SynopsisResource,
+                    SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
                     Time = episode.Time,
                     TitleResource = episode.TitleResource
                 });
@@ -112,8 +117,9 @@ namespace Application.Services
             serie.Seasons.Add(newSeason);
 
             await _context.SaveChangesAsync();
+            var sesason = await _context.Season.AsNoTracking().OrderBy(x => x.SeasonId).LastAsync();
 
-            return new SeasonVM(newSeason.SeasonId, newSeason.Number, newSeason.Episodes);
+            return _mapper.Map<SeasonVM>(sesason);
         }
 
         public async Task UpdateSeason(byte seasonId, UpdateSeasonDto dto)
