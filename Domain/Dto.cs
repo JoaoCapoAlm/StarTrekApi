@@ -48,7 +48,7 @@ namespace Domain
 
     public record CreateSeasonWithSerieIdDto(byte SerieId, byte Number, IList<CreateEpisodeDto> Episodes);
 
-    public record UpdateSeasonDto(byte SerieId, byte Number);
+    public record UpdateSeasonDto(byte? SerieId, byte? Number);
 
     public record UpdateSerieDto(
         string Abbreviation,

@@ -7,13 +7,20 @@ namespace Domain.Validation
 {
     public class CreateSeasonWithSerieIdValidation : AbstractValidator<CreateSeasonWithSerieIdDto>
     {
-        public CreateSeasonWithSerieIdValidation(IMapper mapper, IStringLocalizer<Messages> localizer, StarTrekContext context)
+        private readonly IStringLocalizer<Messages> _localizerMessages;
+
+        public CreateSeasonWithSerieIdValidation(IMapper mapper,
+            IStringLocalizer<Messages> localizerMessages,
+            StarTrekContext context)
         {
+            _localizerMessages = localizerMessages;
+
             RuleFor(x => x.SerieId)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage(_localizerMessages["MustBeGreaterThanZero"]);
 
             RuleFor(x => mapper.Map<CreateSeasonDto>(x))
-                .SetValidator(x => new CreateSeasonValidation(localizer, context));
+                .SetValidator(x => new CreateSeasonValidation(_localizerMessages, context));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using Application.Configurations;
 using Azure.Core;
+using CrossCutting.Exceptions;
 using FluentValidation;
 using Newtonsoft.Json;
 

@@ -1,5 +1,5 @@
-﻿using Application.Configurations;
-using Application.Data.ViewModel;
+﻿using Application.Data.ViewModel;
+using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
 using Microsoft.EntityFrameworkCore;

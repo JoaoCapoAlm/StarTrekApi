@@ -1,12 +1,13 @@
 ﻿using System.Net;
-using Application.Configurations;
 using Application.Data.ViewModel;
 using AutoMapper;
+using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Model;
 using Domain.Validation;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
@@ -18,14 +19,14 @@ namespace Application.Services
         private readonly IStringLocalizer<Messages> _localizerMessages;
         private readonly IMapper _mapper;
 
-        public SeasonService(StarTrekContext context, IStringLocalizer<Messages> localizer, IMapper mapper)
+        public SeasonService(StarTrekContext context, IStringLocalizer<Messages> localizer, IMapper mapper, IStringLocalizer<TitleSynopsis> localizerTitleSynopsis)
         {
             _context = context;
             _localizerMessages = localizer;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<SeasonVM>> GetSeasons(byte page, byte pageSize)
+        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetSeasons(byte page, byte pageSize)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 
@@ -33,7 +34,7 @@ namespace Application.Services
                 .OrderBy(x => x.SeasonId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .Select(x => new SeasonVM(x.SeasonId, x.Number, x.Episodes.ToArray()))
+                .Select(x => _mapper.Map<SeasonWithSerieIdVM>(x))
                 .ToArrayAsync()
                 ?? [];
         }
@@ -66,23 +67,12 @@ namespace Application.Services
             return season;
         }
 
-        public async Task<SeasonVM> CreateSeason(CreateSeasonWithSerieIdDto dto)
+        public async Task<SeasonWithSerieIdVM> CreateSeason(CreateSeasonWithSerieIdDto dto)
         {
             var validator = new CreateSeasonWithSerieIdValidation(_mapper, _localizerMessages, _context);
-            var validation = await validator.ValidateAsync(dto);
-            if (!validation.IsValid)
-                throw new AppException(_localizerMessages["OneOrMoreValidationErrorsOccurred"], validation.Errors);
+            await validator.ValidateAndThrowAsyncAppException(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);
 
-            if (dto.SerieId <= 0)
-            {
-                var errors = new Dictionary<string, IEnumerable<string>>()
-                {
-                    { "ID", [_localizerMessages["Invalid"]] }
-                };
-                throw new AppException(_localizerMessages["InvalidId"], errors, HttpStatusCode.NotFound);
-            }
-
-            var serie = await _context.Serie.FirstOrDefaultAsync(x => x.SerieId.Equals(dto.SerieId));
+            var serie = await _context.Serie.Where(x => x.SerieId.Equals(dto.SerieId)).FirstOrDefaultAsync();
 
             if (serie == null)
             {
@@ -117,13 +107,17 @@ namespace Application.Services
             serie.Seasons.Add(newSeason);
 
             await _context.SaveChangesAsync();
-            var sesason = await _context.Season.AsNoTracking().OrderBy(x => x.SeasonId).LastAsync();
-
-            return _mapper.Map<SeasonVM>(sesason);
+            return await _context.Season.AsNoTracking()
+                .OrderBy(x => x.SeasonId)
+                .Select(x => _mapper.Map<SeasonWithSerieIdVM>(x))
+                .LastAsync();
         }
 
         public async Task UpdateSeason(byte seasonId, UpdateSeasonDto dto)
         {
+            var validator = new UpdateSeasonValidation(_localizerMessages);
+            validator.ValidateAndThrowAppException(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);
+
             if (seasonId <= 0)
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
@@ -144,8 +138,8 @@ namespace Application.Services
                 throw new AppException(_localizerMessages["NotFound"], errors, HttpStatusCode.NotFound);
             }
 
-            season.SerieId = dto.SerieId;
-            season.Number = dto.Number;
+            season.SerieId = dto.SerieId ?? season.SerieId;
+            season.Number = dto.Number ?? season.Number;
 
             await _context.SaveChangesAsync();
 

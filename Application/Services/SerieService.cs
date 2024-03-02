@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using Application.Configurations;
 using Application.Data.ViewModel;
 using CrossCutting.Enums;
+using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;

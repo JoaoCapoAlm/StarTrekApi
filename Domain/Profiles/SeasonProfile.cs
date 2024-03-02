@@ -9,8 +9,12 @@ namespace Domain.Profiles
         public SeasonProfile()
         {
             CreateMap<CreateSeasonWithSerieIdDto, CreateSeasonDto>();
+            
             CreateMap<Season, SeasonVM>()
                 .ForMember(x => x.ID, opt => opt.MapFrom(src => src.SeasonId));
+
+            CreateMap<Season, SeasonWithSerieIdVM>()
+                .ForMember(x => x.ID, opt => opt.MapFrom(x => x.SeasonId));
         }
     }
 }

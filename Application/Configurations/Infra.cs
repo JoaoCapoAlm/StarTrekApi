@@ -4,6 +4,7 @@ using CrossCutting.Resources;
 using Domain;
 using Domain.Profiles;
 using Domain.Validation;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 
@@ -25,13 +26,7 @@ namespace Application.Configurations
             services.TryAddScoped<SerieService>();
             services.TryAddScoped<TmdbService>();
 
-            services.TryAddScoped<CreateEpisodeValidator>();
-            services.TryAddScoped<CreateMovieValidation>();
-            services.TryAddScoped<CreateSeasonValidation>();
-            services.TryAddScoped<CreateSeasonWithSerieIdValidation>();
-            services.TryAddScoped<CreateSerieValidation>();
-            services.TryAddScoped<UpdateMovieValidation>();
-            services.TryAddScoped<UpdateSerieValidation>();
+            services.AddValidatorsFromAssemblyContaining(typeof(CreateEpisodeValidator));
             return services;
         }
 
