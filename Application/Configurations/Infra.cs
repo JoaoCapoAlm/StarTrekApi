@@ -21,6 +21,7 @@ namespace Application.Configurations
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
 
             services.TryAddScoped<CrewService>();
+            services.TryAddScoped<EpisodeService>();
             services.TryAddScoped<MovieService>();
             services.TryAddScoped<SeasonService>();
             services.TryAddScoped<SerieService>();

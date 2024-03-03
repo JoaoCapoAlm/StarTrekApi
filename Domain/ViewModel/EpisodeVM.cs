@@ -1,8 +1,5 @@
-﻿using System.ComponentModel;
-
-namespace Application.Data.ViewModel
+﻿namespace Application.Data.ViewModel
 {
-    [DisplayName("Episodes")]
     public class EpisodeVM
     {
         public int ID { get; set; }
