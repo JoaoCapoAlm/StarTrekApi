@@ -39,6 +39,10 @@ builder.Services.AddSwaggerGen(opts =>
         {
             Name = "João",
             Email = "contato@capoanisolucoes.com.br"
+        },
+        License = new Microsoft.OpenApi.Models.OpenApiLicense()
+        {
+            Name = "MIT"
         }
     });
 

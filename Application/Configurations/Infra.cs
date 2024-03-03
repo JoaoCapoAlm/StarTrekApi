@@ -15,7 +15,7 @@ namespace Application.Configurations
         public static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
             services.TryAddScoped<StarTrekContext>();
-            services.AddAutoMapper(typeof(SeasonProfile));
+            services.AddAutoMapper(typeof(SeasonProfile), typeof(EpisodeProfile));
 
             services.TryAddTransient<IStringLocalizer<Messages>, StringLocalizer<Messages>>();
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();

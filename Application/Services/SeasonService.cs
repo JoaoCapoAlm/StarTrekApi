@@ -31,6 +31,7 @@ namespace Application.Services
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 
             return await _context.Season.AsNoTracking()
+                .Include(x => x.Episodes)
                 .OrderBy(x => x.SeasonId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
@@ -39,7 +40,7 @@ namespace Application.Services
                 ?? [];
         }
 
-        public async Task<SeasonVM> GetSeasonById(int seasonId)
+        public async Task<SeasonWithSerieIdVM> GetSeasonById(int seasonId)
         {
             if (seasonId <= 0)
             {
@@ -52,7 +53,7 @@ namespace Application.Services
 
             var season = await _context.Season.AsNoTracking()
                 .Where(x => x.SeasonId == seasonId)
-                .Select(x => new SeasonVM(x.SeasonId, x.Number, x.Episodes.ToArray()))
+                .Select(x => new SeasonWithSerieIdVM(x.SeasonId, x.SerieId, x.Number, x.Episodes.ToArray()))
                 .FirstOrDefaultAsync();
 
             if (season == null)
@@ -85,32 +86,33 @@ namespace Application.Services
 
             var newSeason = new Season()
             {
-                SerieId = dto.SerieId,
                 Number = dto.Number,
                 Episodes = []
             };
 
-            Parallel.ForEach(dto.Episodes, new ParallelOptions(), episode =>
+            if (dto.Episodes != null)
             {
-                newSeason.Episodes.Add(new Episode
+                Parallel.ForEach(dto.Episodes, new ParallelOptions(), episode =>
                 {
-                    ImdbId = episode.ImdbId,
-                    Number = episode.Number,
-                    RealeaseDate = episode.RealeaseDate,
-                    StardateFrom = episode.StardateFrom,
-                    StardateTo = episode.StardateTo,
-                    SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
-                    Time = episode.Time,
-                    TitleResource = episode.TitleResource
+                    newSeason.Episodes.Add(new Episode
+                    {
+                        ImdbId = episode.ImdbId,
+                        Number = episode.Number,
+                        RealeaseDate = episode.RealeaseDate,
+                        StardateFrom = episode.StardateFrom,
+                        StardateTo = episode.StardateTo,
+                        SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
+                        Time = episode.Time,
+                        TitleResource = episode.TitleResource
+                    });
                 });
-            });
+            }
+            serie.Seasons ??= [];
             serie.Seasons.Add(newSeason);
 
             await _context.SaveChangesAsync();
-            return await _context.Season.AsNoTracking()
-                .OrderBy(x => x.SeasonId)
-                .Select(x => _mapper.Map<SeasonWithSerieIdVM>(x))
-                .LastAsync();
+
+            return _mapper.Map<SeasonWithSerieIdVM>(newSeason);
         }
 
         public async Task UpdateSeason(byte seasonId, UpdateSeasonDto dto)
@@ -127,7 +129,9 @@ namespace Application.Services
                 throw new AppException(_localizerMessages["InvalidId"], errors, HttpStatusCode.NotFound);
             }
 
-            var season = await _context.Season.Where(x => x.SeasonId.Equals(seasonId)).FirstOrDefaultAsync();
+            var season = await _context.Season
+                .Where(x => x.SeasonId.Equals(seasonId))
+                .FirstOrDefaultAsync();
 
             if (season == null)
             {
@@ -142,8 +146,6 @@ namespace Application.Services
             season.Number = dto.Number ?? season.Number;
 
             await _context.SaveChangesAsync();
-
-            return;
         }
     }
 }

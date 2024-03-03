@@ -36,9 +36,7 @@ namespace Application.Middleware
 
             string message = exception.Message;
             if (isProduction && code.Equals(HttpStatusCode.InternalServerError))
-            {
                 message = "Internal Server Error";
-            }
             else if (!isProduction && exception.InnerException != null)
                 message = $"{exception.Message} - {exception.InnerException}";
 

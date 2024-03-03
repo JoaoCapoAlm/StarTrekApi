@@ -8,6 +8,9 @@ namespace Application.Data.ViewModel
         public short SerieId { get; set; }
         public byte Number { get; set; }
         public ICollection<EpisodeVM> Episodes { get; set; }
+        public SeasonWithSerieIdVM()
+        {
+        }
         public SeasonWithSerieIdVM(short id, short serieId, byte number, IEnumerable<Episode> episodes)
         {
             ID = id;
