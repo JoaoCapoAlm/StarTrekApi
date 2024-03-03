@@ -53,20 +53,6 @@ namespace Domain.Validation
                     .WithMessage(localizer["StardateFromLessThanOrEqualStardateTo"]);
             });
 
-            RuleFor(e => e.SynopsisResource)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty()
-                    .WithMessage(localizer["Required"].Value)
-                .Must(RegexHelper.StringIsSimpleAlphabetOrNumber)
-                    .WithMessage(localizer["ShouldBeLettersWithoutAccentsOrNumbers"].Value)
-                .Must(x => x.EndsWith("Synopsis"))
-                    .WithMessage(localizer["MustContainSynopsisAtTheEnd"])
-                .MustAsync(async (resource, cancellationToken) =>
-                {
-                    var checkExists = await viewsRepository.CheckResourceExists(resource, cancellationToken: cancellationToken);
-                    return !checkExists;
-                }).WithMessage(localizer["AlreadyExists"]);
-
             RuleFor(e => e.Time)
                 .GreaterThan(byte.MinValue)
                 .WithMessage(localizer["MustBeGreaterThanZero"].Value);

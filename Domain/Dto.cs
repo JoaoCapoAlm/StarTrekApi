@@ -18,7 +18,6 @@ namespace Domain
     public record CreateEpisodeDto(
         DateOnly? RealeaseDate,
         string TitleResource,
-        string SynopsisResource,
         byte? Time,
         byte Number,
         float? StardateFrom,
@@ -46,6 +45,10 @@ namespace Domain
         int? TmdbId);
 
     public record CreateSeasonDto(byte Number, IList<CreateEpisodeDto> Episodes);
+
+    public record CreateSeasonWithSerieIdDto(byte SerieId, byte Number, IList<CreateEpisodeDto> Episodes);
+
+    public record UpdateSeasonDto(byte? SerieId, byte? Number);
 
     public record UpdateSerieDto(
         string Abbreviation,

@@ -1,18 +1,22 @@
-﻿using System.Collections.ObjectModel;
-using Domain.Model;
+﻿using Domain.Model;
 
 namespace Application.Data.ViewModel
 {
-    public class SeasonVM
+    public class SeasonWithSerieIdVM
     {
         public short ID { get; set; }
+        public short SerieId { get; set; }
         public byte Number { get; set; }
         public ICollection<EpisodeVM> Episodes { get; set; }
-        public SeasonVM(short id, byte number, IEnumerable<Episode> episodes)
+        public SeasonWithSerieIdVM()
+        {
+        }
+        public SeasonWithSerieIdVM(short id, short serieId, byte number, IEnumerable<Episode> episodes)
         {
             ID = id;
+            SerieId = serieId;
             Number = number;
-            Episodes = new Collection<EpisodeVM>();
+            Episodes = [];
             foreach (var episode in episodes)
             {
                 Episodes.Add(new EpisodeVM

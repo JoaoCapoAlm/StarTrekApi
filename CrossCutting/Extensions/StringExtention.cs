@@ -15,5 +15,10 @@ namespace CrossCutting.Extensions
 
             return $"{RegexHelper.RemoveSpecialCharacters(resourceName.ToString())}{addInTheEndName}";
         }
+
+        public static string CreateSynopsisResource(this string titleResource)
+        {
+            return $"{titleResource}Synopsis";
+        }
     }
 }

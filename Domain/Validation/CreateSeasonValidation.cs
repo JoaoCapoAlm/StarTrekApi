@@ -16,23 +16,16 @@ namespace Domain.Validation
                 .SetValidator(new CreateEpisodeValidator(localizer, context))
                 .Must((seasonDto, episodeDto) =>
                 {
-                    var qtdEpisodes = seasonDto.Episodes.Count();
-                    var qtdResources = seasonDto.Episodes.Select(x => x.SynopsisResource)
-                        .Distinct()
-                        .Count();
-
-                    if (qtdEpisodes > qtdResources)
-                        return false;
-
-                    qtdResources = seasonDto.Episodes.Select(x => x.TitleResource)
-                        .Distinct()
-                        .Count();
-
-                    if (qtdEpisodes > qtdResources)
-                        return false;
-
-                    return true;
-                }).WithMessage(localizer["SomeResourceIsDuplicated"]);
+                    return seasonDto.Episodes
+                        .Where(x => x.TitleResource.Equals(episodeDto.TitleResource))
+                        .Count() == 1;
+                }).WithMessage("TitleResource duplicado") // TODO: translate
+                .Must((seasonDto, episodeDto) =>
+                {
+                    return seasonDto.Episodes
+                        .Where(x => x.Number.Equals(episodeDto.Number))
+                        .Count() == 1;
+                }).WithMessage("Número do episódio duplicado"); // TODO: translate
         }
     }
 }

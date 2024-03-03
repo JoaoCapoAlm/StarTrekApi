@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Net;
-using Application.Configurations;
+﻿using System.Net;
 using Azure.Core;
+using CrossCutting.Exceptions;
 using FluentValidation;
-using FluentValidation.Results;
-using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json;
 
 namespace Application.Middleware
@@ -19,7 +16,8 @@ namespace Application.Middleware
             try
             {
                 await _next(httpContext);
-            } catch (Exception exception)
+            }
+            catch (Exception exception)
             {
                 await HandleException(httpContext, exception);
             }
@@ -27,35 +25,33 @@ namespace Application.Middleware
 
         private static Task HandleException(HttpContext context, Exception exception)
         {
-            var code = exception switch {
+            var code = exception switch
+            {
                 ArgumentException => HttpStatusCode.BadRequest,
                 ValidationException => HttpStatusCode.BadRequest,
                 _ => HttpStatusCode.InternalServerError
             };
 
             bool isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production;
-            
+
             string message = exception.Message;
             if (isProduction && code.Equals(HttpStatusCode.InternalServerError))
-            {
                 message = "Internal Server Error";
-            } else if (!isProduction && exception.InnerException != null)
+            else if (!isProduction && exception.InnerException != null)
                 message = $"{exception.Message} - {exception.InnerException}";
 
             var responseBody = new ContentResponse()
             {
-                Message = message,
-                Errors = new Dictionary<string, IEnumerable<string>>()
+                title = message,
+                errors = new Dictionary<string, IEnumerable<string>>()
             };
 
             if (exception.GetType().Equals(typeof(AppException)))
             {
                 var appEx = (AppException)exception;
                 code = appEx.StatusCode;
-                responseBody.Errors = appEx.Errors;
+                responseBody.errors = appEx.Errors;
             }
-
-            responseBody.Status = code.GetHashCode();
 
             context.Response.ContentType = ContentType.ApplicationJson.ToString();
             context.Response.StatusCode = code.GetHashCode();
@@ -65,20 +61,10 @@ namespace Application.Middleware
 
         internal class ContentResponse
         {
-            public string Message { get; set; }
-            public int Status { get; set; }
-            public IDictionary<string, IEnumerable<string>> Errors { get; set; }
-        }
-
-        public class ErrorContent
-        {
-            public ErrorContent(string property, string message)
-            {
-                Property = property;
-                Message = message;
-            }
-            public string Property { get; set; }
-            public string Message { get; set; }
+#pragma warning disable IDE1006 // Naming Styles
+            public string title { get; set; }
+            public IDictionary<string, IEnumerable<string>> errors { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
         }
     }
 

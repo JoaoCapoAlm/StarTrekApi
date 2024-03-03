@@ -1,7 +1,7 @@
-﻿using CrossCutting.Helpers;
-using FluentValidation;
-using CrossCutting.Enums;
+﻿using CrossCutting.Enums;
+using CrossCutting.Helpers;
 using CrossCutting.Resources;
+using FluentValidation;
 using Microsoft.Extensions.Localization;
 
 namespace Domain.Validation

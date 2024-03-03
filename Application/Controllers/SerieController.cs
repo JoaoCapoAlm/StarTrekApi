@@ -1,5 +1,4 @@
-﻿using Application.Data.ViewModel;
-using Application.Services;
+﻿using Application.Services;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +26,10 @@ namespace Application.Controllers
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [HttpGet]
-        public async Task<IEnumerable<SerieVM>> GetSeriesList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
+        public async Task<IActionResult> GetSeriesList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            return await _serieService.GetSeriesList(page, pageSize);
+            var series = await _serieService.GetSeriesList(page, pageSize);
+            return Ok(series);
         }
 
         /// <summary>
@@ -41,9 +41,10 @@ namespace Application.Controllers
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [HttpGet("{id}")]
-        public async Task<SerieVM> GetSerieById([FromRoute] byte id)
+        public async Task<IActionResult> GetSerieById([FromRoute] byte id)
         {
-            return await _serieService.GetSerieById(id);
+            var serie = await _serieService.GetSerieById(id);
+            return Ok(serie);
         }
 
         /// <summary>

@@ -1,6 +1,5 @@
 ﻿namespace TMDB.Model
 {
-
     public class MovieGetDetails
     {
         public bool adult { get; set; }
@@ -29,7 +28,4 @@
         public float vote_average { get; set; }
         public int vote_count { get; set; }
     }
-
-   
-
 }

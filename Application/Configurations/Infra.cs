@@ -1,10 +1,12 @@
 ﻿using Application.Middleware;
 using Application.Services;
+using CrossCutting.Resources;
+using Domain;
+using Domain.Profiles;
+using Domain.Validation;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
-using Domain;
-using CrossCutting.Resources;
-using Domain.Validation;
 
 namespace Application.Configurations
 {
@@ -13,21 +15,18 @@ namespace Application.Configurations
         public static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
             services.TryAddScoped<StarTrekContext>();
+            services.AddAutoMapper(typeof(SeasonProfile), typeof(EpisodeProfile));
 
             services.TryAddTransient<IStringLocalizer<Messages>, StringLocalizer<Messages>>();
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
 
             services.TryAddScoped<CrewService>();
             services.TryAddScoped<MovieService>();
+            services.TryAddScoped<SeasonService>();
             services.TryAddScoped<SerieService>();
             services.TryAddScoped<TmdbService>();
 
-            services.TryAddScoped<CreateEpisodeValidator>();
-            services.TryAddScoped<CreateMovieValidation>();
-            services.TryAddScoped<CreateSeasonValidation>();
-            services.TryAddScoped<CreateSerieValidation>();
-            services.TryAddScoped<UpdateMovieValidation>();
-            services.TryAddScoped<UpdateSerieValidation>();
+            services.AddValidatorsFromAssemblyContaining(typeof(CreateEpisodeValidator));
             return services;
         }
 

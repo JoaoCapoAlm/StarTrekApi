@@ -1,5 +1,5 @@
-﻿using Application.Configurations;
-using Application.Data.ViewModel;
+﻿using Application.Data.ViewModel;
+using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +63,7 @@ namespace Application.Services
                 })
                 .FirstOrDefaultAsync();
 
-            if(crew == null)
+            if (crew == null)
             {
                 var error = new Dictionary<string, IEnumerable<string>>()
                 {
