@@ -44,8 +44,8 @@ namespace Application.Services
 
             foreach (var ep in epArray)
             {
-                ep.TitleTranslated = _localizerTitleSynopsis[ep.TitleTranslated];
-                ep.SynopsisTranslated = _localizerTitleSynopsis[ep.SynopsisTranslated];
+                ep.TranslatedTitle = _localizerTitleSynopsis[ep.TranslatedTitle];
+                ep.TranslatedSynopsis = _localizerTitleSynopsis[ep.TranslatedSynopsis];
             }
 
             return epArray;
@@ -76,8 +76,8 @@ namespace Application.Services
                 throw new AppException(_localizer["NotFound"].Value, error, System.Net.HttpStatusCode.NotFound);
             }
 
-            episode.SynopsisTranslated = _localizerTitleSynopsis[episode.SynopsisTranslated];
-            episode.TitleTranslated = _localizerTitleSynopsis[episode.TitleTranslated];
+            episode.TranslatedSynopsis = _localizerTitleSynopsis[episode.TranslatedSynopsis];
+            episode.TranslatedTitle = _localizerTitleSynopsis[episode.TranslatedTitle];
 
             return episode;
         }
@@ -93,12 +93,45 @@ namespace Application.Services
             await _context.Episode.AddAsync(ep);
             await _context.SaveChangesAsync();
 
-            var epMap = _mapper.Map<EpisodeWithSeasonIdVM>(ep);
+            return _mapper.Map<EpisodeWithSeasonIdVM>(ep);
+        }
 
-            epMap.TitleTranslated = _localizerTitleSynopsis[epMap.TitleTranslated];
-            epMap.SynopsisTranslated = _localizerTitleSynopsis[epMap.SynopsisTranslated];
+        public async Task UpdateEpisode(int episodeId, UpdateEpisodeDto dto)
+        {
+            var validator = new UpdateEpisodeValidation(_localizer, _context);
+            validator.ValidateAndThrowStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
 
-            return epMap;
+            if (episodeId <= 0)
+            {
+                var error = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "ID", [_localizer["InvalidId"].Value] }
+                };
+                throw new AppException(_localizer["InvalidId"].Value, error);
+            }
+
+            var episode = await _context.Episode
+                .Where(x => x.EpisodeId.Equals(episodeId))
+                .FirstOrDefaultAsync();
+
+            if(episode == null)
+            {
+                var error = new Dictionary<string, IEnumerable<string>>
+                {
+                    { "ID", [_localizer["NotFound"].Value] }
+                };
+                throw new AppException(_localizer["NotFound"].Value, error, System.Net.HttpStatusCode.NotFound);
+            }
+
+            episode.Number = dto.Number ?? episode.Number;
+            episode.ImdbId = string.IsNullOrWhiteSpace(dto.ImdbId) ? episode.ImdbId : dto.ImdbId;
+            episode.RealeaseDate = dto.RealeaseDate ?? episode.RealeaseDate;
+            episode.SeasonId = dto.SeasonId ?? episode.SeasonId;
+            episode.StardateFrom = dto.StardateFrom ?? episode.StardateFrom;
+            episode.StardateTo = dto.StardateTo ?? episode.StardateFrom;
+            episode.Time = dto.Time ?? episode.Time;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

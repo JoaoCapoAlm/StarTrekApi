@@ -160,6 +160,15 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It cannot be a future date.
+        /// </summary>
+        public static string ItCannotBeaFutureDate {
+            get {
+                return ResourceManager.GetString("ItCannotBeaFutureDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The language code must be an ISO 690 code.
         /// </summary>
         public static string LanguageCodeMustIso {

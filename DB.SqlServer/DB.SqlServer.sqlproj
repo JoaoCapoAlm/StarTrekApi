@@ -76,6 +76,7 @@
     <Build Include="Tables\Role.sql" />
     <Build Include="Tables\CrewRole.sql" />
     <Build Include="View\vwResourcesName.sql" />
+    <Build Include="View\vwImdb.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="DefaultData\Script.PostDeployment.sql" />

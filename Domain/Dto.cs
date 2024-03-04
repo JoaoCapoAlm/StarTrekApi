@@ -30,7 +30,7 @@ namespace Domain
         string ImdbId);
 
     public record CreateEpisodeWithSeasonIdDto(
-        int SeasonId,
+        short SeasonId,
         DateOnly? RealeaseDate,
         string TitleResource,
         byte? Time,
@@ -62,6 +62,15 @@ namespace Domain
     public record CreateSeasonDto(byte Number, IList<CreateEpisodeDto> Episodes);
 
     public record CreateSeasonWithSerieIdDto(byte SerieId, byte Number, IList<CreateEpisodeDto> Episodes);
+
+    public record UpdateEpisodeDto(
+        DateOnly? RealeaseDate,
+        byte? Time,
+        byte? Number,
+        float? StardateFrom,
+        float? StardateTo,
+        string ImdbId,
+        short? SeasonId);
 
     public record UpdateSeasonDto(byte? SerieId, byte? Number);
 

@@ -9,7 +9,7 @@
         public float? StardateFrom { get; set; }
         public float? StardateTo { get; set; }
         public string ImdbId { get; set; }
-        public string TitleTranslated { get; set; }
-        public string SynopsisTranslated { get; set; }
+        public string TranslatedTitle { get; set; }
+        public string TranslatedSynopsis { get; set; }
     }
 }

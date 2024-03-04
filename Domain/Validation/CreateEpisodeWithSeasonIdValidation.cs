@@ -17,7 +17,7 @@ namespace Domain.Validation
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage(localizerMessages["Required"])
-                .GreaterThan(0)
+                .GreaterThan(byte.MinValue)
                     .WithMessage(localizerMessages["MustBeGreaterThanZero"])
                 .MustAsync(async (id, cancellationToken) =>
                 {
@@ -30,11 +30,12 @@ namespace Domain.Validation
                     RuleFor(x => x.TitleResource)
                         .MustAsync(async (dto, resource, cancellationoken) =>
                         {
-                            var season = await context.Season.AsNoTracking()
+                            var abbreviation = await context.Season.AsNoTracking()
                                 .Where(x => x.SeasonId.Equals(dto.SeasonId))
+                                .Select(x => x.Serie.Abbreviation)
                                 .FirstAsync(cancellationToken: cancellationoken);
 
-                            return resource.StartsWith(season.Serie.Abbreviation);
+                            return resource.StartsWith(abbreviation, StringComparison.CurrentCultureIgnoreCase);
                         }).WithMessage(localizerMessages["MustStartWithTheSeriesAbbreviation"]);
 
                     RuleFor(x => x.Number)

@@ -207,4 +207,7 @@
   <data name="SeasonAlreadyRegistered" xml:space="preserve">
     <value>Temporada já registrado</value>
   </data>
+  <data name="ItCannotBeaFutureDate" xml:space="preserve">
+    <value>Não pode ser uma data futura</value>
+  </data>
 </root>

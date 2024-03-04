@@ -1,4 +1,5 @@
 ﻿using CrossCutting.Enums;
+using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain.Repositories;
@@ -21,10 +22,7 @@ namespace Domain.Validation
             {
                 RuleFor(m => m.ImdbId)
                     .Cascade(CascadeMode.Stop)
-                    .Length(8, 14)
-                        .WithMessage(localizer["InvalidLength"])
-                    .Must(m => m.StartsWith("tt") && RegexHelper.StringIsNumeric(m[2..]))
-                        .WithMessage(localizer["Invalid"].Value);
+                    .ImdbValidation(localizer);
             });
 
             RuleFor(m => m.TimelineId)

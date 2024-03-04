@@ -1,4 +1,5 @@
-﻿using CrossCutting.Helpers;
+﻿using CrossCutting.Extensions;
+using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain.Repositories;
 using FluentValidation;
@@ -16,10 +17,7 @@ namespace Domain.Validation
             {
                 RuleFor(e => e.ImdbId)
                     .Cascade(CascadeMode.Stop)
-                    .Length(8, 13)
-                        .WithMessage(localizer["InvalidLength"])
-                    .Must(e => e.StartsWith("tt") && RegexHelper.StringIsNumeric(e[2..]))
-                        .WithMessage(localizer["Invalid"]);
+                    .ImdbValidation(localizer);
             });
 
             RuleFor(e => e.Number)
@@ -29,7 +27,8 @@ namespace Domain.Validation
             When(e => e.RealeaseDate.HasValue, () =>
             {
                 RuleFor(e => e.RealeaseDate)
-                    .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today));
+                    .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.Today))
+                    .WithMessage(localizer["ItCannotBeaFutureDate"]);
             });
 
             When(e => e.StardateFrom.HasValue, () =>

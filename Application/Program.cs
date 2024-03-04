@@ -42,13 +42,17 @@ builder.Services.AddSwaggerGen(opts =>
         },
         License = new Microsoft.OpenApi.Models.OpenApiLicense()
         {
-            Name = "MIT"
+            Name = "MIT",
+            Url = new Uri("https://opensource.org/license/mit-0")
         }
     });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     opts.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
     opts.OperationFilter<AddRequiredHeaderParameter>();
+
+    opts.IgnoreObsoleteActions();
+    opts.IgnoreObsoleteProperties();
 });
 
 var app = builder.Build();
