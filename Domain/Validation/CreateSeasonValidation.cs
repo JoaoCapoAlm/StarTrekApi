@@ -19,13 +19,13 @@ namespace Domain.Validation
                     return seasonDto.Episodes
                         .Where(x => x.TitleResource.Equals(episodeDto.TitleResource))
                         .Count() == 1;
-                }).WithMessage("TitleResource duplicado") // TODO: translate
+                }).WithMessage(localizer["DuplicateResource"])
                 .Must((seasonDto, episodeDto) =>
                 {
                     return seasonDto.Episodes
                         .Where(x => x.Number.Equals(episodeDto.Number))
                         .Count() == 1;
-                }).WithMessage("Número do episódio duplicado"); // TODO: translate
+                }).WithMessage(localizer["DuplicateEpisodeNumber"]);
         }
     }
 }

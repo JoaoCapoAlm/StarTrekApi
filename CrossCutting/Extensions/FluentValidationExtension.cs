@@ -5,7 +5,7 @@ namespace CrossCutting.Extensions
 {
     public static class FluentValidationExtension
     {
-        public static void ValidateAndThrowAppException<T>(this IValidator<T> validator,
+        public static void ValidateAndThrowStarTrek<T>(this IValidator<T> validator,
             T instance,
             string errorMessage)
         {
@@ -15,7 +15,7 @@ namespace CrossCutting.Extensions
                 throw new AppException(errorMessage, validation.Errors);
         }
 
-        public static async Task ValidateAndThrowAsyncAppException<T>(this IValidator<T> validator,
+        public static async Task ValidateAndThrowAsyncStarTrek<T>(this IValidator<T> validator,
             T instance,
             string errorMessage)
         {

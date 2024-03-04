@@ -1,5 +1,6 @@
 ﻿using Application.Data.ViewModel;
 using Application.Services;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -24,7 +25,8 @@ namespace Application.Controllers
         public async Task<IEnumerable<EpisodeWithSeasonIdVM>> GetEpisodeList(
             [FromQuery] byte page = 0,
             [FromQuery] byte pageSize = 100
-        ) {
+        )
+        {
             return await _episodeService.GetEpisodeList(page, pageSize);
         }
 
@@ -32,6 +34,14 @@ namespace Application.Controllers
         public async Task<EpisodeWithSeasonIdVM> GetEpisodeById([FromRoute] int id)
         {
             return await _episodeService.GetEpisodeById(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEpisode([FromBody] CreateEpisodeWithSeasonIdDto dto)
+        {
+            var ep = await _episodeService.CreateEpisode(dto);
+
+            return CreatedAtAction(nameof(GetEpisodeById), new { id = ep.ID }, ep);
         }
     }
 }

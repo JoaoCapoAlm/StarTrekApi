@@ -13,9 +13,24 @@ namespace Domain
         int TmdbId,
         IList<CreateSeasonDto> Seasons);
 
-    public record CreateNewSerieByTmdbDto(string Abbreviation, string Imdb, string TitleResource, string SynopsisResource, byte Timeline);
+    public record CreateNewSerieByTmdbDto(
+        string Abbreviation,
+        string Imdb,
+        string TitleResource,
+        string SynopsisResource,
+        byte Timeline);
 
     public record CreateEpisodeDto(
+        DateOnly? RealeaseDate,
+        string TitleResource,
+        byte? Time,
+        byte Number,
+        float? StardateFrom,
+        float? StardateTo,
+        string ImdbId);
+
+    public record CreateEpisodeWithSeasonIdDto(
+        int SeasonId,
         DateOnly? RealeaseDate,
         string TitleResource,
         byte? Time,

@@ -13,6 +13,8 @@ namespace Domain.Profiles
 
             CreateMap<Episode, EpisodeWithSeasonIdVM>()
                 .ForMember(x => x.ID, opt => opt.MapFrom(x => x.EpisodeId));
+
+            CreateMap<CreateEpisodeWithSeasonIdDto, Episode>();
         }
     }
 }

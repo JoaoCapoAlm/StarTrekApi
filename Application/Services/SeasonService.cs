@@ -71,7 +71,7 @@ namespace Application.Services
         public async Task<SeasonWithSerieIdVM> CreateSeason(CreateSeasonWithSerieIdDto dto)
         {
             var validator = new CreateSeasonWithSerieIdValidation(_mapper, _localizerMessages, _context);
-            await validator.ValidateAndThrowAsyncAppException(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);
+            await validator.ValidateAndThrowAsyncStarTrek(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);
 
             var serie = await _context.Serie.Where(x => x.SerieId.Equals(dto.SerieId)).FirstOrDefaultAsync();
 
@@ -118,7 +118,7 @@ namespace Application.Services
         public async Task UpdateSeason(byte seasonId, UpdateSeasonDto dto)
         {
             var validator = new UpdateSeasonValidation(_localizerMessages);
-            validator.ValidateAndThrowAppException(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);
+            validator.ValidateAndThrowStarTrek(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);
 
             if (seasonId <= 0)
             {
