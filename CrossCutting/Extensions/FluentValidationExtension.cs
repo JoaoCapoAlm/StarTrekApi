@@ -1,11 +1,14 @@
 ﻿using CrossCutting.Exceptions;
+using CrossCutting.Helpers;
+using CrossCutting.Resources;
 using FluentValidation;
+using Microsoft.Extensions.Localization;
 
 namespace CrossCutting.Extensions
 {
     public static class FluentValidationExtension
     {
-        public static void ValidateAndThrowAppException<T>(this IValidator<T> validator,
+        public static void ValidateAndThrowStarTrek<T>(this IValidator<T> validator,
             T instance,
             string errorMessage)
         {
@@ -15,7 +18,7 @@ namespace CrossCutting.Extensions
                 throw new AppException(errorMessage, validation.Errors);
         }
 
-        public static async Task ValidateAndThrowAsyncAppException<T>(this IValidator<T> validator,
+        public static async Task ValidateAndThrowAsyncStarTrek<T>(this IValidator<T> validator,
             T instance,
             string errorMessage)
         {
@@ -23,6 +26,18 @@ namespace CrossCutting.Extensions
 
             if (!validation.IsValid)
                 throw new AppException(errorMessage, validation.Errors);
+        }
+
+        public static IRuleBuilderOptions<T, string> ImdbValidation<T>(
+            this IRuleBuilder<T, string> ruleBuilder,
+            IStringLocalizer<Messages> localizer
+        )
+        {
+            return ruleBuilder
+                .Length(8, 13)
+                    .WithMessage(localizer["InvalidLength"])
+                .Must(e => e.StartsWith("tt") && RegexHelper.StringIsNumeric(e[2..]))
+                    .WithMessage(localizer["Invalid"]);
         }
     }
 }

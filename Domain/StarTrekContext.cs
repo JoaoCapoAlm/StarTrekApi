@@ -51,6 +51,9 @@ namespace Domain
                 .HasKey(t => t.TimelineId)
                 .HasName("PK_Timeline");
 
+            modelBuilder.Entity<vwImdb>()
+                .HasNoKey();
+
             modelBuilder.Entity<vwResourcesName>()
                 .HasNoKey();
 
@@ -119,6 +122,7 @@ namespace Domain
         public DbSet<Season> Season { get; set; }
         public DbSet<Serie> Serie { get; set; }
         public DbSet<Timeline> Timeline { get; set; }
+        public DbSet<vwImdb> vwImdb { get; set; }
         public DbSet<vwResourcesName> vwResourcesName { get; set; }
     }
 }

@@ -178,6 +178,24 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Cage.
+        /// </summary>
+        public static string tosTheCage {
+            get {
+                return ResourceManager.GetString("tosTheCage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Capt. Pike is held prisoner and tested by aliens who have the power to project incredibly lifelike illusions..
+        /// </summary>
+        public static string tosTheCageSynopsis {
+            get {
+                return ResourceManager.GetString("tosTheCageSynopsis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Star Trek II: The Wrath of Khan.
         /// </summary>
         public static string WrathOfKhan {

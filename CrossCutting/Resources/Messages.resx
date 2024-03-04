@@ -192,4 +192,22 @@
   <data name="MaximumLengthExceeded" xml:space="preserve">
     <value>Maximum length exceeded</value>
   </data>
+  <data name="MustStartWithTheSeriesAbbreviation" xml:space="preserve">
+    <value>Must start with the series abbreviation</value>
+  </data>
+  <data name="DuplicateEpisodeNumber" xml:space="preserve">
+    <value>Duplicate episode number</value>
+  </data>
+  <data name="DuplicateResource" xml:space="preserve">
+    <value>Duplicate resource</value>
+  </data>
+  <data name="EpisodeAlreadyRegistered" xml:space="preserve">
+    <value>Episode already registered</value>
+  </data>
+  <data name="SeasonAlreadyRegistered" xml:space="preserve">
+    <value>Season already registered</value>
+  </data>
+  <data name="ItCannotBeaFutureDate" xml:space="preserve">
+    <value>It cannot be a future date</value>
+  </data>
 </root>

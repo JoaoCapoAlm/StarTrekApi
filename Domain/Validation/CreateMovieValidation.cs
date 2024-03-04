@@ -1,4 +1,5 @@
 ﻿using CrossCutting.Enums;
+using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using FluentValidation;
@@ -13,10 +14,8 @@ namespace Domain.Validation
             When(x => !string.IsNullOrWhiteSpace(x.ImdbId), () =>
             {
                 RuleFor(m => m.ImdbId)
-                    .MinimumLength(9)
-                        .WithMessage(localizer["Invalid"].Value)
-                    .Must(m => m.StartsWith("tt") && RegexHelper.StringIsNumeric(m[2..]))
-                        .WithMessage(localizer["Invalid"].Value);
+                    .Cascade(CascadeMode.Stop)
+                    .ImdbValidation(localizer);
             });
 
             RuleFor(x => x.OriginalLanguageIso)

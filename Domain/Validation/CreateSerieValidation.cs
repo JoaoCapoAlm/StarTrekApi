@@ -1,4 +1,5 @@
 ﻿using CrossCutting.Enums;
+using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain.Repositories;
@@ -21,14 +22,11 @@ namespace Domain.Validation
                 .Length(3)
                     .WithMessage(localizer["InvalidLength"].Value);
 
-            When(x => !string.IsNullOrWhiteSpace(x.ImdbId), () =>
+            When(x => !string.IsNullOrEmpty(x.ImdbId), () =>
             {
                 RuleFor(m => m.ImdbId)
                     .Cascade(CascadeMode.Stop)
-                    .MinimumLength(9)
-                        .WithMessage(localizer["InvalidLength"])
-                    .Must(m => m.StartsWith("tt") && RegexHelper.StringIsNumeric(m[2..]))
-                        .WithMessage(localizer["Invalid"].Value)
+                    .ImdbValidation(localizer)
                     .MustAsync(async (imdb, cancellationToken) =>
                     {
                         var checkExists = await serieRepository.CheckImdbOrTmdbExists(imdb, null, cancellationToken);

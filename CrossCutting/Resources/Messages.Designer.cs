@@ -88,11 +88,38 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duplicate episode number.
+        /// </summary>
+        public static string DuplicateEpisodeNumber {
+            get {
+                return ResourceManager.GetString("DuplicateEpisodeNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate resource.
+        /// </summary>
+        public static string DuplicateResource {
+            get {
+                return ResourceManager.GetString("DuplicateResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English (USA).
         /// </summary>
         public static string EnglishUS {
             get {
                 return ResourceManager.GetString("EnglishUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Episode already registered.
+        /// </summary>
+        public static string EpisodeAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("EpisodeAlreadyRegistered", resourceCulture);
             }
         }
         
@@ -129,6 +156,15 @@ namespace CrossCutting.Resources {
         public static string InvalidLength {
             get {
                 return ResourceManager.GetString("InvalidLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It cannot be a future date.
+        /// </summary>
+        public static string ItCannotBeaFutureDate {
+            get {
+                return ResourceManager.GetString("ItCannotBeaFutureDate", resourceCulture);
             }
         }
         
@@ -187,6 +223,15 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must start with the series abbreviation.
+        /// </summary>
+        public static string MustStartWithTheSeriesAbbreviation {
+            get {
+                return ResourceManager.GetString("MustStartWithTheSeriesAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not created.
         /// </summary>
         public static string NotCreated {
@@ -228,6 +273,15 @@ namespace CrossCutting.Resources {
         public static string Required {
             get {
                 return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Season already registered.
+        /// </summary>
+        public static string SeasonAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("SeasonAlreadyRegistered", resourceCulture);
             }
         }
         
