@@ -1,6 +1,6 @@
 ﻿using Application.Data.ViewModel;
-using Application.Services;
 using Domain;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -10,9 +10,9 @@ namespace Application.Controllers
     [Produces("application/json")]
     public class SeasonController : ControllerBase
     {
-        private readonly SeasonService _seasonService;
+        private readonly ISeasonService _seasonService;
 
-        public SeasonController(SeasonService seasonService)
+        public SeasonController(ISeasonService seasonService)
         {
             _seasonService = seasonService;
         }
@@ -25,9 +25,10 @@ namespace Application.Controllers
         /// <returns>Seasons list</returns>
         /// <response code="200">Success - Seasons list</response>
         [HttpGet]
-        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetSeasons([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
+        public async Task<ActionResult<IEnumerable<SeasonWithSerieIdVM>>> GetSeasons([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            return await _seasonService.GetSeasons(page, pageSize);
+            var seasonList = await _seasonService.GetList(page, pageSize);
+            return Ok(seasonList);
         }
 
         /// <summary>
@@ -38,22 +39,25 @@ namespace Application.Controllers
         /// <response code="200">Success - Season</response>
         /// <response code="404">Not found</response>
         [HttpGet("{id}")]
-        public async Task<SeasonWithSerieIdVM> GetSeasonById([FromRoute] int id)
+        public async Task<ActionResult<SeasonWithSerieIdVM>> GetSeasonById([FromRoute] short id)
         {
-            return await _seasonService.GetSeasonById(id);
+            var season = await _seasonService.GetById(id);
+            return Ok(season);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSeason([FromBody] CreateSeasonWithSerieIdDto dto)
+        [ProducesResponseType(201)]
+        public async Task<ActionResult<SeasonWithSerieIdVM>> CreateSeason([FromBody] CreateSeasonWithSerieIdDto dto)
         {
-            var season = await _seasonService.CreateSeason(dto);
+            var season = await _seasonService.Create(dto);
             return CreatedAtAction(nameof(GetSeasonById), new { id = season.ID }, season);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSeason([FromRoute] byte id, [FromBody] UpdateSeasonDto dto)
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> UpdateSeason([FromRoute] short id, [FromBody] UpdateSeasonDto dto)
         {
-            await _seasonService.UpdateSeason(id, dto);
+            await _seasonService.Update(id, dto);
             return NoContent();
         }
     }

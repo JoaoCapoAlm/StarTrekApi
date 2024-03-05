@@ -1,7 +1,7 @@
 ﻿using Application.Data.ViewModel;
-using Application.Services;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
@@ -12,9 +12,9 @@ namespace Application.Controllers
     [Produces("application/json")]
     public class MovieController : ControllerBase
     {
-        private readonly MovieService _movieService;
+        private readonly IMovieService _movieService;
         private readonly IStringLocalizer<Messages> _localizer;
-        public MovieController(MovieService movieService, IStringLocalizer<Messages> localizer)
+        public MovieController(IMovieService movieService, IStringLocalizer<Messages> localizer)
         {
             _movieService = movieService;
             _localizer = localizer;
@@ -28,34 +28,37 @@ namespace Application.Controllers
         /// <returns></returns>
         /// <response code="200">Movie list</response>
         [HttpGet]
-        public async Task<IEnumerable<MovieVM>> GetMovieList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
+        public async Task<ActionResult<IEnumerable<MovieVM>>> GetMovieList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            return await _movieService.GetMovieList(page, pageSize);
+            var movieList = await _movieService.GetList(page, pageSize);
+            return Ok(movieList);
         }
 
         /// <summary>
         /// Get a movie by ID
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Movie created</returns>
         /// <response code="200">Movie</response>
         [HttpGet("{id}")]
-        public async Task<MovieVM> GetMovieById(byte id)
+        public async Task<ActionResult<MovieVM>> GetMovieById(byte id)
         {
-            return await _movieService.GetMovieById(id);
+            var movie = await _movieService.GetById(id);
+            return Ok(movie);
         }
 
         /// <summary>
         /// Add new movie
         /// </summary>
         /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <returns>New movie</returns>
         /// <response code="201">Created</response>
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
+        [ProducesResponseType(201)]
         public async Task<IActionResult> CreateMovie([FromBody] CreateMovieDto dto)
         {
-            var movie = await _movieService.CreateMovie(dto);
+            var movie = await _movieService.Create(dto);
 
             return CreatedAtAction(nameof(GetMovieById), new { id = movie.Id }, movie);
         }
@@ -65,13 +68,14 @@ namespace Application.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <returns>No content</returns>
         /// <response code="204">Updated / No Content</response>
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> UpdateMovie([FromRoute] short id, [FromBody] UpdateMovieDto dto)
         {
-            await _movieService.UpdateMovie(id, dto);
+            await _movieService.Update(id, dto);
             return NoContent();
         }
     }

@@ -5,6 +5,7 @@ using CrossCutting.Exceptions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;
 using FluentValidation;
@@ -15,13 +16,13 @@ namespace Application.Services
 {
     public class MovieService(StarTrekContext context,
         IStringLocalizer<Messages> localizer,
-        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer)
+        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer) : IMovieService
     {
         private readonly StarTrekContext _context = context;
         private readonly IStringLocalizer<Messages> _localizer = localizer;
         private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
 
-        public async Task<IEnumerable<MovieVM>> GetMovieList(byte page = byte.MinValue, byte pageSize = 100)
+        public async Task<IEnumerable<MovieVM>> GetList(byte page = byte.MinValue, byte pageSize = 100)
         {
             pageSize = (byte)(pageSize > 100 ? 100 : pageSize);
 
@@ -43,10 +44,9 @@ namespace Application.Services
                 )).ToArrayAsync()
                 ?? Enumerable.Empty<MovieVM>();
         }
-
-        public async Task<MovieVM> GetMovieById(byte movieId)
+        public async Task<MovieVM> GetById(short id)
         {
-            if (movieId.Equals(byte.MinValue))
+            if (id.Equals(byte.MinValue))
             {
                 var errors = new Dictionary<string, IEnumerable<string>>()
                 {
@@ -57,7 +57,7 @@ namespace Application.Services
 
             var movie = await _context.Movie
                 .AsNoTracking()
-                .Where(m => m.MovieId == movieId)
+                .Where(m => m.MovieId == id)
                 .Select(m => new MovieVM(
                     m.MovieId,
                     m.OriginalName,
@@ -81,8 +81,7 @@ namespace Application.Services
 
             return movie;
         }
-
-        public async Task<MovieVM> CreateMovie(CreateMovieDto dto)
+        public async Task<MovieVM> Create(CreateMovieDto dto)
         {
             var dtoValidation = new CreateMovieValidation(_localizer);
             var validation = dtoValidation.Validate(dto);
@@ -132,8 +131,7 @@ namespace Application.Services
                     _titleSynopsisLocalizer[m.TitleResource].Value)
                 ).LastAsync();
         }
-
-        public async Task UpdateMovie(short id, UpdateMovieDto dto)
+        public async Task Update(short id, UpdateMovieDto dto)
         {
             var dtoValidation = new UpdateMovieValidation(_localizer, _context);
             var validation = await dtoValidation.ValidateAsync(dto);

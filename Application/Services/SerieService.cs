@@ -6,6 +6,7 @@ using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;
 using FluentValidation;
@@ -16,13 +17,14 @@ namespace Application.Services
 {
     public class SerieService(StarTrekContext context,
         IStringLocalizer<Messages> localizer,
-        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer)
+        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer
+    ) : ISerieService
     {
         private readonly StarTrekContext _context = context;
         private readonly IStringLocalizer<Messages> _localizer = localizer;
         private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
 
-        public async Task<IEnumerable<SerieVM>> GetSeriesList(byte page, byte pageSize)
+        public async Task<IEnumerable<SerieVM>> GetList(byte page, byte pageSize)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 
@@ -47,9 +49,9 @@ namespace Application.Services
                 ?? [];
         }
 
-        public async Task<SerieVM> GetSerieById(byte serieId)
+        public async Task<SerieVM> GetById(short id)
         {
-            if (serieId <= 0)
+            if (id <= 0)
             {
                 var error = new Dictionary<string, IEnumerable<string>>
                 {
@@ -60,7 +62,7 @@ namespace Application.Services
 
             var serie = await _context.Serie
                 .AsNoTracking()
-                .Where(s => s.SerieId == serieId)
+                .Where(s => s.SerieId.Equals(id))
                 .Select(s => new SerieVM
                 {
                     ID = s.SerieId,
@@ -86,7 +88,7 @@ namespace Application.Services
             return serie;
         }
 
-        public async Task<SerieVM> CreateNewSerie(CreateSerieDto dto)
+        public async Task<SerieVM> Create(CreateSerieDto dto)
         {
             var validator = new CreateSerieValidation(_localizer, _context);
             var validation = await validator.ValidateAsync(dto);
@@ -156,7 +158,7 @@ namespace Application.Services
             };
         }
 
-        public async Task UpdateSerieById(byte id, UpdateSerieDto dto)
+        public async Task Update(short id, UpdateSerieDto dto)
         {
             var dtoValidation = new UpdateSerieValidation(_localizer);
             var validation = dtoValidation.Validate(dto);

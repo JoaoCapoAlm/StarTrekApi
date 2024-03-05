@@ -1,6 +1,6 @@
 ﻿using Application.Data.ViewModel;
-using Application.Services;
 using Domain;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -10,8 +10,8 @@ namespace Application.Controllers
     [Produces("application/json")]
     public class EpisodeController : ControllerBase
     {
-        private readonly EpisodeService _episodeService;
-        public EpisodeController(EpisodeService episodeService)
+        private readonly IEpisodeService _episodeService;
+        public EpisodeController(IEpisodeService episodeService)
         {
             _episodeService = episodeService;
         }
@@ -27,7 +27,7 @@ namespace Application.Controllers
             [FromQuery] byte pageSize = 100
         )
         {
-            var list = await _episodeService.GetEpisodeList(page, pageSize);
+            var list = await _episodeService.GetList(page, pageSize);
             return Ok(list);
         }
 
@@ -39,7 +39,7 @@ namespace Application.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EpisodeWithSeasonIdVM>> GetEpisodeById([FromRoute] int id)
         {
-            var episode = await _episodeService.GetEpisodeById(id);
+            var episode = await _episodeService.GetById(id);
             return Ok(episode);
         }
 
@@ -55,7 +55,7 @@ namespace Application.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ActionResult<EpisodeWithSeasonIdVM>> CreateEpisode([FromBody] CreateEpisodeWithSeasonIdDto dto)
         {
-            var episode = await _episodeService.CreateEpisode(dto);
+            var episode = await _episodeService.Create(dto);
             return CreatedAtAction(nameof(GetEpisodeById), new { id = episode.ID }, episode);
         }
 
@@ -73,7 +73,7 @@ namespace Application.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> UpdateEpisode([FromRoute] int id, [FromBody] UpdateEpisodeDto dto)
         {
-            await _episodeService.UpdateEpisode(id, dto);
+            await _episodeService.Update(id, dto);
 
             return NoContent();
         }
