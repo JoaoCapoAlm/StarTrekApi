@@ -3,10 +3,10 @@ BEGIN
 	SET IDENTITY_INSERT [dbo].[Quadrant] ON;
 	
 	INSERT INTO [dbo].[Quadrant] ([QuadrantId], [QuadrantResource])
-	VALUES (1, 'AlphaResource'),
-		(2, 'BetaResource'),
-		(3, 'GamaResource'),
-		(4, 'DeltaResource');
+	VALUES (1, 'QuadrantAlphaResource'),
+		(2, 'QuadrantBetaResource'),
+		(3, 'QuadrantGammaResource'),
+		(4, 'QuadrantDeltaResource');
 
 	SET IDENTITY_INSERT [dbo].[Quadrant] OFF;
 END

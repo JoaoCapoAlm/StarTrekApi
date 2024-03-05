@@ -210,4 +210,16 @@
   <data name="ItCannotBeaFutureDate" xml:space="preserve">
     <value>Não pode ser uma data futura</value>
   </data>
+  <data name="QuadrantAlphaResource" xml:space="preserve">
+    <value>Quadrante Alfa</value>
+  </data>
+  <data name="QuadrantBetaResource" xml:space="preserve">
+    <value>Quadrante Beta</value>
+  </data>
+  <data name="QuadrantDeltaResource" xml:space="preserve">
+    <value>Quadrante Delta</value>
+  </data>
+  <data name="QuadrantGammaResource" xml:space="preserve">
+    <value>Quadrante Gama</value>
+  </data>
 </root>

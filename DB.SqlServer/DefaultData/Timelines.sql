@@ -1,9 +1,9 @@
-﻿IF(NOT EXISTS(SELECT TOP 1 1 FROM Timeline))
+﻿IF(NOT EXISTS(SELECT TOP 1 1 FROM [dbo].[Timeline]))
 BEGIN
-	SET IDENTITY_INSERT Timeline ON;
+	SET IDENTITY_INSERT [dbo].[Timeline] ON;
 
-	INSERT INTO Timeline (TimelineId, [Name])
+	INSERT INTO [dbo].[Timeline] ([TimelineId], [Name])
 	VALUES (1, 'Prime'), (2, 'Kelvin');
 
-	SET IDENTITY_INSERT Timeline OFF;
+	SET IDENTITY_INSERT [dbo].[Timeline] OFF;
 END

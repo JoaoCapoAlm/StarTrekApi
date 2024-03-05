@@ -268,6 +268,42 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quadrant Alpha.
+        /// </summary>
+        public static string QuadrantAlphaResource {
+            get {
+                return ResourceManager.GetString("QuadrantAlphaResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quadrant Beta.
+        /// </summary>
+        public static string QuadrantBetaResource {
+            get {
+                return ResourceManager.GetString("QuadrantBetaResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quadrant Delta.
+        /// </summary>
+        public static string QuadrantDeltaResource {
+            get {
+                return ResourceManager.GetString("QuadrantDeltaResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quadrant Gamma.
+        /// </summary>
+        public static string QuadrantGammaResource {
+            get {
+                return ResourceManager.GetString("QuadrantGammaResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Required.
         /// </summary>
         public static string Required {
