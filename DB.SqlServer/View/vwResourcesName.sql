@@ -1,20 +1,35 @@
 ﻿CREATE VIEW [dbo].[vwResourcesName]
 AS
-	SELECT 'm' + CAST([MovieId] AS varchar) AS [Id],
-		[SynopsisResource],
-		[TitleResource]
-	FROM [Movie] WITH (NOLOCK)
+	SELECT [MovieId] AS [Id],
+		[SynopsisResource] AS [Resource]
+	FROM [dbo].[Movie] WITH (NOLOCK)
 	
 	UNION
+
+	SELECT [MovieId] AS [Id],
+		[TitleResource] AS [Resource]
+	FROM [dbo].[Movie] WITH (NOLOCK)
+
+	UNION
 	
-	SELECT 's' + CAST([SerieId] AS varchar) AS [Id],
-		[SynopsisResource],
-		[TitleResource]
-	FROM [Serie] WITH (NOLOCK)
+	SELECT [SerieId] AS [Id],
+		[TitleResource] AS [Resource]
+	FROM [dbo].[Serie] WITH (NOLOCK)
+
+	UNION
+	
+	SELECT [SerieId] AS [Id],
+		[SynopsisResource] AS [Resource]
+	FROM [dbo].[Serie] WITH (NOLOCK)
 
 	UNION
 
-	SELECT 'e'+ CAST([EpisodeId] AS varchar) AS [Id],
-		[SynopsisResource],
-		[TitleResource]
-	FROM [Episode] WITH (NOLOCK)
+	SELECT [EpisodeId] AS [Id],
+		[TitleResource] AS [Resource]
+	FROM [dbo].[Episode] WITH (NOLOCK)
+
+	UNION
+
+	SELECT [EpisodeId] AS [Id],
+		[SynopsisResource] AS [Resource]
+	FROM [dbo].[Episode] WITH (NOLOCK)

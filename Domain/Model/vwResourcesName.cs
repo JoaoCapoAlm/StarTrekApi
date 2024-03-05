@@ -2,18 +2,16 @@
 {
     public class vwResourcesName
     {
-        public string Id { get; set; }
-        public string SynopsisResource { get; set; }
-        public string TitleResource { get; set; }
+        public int Id { get; set; }
+        public string Resource { get; set; }
 
         public vwResourcesName()
         {
         }
 
-        public vwResourcesName(string synopsisResource, string titleResource)
+        public vwResourcesName(string resource)
         {
-            SynopsisResource = synopsisResource;
-            TitleResource = titleResource;
+            Resource = resource;
         }
     }
 }

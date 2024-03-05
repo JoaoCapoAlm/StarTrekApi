@@ -9,11 +9,11 @@ namespace Domain.Repositories
         {
             _context = context;
         }
-        public async Task<bool> CheckResourceExists(string resource, string id = null, CancellationToken cancellationToken = default)
+        public async Task<bool> CheckResourceExists(string resource, int? id = null, CancellationToken cancellationToken = default)
         {
             var result = await _context.vwResourcesName.AsNoTracking()
-                .Where(r => (r.SynopsisResource.Equals(resource) || r.TitleResource.Equals(resource))
-                    && (string.IsNullOrWhiteSpace(id) || r.Id == id))
+                .Where(r => r.Resource.Equals(resource)
+                    && (!id.HasValue || r.Id.Equals(id)))
                 .AnyAsync(cancellationToken);
 
             return result;
