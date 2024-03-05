@@ -4,6 +4,7 @@ using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class EpisodeService
+    public class EpisodeService : IEpisodeService
     {
         private readonly StarTrekContext _context;
         private readonly IMapper _mapper;
@@ -29,7 +30,7 @@ namespace Application.Services
             _localizerTitleSynopsis = localizerTitleSynopsis;
         }
 
-        public async Task<IEnumerable<EpisodeWithSeasonIdVM>> GetEpisodeList(byte page, byte pageSize)
+        public async Task<IEnumerable<EpisodeWithSeasonIdVM>> GetList(byte page, byte pageSize)
         {
             pageSize = pageSize <= 0 ? (byte)100 : pageSize;
 
@@ -51,7 +52,7 @@ namespace Application.Services
             return epArray;
         }
 
-        public async Task<EpisodeWithSeasonIdVM> GetEpisodeById(int episodeId)
+        public async Task<EpisodeWithSeasonIdVM> GetById(int episodeId)
         {
             if (episodeId <= 0)
             {
@@ -82,7 +83,7 @@ namespace Application.Services
             return episode;
         }
 
-        public async Task<EpisodeWithSeasonIdVM> CreateEpisode(CreateEpisodeWithSeasonIdDto dto)
+        public async Task<EpisodeWithSeasonIdVM> Create(CreateEpisodeWithSeasonIdDto dto)
         {
             var validator = new CreateEpisodeWithSeasonIdValidation(_mapper, _localizer, _context);
             await validator.ValidateAndThrowAsyncStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
@@ -96,10 +97,10 @@ namespace Application.Services
             return _mapper.Map<EpisodeWithSeasonIdVM>(ep);
         }
 
-        public async Task UpdateEpisode(int episodeId, UpdateEpisodeDto dto)
+        public async Task Update(int episodeId, UpdateEpisodeDto dto)
         {
             var validator = new UpdateEpisodeValidation(_localizer, _context);
-            validator.ValidateAndThrowStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
+            validator.ValidateAndThrowStarTrek<UpdateEpisodeDto>(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
 
             if (episodeId <= 0)
             {
@@ -114,7 +115,7 @@ namespace Application.Services
                 .Where(x => x.EpisodeId.Equals(episodeId))
                 .FirstOrDefaultAsync();
 
-            if(episode == null)
+            if (episode == null)
             {
                 var error = new Dictionary<string, IEnumerable<string>>
                 {

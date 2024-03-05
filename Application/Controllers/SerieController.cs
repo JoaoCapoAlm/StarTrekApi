@@ -1,5 +1,5 @@
-﻿using Application.Services;
-using Domain;
+﻿using Domain;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -9,9 +9,9 @@ namespace Application.Controllers
     [Produces("application/json")]
     public class SerieController : ControllerBase
     {
-        private readonly SerieService _serieService;
+        private readonly ISerieService _serieService;
 
-        public SerieController(SerieService serieService)
+        public SerieController(ISerieService serieService)
         {
             _serieService = serieService;
         }
@@ -26,9 +26,9 @@ namespace Application.Controllers
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [HttpGet]
-        public async Task<IActionResult> GetSeriesList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
+        public async Task<IActionResult> GetList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            var series = await _serieService.GetSeriesList(page, pageSize);
+            var series = await _serieService.GetList(page, pageSize);
             return Ok(series);
         }
 
@@ -41,9 +41,9 @@ namespace Application.Controllers
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSerieById([FromRoute] byte id)
+        public async Task<IActionResult> GetById([FromRoute] short id)
         {
-            var serie = await _serieService.GetSerieById(id);
+            var serie = await _serieService.GetById(id);
             return Ok(serie);
         }
 
@@ -57,10 +57,11 @@ namespace Application.Controllers
         /// <response code="500">Internal error</response>
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
+        [ProducesResponseType(201)]
         public async Task<IActionResult> CreateNewSerie([FromBody] CreateSerieDto dto)
         {
-            var newSerie = await _serieService.CreateNewSerie(dto);
-            return CreatedAtAction(nameof(GetSerieById), new { id = newSerie.ID }, newSerie);
+            var newSerie = await _serieService.Create(dto);
+            return CreatedAtAction(nameof(GetById), new { id = newSerie.ID }, newSerie);
         }
 
         /// <summary>
@@ -74,9 +75,10 @@ namespace Application.Controllers
         /// <response code="500">Internal error</response>
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSerieById([FromRoute] byte id, [FromBody] UpdateSerieDto dto)
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> UpdateSerieById([FromRoute] short id, [FromBody] UpdateSerieDto dto)
         {
-            await _serieService.UpdateSerieById(id, dto);
+            await _serieService.Update(id, dto);
             return NoContent();
         }
     }

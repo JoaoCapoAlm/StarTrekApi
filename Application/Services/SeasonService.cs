@@ -5,6 +5,7 @@ using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;
 using FluentValidation;
@@ -13,20 +14,23 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class SeasonService
+    public class SeasonService : ISeasonService
     {
         private readonly StarTrekContext _context;
         private readonly IStringLocalizer<Messages> _localizerMessages;
         private readonly IMapper _mapper;
 
-        public SeasonService(StarTrekContext context, IStringLocalizer<Messages> localizer, IMapper mapper, IStringLocalizer<TitleSynopsis> localizerTitleSynopsis)
+        public SeasonService(StarTrekContext context,
+            IStringLocalizer<Messages> localizer,
+            IMapper mapper
+        )
         {
             _context = context;
             _localizerMessages = localizer;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetSeasons(byte page, byte pageSize)
+        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetList(byte page, byte pageSize)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 
@@ -39,8 +43,7 @@ namespace Application.Services
                 .ToArrayAsync()
                 ?? [];
         }
-
-        public async Task<SeasonWithSerieIdVM> GetSeasonById(int seasonId)
+        public async Task<SeasonWithSerieIdVM> GetById(short seasonId)
         {
             if (seasonId <= 0)
             {
@@ -67,8 +70,7 @@ namespace Application.Services
 
             return season;
         }
-
-        public async Task<SeasonWithSerieIdVM> CreateSeason(CreateSeasonWithSerieIdDto dto)
+        public async Task<SeasonWithSerieIdVM> Create(CreateSeasonWithSerieIdDto dto)
         {
             var validator = new CreateSeasonWithSerieIdValidation(_mapper, _localizerMessages, _context);
             await validator.ValidateAndThrowAsyncStarTrek(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);
@@ -114,8 +116,7 @@ namespace Application.Services
 
             return _mapper.Map<SeasonWithSerieIdVM>(newSeason);
         }
-
-        public async Task UpdateSeason(byte seasonId, UpdateSeasonDto dto)
+        public async Task Update(short seasonId, UpdateSeasonDto dto)
         {
             var validator = new UpdateSeasonValidation(_localizerMessages);
             validator.ValidateAndThrowStarTrek(dto, _localizerMessages["OneOrMoreValidationErrorsOccurred"]);

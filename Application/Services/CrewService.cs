@@ -2,12 +2,13 @@
 using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class CrewService
+    public class CrewService : ICrewService
     {
         private readonly StarTrekContext _context;
         private readonly IStringLocalizer<Messages> _localizer;
@@ -18,7 +19,7 @@ namespace Application.Services
             _localizer = localizer;
         }
 
-        public async Task<IEnumerable<CrewVM>> GetCrewList(byte page = 0, byte pageSize = 100)
+        public async Task<IEnumerable<CrewVM>> GetList(byte page = 0, byte pageSize = 100)
         {
             pageSize = pageSize > 100 ? (byte)100 : pageSize;
 
@@ -39,7 +40,7 @@ namespace Application.Services
                 ?? throw new AppException(_localizer["NotFound"].Value, System.Net.HttpStatusCode.NotFound);
         }
 
-        public async Task<CrewVM> GetCrewById(int crewId)
+        public async Task<CrewVM> GetById(int crewId)
         {
             if (crewId <= 0)
             {

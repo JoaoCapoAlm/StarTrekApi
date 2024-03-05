@@ -2,6 +2,7 @@
 using Application.Services;
 using CrossCutting.Resources;
 using Domain;
+using Domain.Interfaces;
 using Domain.Profiles;
 using Domain.Validation;
 using FluentValidation;
@@ -20,11 +21,11 @@ namespace Application.Configurations
             services.TryAddTransient<IStringLocalizer<Messages>, StringLocalizer<Messages>>();
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
 
-            services.TryAddScoped<CrewService>();
-            services.TryAddScoped<EpisodeService>();
-            services.TryAddScoped<MovieService>();
-            services.TryAddScoped<SeasonService>();
-            services.TryAddScoped<SerieService>();
+            services.TryAddScoped<ICrewService, CrewService>();
+            services.TryAddScoped<IEpisodeService, EpisodeService>();
+            services.TryAddScoped<IMovieService, MovieService>();
+            services.TryAddScoped<ISeasonService, SeasonService>();
+            services.TryAddScoped<ISerieService, SerieService>();
             services.TryAddScoped<TmdbService>();
 
             services.AddValidatorsFromAssemblyContaining(typeof(CreateEpisodeValidator));
