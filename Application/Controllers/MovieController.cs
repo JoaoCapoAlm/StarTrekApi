@@ -1,7 +1,7 @@
-﻿using Application.Data.ViewModel;
-using CrossCutting.Resources;
+﻿using CrossCutting.Resources;
 using Domain;
 using Domain.Interfaces;
+using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 

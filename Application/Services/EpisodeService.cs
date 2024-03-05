@@ -1,5 +1,4 @@
-﻿using Application.Data.ViewModel;
-using AutoMapper;
+﻿using AutoMapper;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;
@@ -7,6 +6,7 @@ using Domain;
 using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;
+using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 

@@ -1,4 +1,4 @@
-﻿namespace Application.Data.ViewModel
+﻿namespace Domain.ViewModel
 {
     public class SerieVM
     {

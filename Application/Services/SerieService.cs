@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Application.Data.ViewModel;
 using CrossCutting.Enums;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
@@ -9,6 +8,7 @@ using Domain;
 using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;
+using Domain.ViewModel;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;

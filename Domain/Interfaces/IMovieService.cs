@@ -1,4 +1,4 @@
-﻿using Application.Data.ViewModel;
+﻿using Domain.ViewModel;
 
 namespace Domain.Interfaces
 {

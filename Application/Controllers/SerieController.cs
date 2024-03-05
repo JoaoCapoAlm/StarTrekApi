@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.Interfaces;
+using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -26,7 +27,10 @@ namespace Application.Controllers
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [HttpGet]
-        public async Task<IActionResult> GetList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
+        public async Task<ActionResult<IEnumerable<SerieVM>>> GetList(
+            [FromQuery] byte page = 0,
+            [FromQuery] byte pageSize = 100
+        )
         {
             var series = await _serieService.GetList(page, pageSize);
             return Ok(series);
@@ -41,7 +45,7 @@ namespace Application.Controllers
         /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] short id)
+        public async Task<ActionResult<SerieVM>> GetById([FromRoute] short id)
         {
             var serie = await _serieService.GetById(id);
             return Ok(serie);
@@ -58,7 +62,7 @@ namespace Application.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [ProducesResponseType(201)]
-        public async Task<IActionResult> CreateNewSerie([FromBody] CreateSerieDto dto)
+        public async Task<ActionResult<SerieVM>> CreateNewSerie([FromBody] CreateSerieDto dto)
         {
             var newSerie = await _serieService.Create(dto);
             return CreatedAtAction(nameof(GetById), new { id = newSerie.ID }, newSerie);

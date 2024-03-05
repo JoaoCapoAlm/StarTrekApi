@@ -1,8 +1,8 @@
-﻿using Application.Data.ViewModel;
-using CrossCutting.Extensions;
+﻿using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Model;
+using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using TMDB;

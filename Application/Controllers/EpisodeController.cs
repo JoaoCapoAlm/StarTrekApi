@@ -1,6 +1,6 @@
-﻿using Application.Data.ViewModel;
-using Domain;
+﻿using Domain;
 using Domain.Interfaces;
+using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers

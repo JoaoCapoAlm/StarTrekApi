@@ -1,8 +1,8 @@
-﻿using Application.Data.ViewModel;
-using CrossCutting.Exceptions;
+﻿using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Interfaces;
+using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 

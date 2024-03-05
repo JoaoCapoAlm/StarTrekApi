@@ -1,4 +1,4 @@
-﻿namespace Application.Data.ViewModel
+﻿namespace Domain.ViewModel
 {
     public class MovieVM(short movieId, string originalName, string synopsis, string originalLanguage,
         short time, string imdbId, DateOnly? releaseDate, byte timelineId, string translatedName)

@@ -1,6 +1,6 @@
-﻿using Application.Data.ViewModel;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Model;
+using Domain.ViewModel;
 
 namespace Domain.Profiles
 {

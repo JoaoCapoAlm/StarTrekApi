@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Domain.Model;
 
-namespace Application.Data.ViewModel
+namespace Domain.ViewModel
 {
     public class SeasonVM
     {
