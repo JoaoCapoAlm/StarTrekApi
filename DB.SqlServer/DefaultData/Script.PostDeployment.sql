@@ -20,3 +20,4 @@ SET NOCOUNT ON;
 :r .\Episodes.sql
 --:r .\Roles.sql
 :r .\Quadrants.sql
+:r .\PlaceTypes.sql

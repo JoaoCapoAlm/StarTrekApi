@@ -95,5 +95,6 @@
     <None Include="DefaultData\Episodes.sql" />
     <None Include="DefaultData\Roles.sql" />
     <None Include="DefaultData\Quadrants.sql" />
+    <None Include="DefaultData\PlaceTypes.sql" />
   </ItemGroup>
 </Project>
