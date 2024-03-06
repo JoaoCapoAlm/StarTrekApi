@@ -35,6 +35,14 @@ namespace Domain
                 .HasKey(m => m.MovieId)
                 .HasName("PK_Movie");
 
+            modelBuilder.Entity<Place>()
+                .HasKey(x => x.PlaceId)
+                .HasName("PK_Place");
+
+            modelBuilder.Entity<PlaceType>()
+                .HasKey(x => x.PlaceTypeId)
+                .HasName("PK_PlaceType");
+
             modelBuilder.Entity<Role>()
                 .HasKey(r => r.RoleId)
                 .HasName("PK_Roles");
@@ -50,6 +58,10 @@ namespace Domain
             modelBuilder.Entity<Timeline>()
                 .HasKey(t => t.TimelineId)
                 .HasName("PK_Timeline");
+
+            modelBuilder.Entity<Quadrant>()
+                .HasKey(x => x.QuadrantId)
+                .HasName("PK_Quadrant");
 
             modelBuilder.Entity<vwImdb>()
                 .HasNoKey();
@@ -93,6 +105,18 @@ namespace Domain
                 .HasForeignKey(m => m.TimelineId)
                 .HasConstraintName("FK_Movie_TimelineId");
 
+            modelBuilder.Entity<Place>()
+                .HasOne(x => x.PlaceType)
+                .WithMany(x => x.Places)
+                .HasForeignKey(x => x.PlaceId)
+                .HasConstraintName("FK_Place_PlaceType");
+
+            modelBuilder.Entity<Place>()
+                .HasOne(x => x.Quadrant)
+                .WithMany(x => x.Places)
+                .HasForeignKey(x => x.QuadrantId)
+                .HasConstraintName("FK_Place_Quadrant");
+
             modelBuilder.Entity<Season>()
                 .HasOne(s => s.Serie)
                 .WithMany(s => s.Seasons)
@@ -118,10 +142,13 @@ namespace Domain
         public DbSet<Episode> Episode { get; set; }
         public DbSet<Language> Language { get; set; }
         public DbSet<Movie> Movie { get; set; }
+        public DbSet<Place> Place { get; set; }
+        public DbSet<PlaceType> PlaceType { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Season> Season { get; set; }
         public DbSet<Serie> Serie { get; set; }
         public DbSet<Timeline> Timeline { get; set; }
+        public DbSet<Quadrant> Quadrandt { get; set; }
         public DbSet<vwImdb> vwImdb { get; set; }
         public DbSet<vwResourcesName> vwResourcesName { get; set; }
     }
