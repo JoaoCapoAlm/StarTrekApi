@@ -4,7 +4,8 @@ BEGIN
 
 	INSERT INTO [dbo].[PlaceType] ([PlaceTypeId], [Type])
 	VALUES (1, 'Planet'),
-		(2, 'Station');
+		(2, 'SpaceStation'),
+		(3, 'City');
 
 	SET IDENTITY_INSERT [dbo].[PlaceType] OFF;
 END
