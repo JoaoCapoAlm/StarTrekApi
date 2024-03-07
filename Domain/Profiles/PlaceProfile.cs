@@ -13,6 +13,10 @@ namespace Domain.Profiles
 
             CreateMap<Place, PlaceVM>()
                 .ForMember(x => x.ID, x => x.MapFrom(opt => opt.PlaceId));
+
+            CreateMap<Quadrant, QuadrantVM>()
+                .ForMember(x => x.ID, x => x.MapFrom(opt => opt.QuadrantId))
+                .ForMember(x => x.Name, x => x.MapFrom(opt => opt.QuadrantResource));
         }
     }
 }

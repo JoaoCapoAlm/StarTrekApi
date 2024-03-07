@@ -108,7 +108,7 @@ namespace Domain
             modelBuilder.Entity<Place>()
                 .HasOne(x => x.PlaceType)
                 .WithMany(x => x.Places)
-                .HasForeignKey(x => x.PlaceId)
+                .HasForeignKey(x => x.PlaceTypeId)
                 .HasConstraintName("FK_Place_PlaceType");
 
             modelBuilder.Entity<Place>()
@@ -148,7 +148,7 @@ namespace Domain
         public DbSet<Season> Season { get; set; }
         public DbSet<Serie> Serie { get; set; }
         public DbSet<Timeline> Timeline { get; set; }
-        public DbSet<Quadrant> Quadrandt { get; set; }
+        public DbSet<Quadrant> Quadrant { get; set; }
         public DbSet<vwImdb> vwImdb { get; set; }
         public DbSet<vwResourcesName> vwResourcesName { get; set; }
     }
