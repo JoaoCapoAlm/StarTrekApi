@@ -27,7 +27,7 @@ namespace Application.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SeasonWithSerieIdVM>>> GetSeasons([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            var seasonList = await _seasonService.GetList(page, pageSize);
+            var seasonList = await _seasonService.GetList(page, pageSize, null);
             return Ok(seasonList);
         }
 

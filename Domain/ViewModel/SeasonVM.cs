@@ -8,11 +8,14 @@ namespace Domain.ViewModel
         public short ID { get; set; }
         public byte Number { get; set; }
         public ICollection<EpisodeVM> Episodes { get; set; }
+        public SeasonVM()
+        {
+        }
         public SeasonVM(short id, byte number, IEnumerable<Episode> episodes)
         {
             ID = id;
             Number = number;
-            Episodes = new Collection<EpisodeVM>();
+            Episodes = [];
             foreach (var episode in episodes)
             {
                 Episodes.Add(new EpisodeVM

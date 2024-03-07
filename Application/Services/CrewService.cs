@@ -1,7 +1,9 @@
-﻿using CrossCutting.Exceptions;
+﻿using System.Linq.Expressions;
+using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Interfaces;
+using Domain.Model;
 using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -19,7 +21,7 @@ namespace Application.Services
             _localizer = localizer;
         }
 
-        public async Task<IEnumerable<CrewVM>> GetList(byte page = 0, byte pageSize = 100)
+        public async Task<IEnumerable<CrewVM>> GetList(byte page, byte pageSize, Expression<Func<Crew, bool>> predicate)
         {
             pageSize = pageSize > 100 ? (byte)100 : pageSize;
 

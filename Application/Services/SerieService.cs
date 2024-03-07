@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq.Expressions;
+using System.Net;
 using CrossCutting.Enums;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
@@ -24,7 +25,7 @@ namespace Application.Services
         private readonly IStringLocalizer<Messages> _localizer = localizer;
         private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
 
-        public async Task<IEnumerable<SerieVM>> GetList(byte page, byte pageSize)
+        public async Task<IEnumerable<SerieVM>> GetList(byte page, byte pageSize, Expression<Func<Serie, bool>> predicate)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 

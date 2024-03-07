@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
+using CrossCutting.Enums;
 using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
@@ -62,16 +65,20 @@ namespace Application.Services
             return place;
         }
 
-        public async Task<IEnumerable<PlaceVM>> GetList(byte page, byte pageSize)
-        {   
+        public async Task<IEnumerable<PlaceVM>> GetList(
+            byte page,
+            byte pageSize,
+            Expression<Func<Place, bool>> predicate
+        ) {
             var list = await _context.Place.AsNoTracking()
+                .Where(predicate)
                 .OrderBy(x => x.PlaceId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .Include(x => x.Quadrant)
                 .Include(x => x.PlaceType)
                 .Select(x => _mapper.Map<PlaceVM>(x))
-                .ToListAsync()
+                .ToArrayAsync()
                 ?? [];
 
             Parallel.ForEach(list, x =>

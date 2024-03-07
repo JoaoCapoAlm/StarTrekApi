@@ -16,7 +16,7 @@ namespace Application.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCrewList([FromQuery] byte page = 0, [FromQuery] byte qtd = 100)
         {
-            var crewList = await _crewService.GetList(page, qtd);
+            var crewList = await _crewService.GetList(page, qtd, null);
 
             return Ok(crewList);
         }

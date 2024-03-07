@@ -6,6 +6,10 @@ namespace Domain.ViewModel
     {
         public short SerieId { get; set; }
 
+        public SeasonWithSerieIdVM()
+        {
+        }
+
         public SeasonWithSerieIdVM(short id, short serieId, byte number, IEnumerable<Episode> episodes)
             : base(id, number, episodes)
         {

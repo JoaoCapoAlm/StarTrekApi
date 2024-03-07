@@ -32,7 +32,7 @@ namespace Application.Controllers
             [FromQuery] byte pageSize = 100
         )
         {
-            var series = await _serieService.GetList(page, pageSize);
+            var series = await _serieService.GetList(page, pageSize, null);
             return Ok(series);
         }
 

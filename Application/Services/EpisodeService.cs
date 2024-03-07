@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq.Expressions;
+using AutoMapper;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;
@@ -30,7 +31,7 @@ namespace Application.Services
             _localizerTitleSynopsis = localizerTitleSynopsis;
         }
 
-        public async Task<IEnumerable<EpisodeWithSeasonIdVM>> GetList(byte page, byte pageSize)
+        public async Task<IEnumerable<EpisodeWithSeasonIdVM>> GetList(byte page, byte pageSize, Expression<Func<Episode, bool>> predicate)
         {
             pageSize = pageSize <= 0 ? (byte)100 : pageSize;
 

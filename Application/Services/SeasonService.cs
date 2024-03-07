@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq.Expressions;
+using System.Net;
 using AutoMapper;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
@@ -30,7 +31,7 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetList(byte page, byte pageSize)
+        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetList(byte page, byte pageSize, Expression<Func<Season, bool>> predicate)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 

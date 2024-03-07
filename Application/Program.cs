@@ -1,6 +1,8 @@
 using System.Net;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Application.Configurations;
+using CrossCutting.Enums;
 using Domain;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +21,12 @@ builder.Services.AddDbContext<StarTrekContext>(opts =>
 });
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 
-builder.Services.AddLocalization().AddControllers();
+builder.Services.AddLocalization()
+            .AddControllers()
+            .AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter<QuadrantEnum>());
+            });
 builder.Services.DependencyInjection();
 builder.Services.ConfigureHttpClientDefaults(opts =>
 {

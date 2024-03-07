@@ -30,7 +30,7 @@ namespace Application.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieVM>>> GetMovieList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            var movieList = await _movieService.GetList(page, pageSize);
+            var movieList = await _movieService.GetList(page, pageSize, null);
             return Ok(movieList);
         }
 

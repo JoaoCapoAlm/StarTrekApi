@@ -1,8 +1,10 @@
-﻿using Domain.ViewModel;
+﻿using CrossCutting.Enums;
+using Domain.Model;
+using Domain.ViewModel;
 
 namespace Domain.Interfaces
 {
-    public interface IPlaceService : IService<PlaceVM, short>
+    public interface IPlaceService : IService<Place, PlaceVM, short>
     {
     }
 }
