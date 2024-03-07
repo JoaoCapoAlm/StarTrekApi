@@ -26,7 +26,9 @@ namespace Domain.ViewModel
                     RealeaseDate = episode.RealeaseDate,
                     StardateFrom = episode.StardateFrom,
                     StardateTo = episode.StardateTo,
-                    Time = episode.Time
+                    Time = episode.Time,
+                    TranslatedSynopsis = episode.SynopsisResource,
+                    TranslatedTitle = episode.TitleResource
                 });
             };
         }

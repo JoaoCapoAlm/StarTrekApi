@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Net;
+using AutoMapper;
 using CrossCutting.Enums;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
@@ -16,38 +17,51 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class SerieService(StarTrekContext context,
-        IStringLocalizer<Messages> localizer,
-        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer
-    ) : ISerieService
+    public class SerieService : ISerieService
     {
-        private readonly StarTrekContext _context = context;
-        private readonly IStringLocalizer<Messages> _localizer = localizer;
-        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
+        private readonly StarTrekContext _context;
+        private readonly IMapper _mapper;
+        private readonly IStringLocalizer<Messages> _localizer;
+        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer;
+
+        public SerieService(StarTrekContext context,
+            IMapper mapper,
+            IStringLocalizer<Messages> localizer,
+            IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer
+        ) {
+            _context = context;
+            _mapper = mapper;
+            _localizer = localizer;
+            _titleSynopsisLocalizer = titleSynopsisLocalizer;
+        }
 
         public async Task<IEnumerable<SerieVM>> GetList(byte page, byte pageSize, Expression<Func<Serie, bool>> predicate)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 
-            return await _context.Serie
+            var list = await _context.Serie
                 .AsNoTracking()
+                .Include(x => x.Seasons)
+                .ThenInclude(x => x.Episodes)
                 .AsSplitQuery()
                 .OrderBy(s => s.SerieId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .Select(s => new SerieVM
-                {
-                    ID = s.SerieId,
-                    OriginalName = s.OriginalName,
-                    OriginalLanguage = s.Language.CodeISO,
-                    ImdbId = s.ImdbId,
-                    Abbreviation = s.Abbreviation,
-                    Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray(),
-                    Timeline = s.TimelineId,
-                    TranslatedName = _titleSynopsisLocalizer[s.TitleResource].Value,
-                    Synopsis = _titleSynopsisLocalizer[s.SynopsisResource].Value
-                }).ToArrayAsync()
+                .Select(x => _mapper.Map<SerieVM>(x))
+                .ToArrayAsync()
                 ?? [];
+
+            Parallel.ForEach(list, serie => {
+                Parallel.ForEach(serie.Seasons, season => {
+                    Parallel.ForEach(season.Episodes, episode =>
+                    {
+                        episode.TranslatedSynopsis = _titleSynopsisLocalizer[episode.TranslatedSynopsis];
+                        episode.TranslatedTitle = _titleSynopsisLocalizer[episode.TranslatedTitle];
+                    });
+                });
+            });
+
+            return list;
         }
 
         public async Task<SerieVM> GetById(short id)

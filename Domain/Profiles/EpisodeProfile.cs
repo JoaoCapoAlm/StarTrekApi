@@ -9,7 +9,9 @@ namespace Domain.Profiles
         public EpisodeProfile()
         {
             CreateMap<Episode, EpisodeVM>()
-                .ForMember(x => x.ID, opt => opt.MapFrom(x => x.EpisodeId));
+                .ForMember(x => x.ID, opt => opt.MapFrom(x => x.EpisodeId))
+                .ForMember(x => x.TranslatedSynopsis, x => x.MapFrom(opt => opt.SynopsisResource))
+                .ForMember(x => x.TranslatedTitle, x => x.MapFrom(opt => opt.TitleResource));
 
             CreateMap<Episode, EpisodeWithSeasonIdVM>()
                 .ForMember(x => x.ID, opt => opt.MapFrom(x => x.EpisodeId))
