@@ -117,94 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlreadyExists" xml:space="preserve">
-    <value>Already exists</value>
+  <data name="Canada" xml:space="preserve">
+    <value>Canadá</value>
   </data>
-  <data name="CannotContainSpace" xml:space="preserve">
-    <value>Cannot contain space.</value>
+  <data name="Earth" xml:space="preserve">
+    <value>Terra</value>
   </data>
-  <data name="EnglishUS" xml:space="preserve">
-    <value>English (USA)</value>
+  <data name="Planet" xml:space="preserve">
+    <value>Planeta</value>
   </data>
-  <data name="ImdbOrTmdbIdAlreadyRegistered" xml:space="preserve">
-    <value>IMDB or TMDB ID already registered</value>
+  <data name="QuadrantAlphaResource" xml:space="preserve">
+    <value>Quadrante Alfa</value>
   </data>
-  <data name="Invalid" xml:space="preserve">
-    <value>Invalid</value>
+  <data name="QuadrantBetaResource" xml:space="preserve">
+    <value>Quadrante Beta</value>
   </data>
-  <data name="InvalidId" xml:space="preserve">
-    <value>Invalid ID</value>
+  <data name="QuadrantDeltaResource" xml:space="preserve">
+    <value>Quadrante Delta</value>
   </data>
-  <data name="InvalidLength" xml:space="preserve">
-    <value>Invalid length</value>
+  <data name="QuadrantGammaResource" xml:space="preserve">
+    <value>Quadrante Gama</value>
   </data>
-  <data name="LanguageCodeMustIso" xml:space="preserve">
-    <value>The language code must be an ISO 690 code</value>
-  </data>
-  <data name="MaximumSizeExceeded" xml:space="preserve">
-    <value>Maximum size exceeded</value>
-  </data>
-  <data name="MustBeGreaterThanZero" xml:space="preserve">
-    <value>Must be greater than zero</value>
-  </data>
-  <data name="MustContainSynopsisAtTheEnd" xml:space="preserve">
-    <value>Must contain 'Synopsis' at the end</value>
-  </data>
-  <data name="MustNotContainSynopsisAtTheEnd" xml:space="preserve">
-    <value>Must not contain 'Synopsis' at the end</value>
-  </data>
-  <data name="NotCreated" xml:space="preserve">
-    <value>Not created</value>
-  </data>
-  <data name="NotFound" xml:space="preserve">
-    <value>Not found</value>
-  </data>
-  <data name="OneOrMoreValidationErrorsOccurred" xml:space="preserve">
-    <value>One or more validation errors occurred</value>
-  </data>
-  <data name="PortuguesBR" xml:space="preserve">
-    <value>Portuguese (Brazil)</value>
-  </data>
-  <data name="Required" xml:space="preserve">
-    <value>Required</value>
-  </data>
-  <data name="ShouldBeLettersWithoutAccents" xml:space="preserve">
-    <value>It should just be letters without accents</value>
-  </data>
-  <data name="ValueGreaterThanZero" xml:space="preserve">
-    <value>Value must be greater than zero</value>
-  </data>
-  <data name="SomeResourceIsDuplicated" xml:space="preserve">
-    <value>Some resource is duplicated</value>
-  </data>
-  <data name="StardateFromLessThanOrEqualStardateTo" xml:space="preserve">
-    <value>StardateFrom must be a value less than or equal to StardateTo</value>
-  </data>
-  <data name="ShouldBeLettersWithoutAccentsOrNumbers" xml:space="preserve">
-    <value>It should just be letters without accents or numbers</value>
-  </data>
-  <data name="MaximumLengthExceeded" xml:space="preserve">
-    <value>Maximum length exceeded</value>
-  </data>
-  <data name="MustStartWithTheSeriesAbbreviation" xml:space="preserve">
-    <value>Must start with the series abbreviation</value>
-  </data>
-  <data name="DuplicateEpisodeNumber" xml:space="preserve">
-    <value>Duplicate episode number</value>
-  </data>
-  <data name="DuplicateResource" xml:space="preserve">
-    <value>Duplicate resource</value>
-  </data>
-  <data name="EpisodeAlreadyRegistered" xml:space="preserve">
-    <value>Episode already registered</value>
-  </data>
-  <data name="SeasonAlreadyRegistered" xml:space="preserve">
-    <value>Season already registered</value>
-  </data>
-  <data name="ItCannotBeaFutureDate" xml:space="preserve">
-    <value>It cannot be a future date</value>
-  </data>
-  <data name="SpaceStation" xml:space="preserve">
-    <value>Station stations</value>
+  <data name="UnitedStates" xml:space="preserve">
+    <value>Estados Unidos da América</value>
   </data>
 </root>
