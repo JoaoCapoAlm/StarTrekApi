@@ -10,6 +10,6 @@
         public float? StardateTo { get; set; }
         public string ImdbId { get; set; }
         public string TranslatedTitle { get; set; }
-        public string TranslatedSynopsis { get; set; }
+        public string Synopsis { get; set; }
     }
 }

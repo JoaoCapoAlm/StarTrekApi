@@ -47,7 +47,7 @@ namespace Application.Services
             foreach (var ep in epArray)
             {
                 ep.TranslatedTitle = _localizerTitleSynopsis[ep.TranslatedTitle];
-                ep.TranslatedSynopsis = _localizerTitleSynopsis[ep.TranslatedSynopsis];
+                ep.Synopsis = _localizerTitleSynopsis[ep.Synopsis];
             }
 
             return epArray;
@@ -78,7 +78,7 @@ namespace Application.Services
                 throw new AppException(_localizer["NotFound"].Value, error, System.Net.HttpStatusCode.NotFound);
             }
 
-            episode.TranslatedSynopsis = _localizerTitleSynopsis[episode.TranslatedSynopsis];
+            episode.Synopsis = _localizerTitleSynopsis[episode.Synopsis];
             episode.TranslatedTitle = _localizerTitleSynopsis[episode.TranslatedTitle];
 
             return episode;

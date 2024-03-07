@@ -10,6 +10,7 @@ namespace Domain.ViewModel
         public ICollection<EpisodeVM> Episodes { get; set; }
         public SeasonVM()
         {
+            Episodes = [];
         }
         public SeasonVM(short id, byte number, IEnumerable<Episode> episodes)
         {
@@ -27,7 +28,7 @@ namespace Domain.ViewModel
                     StardateFrom = episode.StardateFrom,
                     StardateTo = episode.StardateTo,
                     Time = episode.Time,
-                    TranslatedSynopsis = episode.SynopsisResource,
+                    Synopsis = episode.SynopsisResource,
                     TranslatedTitle = episode.TitleResource
                 });
             };

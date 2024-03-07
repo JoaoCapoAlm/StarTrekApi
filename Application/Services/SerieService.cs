@@ -55,7 +55,7 @@ namespace Application.Services
                 Parallel.ForEach(serie.Seasons, season => {
                     Parallel.ForEach(season.Episodes, episode =>
                     {
-                        episode.TranslatedSynopsis = _titleSynopsisLocalizer[episode.TranslatedSynopsis];
+                        episode.Synopsis = _titleSynopsisLocalizer[episode.Synopsis];
                         episode.TranslatedTitle = _titleSynopsisLocalizer[episode.TranslatedTitle];
                     });
                 });
@@ -78,18 +78,7 @@ namespace Application.Services
             var serie = await _context.Serie
                 .AsNoTracking()
                 .Where(s => s.SerieId.Equals(id))
-                .Select(s => new SerieVM
-                {
-                    ID = s.SerieId,
-                    OriginalName = s.OriginalName,
-                    OriginalLanguage = s.Language.CodeISO,
-                    ImdbId = s.ImdbId,
-                    Abbreviation = s.Abbreviation,
-                    Seasons = s.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, se.Episodes)).ToArray(),
-                    TranslatedName = _titleSynopsisLocalizer[s.TitleResource].Value,
-                    Synopsis = _titleSynopsisLocalizer[s.SynopsisResource].Value,
-                    Timeline = s.TimelineId
-                })
+                .Select(x => _mapper.Map<SerieVM>(x))
                 .FirstOrDefaultAsync();
 
             if (serie == null)
@@ -125,52 +114,51 @@ namespace Application.Services
                 Seasons = []
             };
 
-            Parallel.ForEach(dto.Seasons, new ParallelOptions(), s =>
+            if (dto.Seasons is not null && dto.Seasons.Any())
             {
-                var newSeason = new Season()
+                Parallel.ForEach(dto.Seasons, new ParallelOptions(), s =>
                 {
-                    Number = s.Number,
-                    Episodes = []
-                };
-
-                Parallel.ForEach(s.Episodes, new ParallelOptions(), episode =>
-                {
-                    newSeason.Episodes.Add(new Episode
+                    var newSeason = new Season()
                     {
-                        ImdbId = episode.ImdbId,
-                        Number = episode.Number,
-                        RealeaseDate = episode.RealeaseDate,
-                        StardateFrom = episode.StardateFrom,
-                        StardateTo = episode.StardateTo,
-                        SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
-                        Time = episode.Time,
-                        TitleResource = episode.TitleResource
-                    });
+                        Number = s.Number,
+                        Episodes = []
+                    };
+
+                    if (s.Episodes is not null && s.Episodes.Any())
+                    {
+                        Parallel.ForEach(s.Episodes, new ParallelOptions(), episode =>
+                        {
+                            newSeason.Episodes.Add(new Episode
+                            {
+                                ImdbId = episode.ImdbId,
+                                Number = episode.Number,
+                                RealeaseDate = episode.RealeaseDate,
+                                StardateFrom = episode.StardateFrom,
+                                StardateTo = episode.StardateTo,
+                                SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
+                                Time = episode.Time,
+                                TitleResource = episode.TitleResource
+                            });
+                        });
+                    }
+                    newSerie.Seasons.Add(newSeason);
                 });
-                newSerie.Seasons.Add(newSeason);
-            });
+            }
 
             await _context.Serie.AddAsync(newSerie);
             await _context.SaveChangesAsync();
 
-            var serieSaved = await _context.Serie.AsNoTracking()
-                .Include(s => s.Seasons).ThenInclude(s => s.Episodes)
-                .Include(s => s.Language)
-                .OrderBy(s => s.SerieId)
-                .LastAsync();
+            var vm = _mapper.Map<SerieVM>(newSerie);
 
-            return new SerieVM()
-            {
-                ID = serieSaved.SerieId,
-                Abbreviation = serieSaved.Abbreviation,
-                ImdbId = serieSaved.ImdbId,
-                OriginalLanguage = serieSaved.Language.CodeISO,
-                OriginalName = serieSaved.OriginalName,
-                Seasons = serieSaved.Seasons.Select(se => new SeasonVM(se.SeasonId, se.Number, [.. se.Episodes])).ToList(),
-                Timeline = serieSaved.TimelineId,
-                TranslatedName = _titleSynopsisLocalizer[serieSaved.TitleResource],
-                Synopsis = _titleSynopsisLocalizer[serieSaved.SynopsisResource]
-            };
+            vm.OriginalLanguage = await _context.Language.AsNoTracking()
+                .Where(x => x.LanguageId.Equals(newSerie.OriginalLanguageId))
+                .Select(x => x.CodeISO)
+                .FirstAsync();
+
+            vm.Synopsis = _titleSynopsisLocalizer[vm.Synopsis];
+            vm.TranslatedName = _titleSynopsisLocalizer[vm.TranslatedName];
+
+            return vm;
         }
 
         public async Task Update(short id, UpdateSerieDto dto)
