@@ -120,9 +120,6 @@
   <data name="AlreadyExists" xml:space="preserve">
     <value>Já existente</value>
   </data>
-  <data name="Canada" xml:space="preserve">
-    <value>Canadá</value>
-  </data>
   <data name="CannotContainSpace" xml:space="preserve">
     <value>Não pode conter espaço.</value>
   </data>
@@ -174,9 +171,6 @@
   <data name="ShouldBeLettersWithoutAccents" xml:space="preserve">
     <value>Deve ter apenas letras sem acentos</value>
   </data>
-  <data name="UnitedStates" xml:space="preserve">
-    <value>Estados Unidos da América</value>
-  </data>
   <data name="ValueGreaterThanZero" xml:space="preserve">
     <value>Valor deve ser maior que zero</value>
   </data>
@@ -210,16 +204,7 @@
   <data name="ItCannotBeaFutureDate" xml:space="preserve">
     <value>Não pode ser uma data futura</value>
   </data>
-  <data name="QuadrantAlphaResource" xml:space="preserve">
-    <value>Quadrante Alfa</value>
-  </data>
-  <data name="QuadrantBetaResource" xml:space="preserve">
-    <value>Quadrante Beta</value>
-  </data>
-  <data name="QuadrantDeltaResource" xml:space="preserve">
-    <value>Quadrante Delta</value>
-  </data>
-  <data name="QuadrantGammaResource" xml:space="preserve">
-    <value>Quadrante Gama</value>
+  <data name="SpaceStation" xml:space="preserve">
+    <value>Estação espacial</value>
   </data>
 </root>

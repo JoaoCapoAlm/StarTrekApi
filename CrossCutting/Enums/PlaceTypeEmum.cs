@@ -3,6 +3,7 @@
     public enum PlaceTypeEmum : byte
     {
         Planet = 1,
-        Station = 2
+        SpaceStation = 2,
+        City = 3
     }
 }

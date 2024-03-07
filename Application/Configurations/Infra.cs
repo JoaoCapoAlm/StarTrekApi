@@ -20,10 +20,12 @@ namespace Application.Configurations
 
             services.TryAddTransient<IStringLocalizer<Messages>, StringLocalizer<Messages>>();
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
+            services.TryAddTransient<IStringLocalizer<PlacesResource>, StringLocalizer<PlacesResource>>();
 
             services.TryAddScoped<ICrewService, CrewService>();
             services.TryAddScoped<IEpisodeService, EpisodeService>();
             services.TryAddScoped<IMovieService, MovieService>();
+            services.TryAddScoped<IPlaceService, PlaceService>();
             services.TryAddScoped<ISeasonService, SeasonService>();
             services.TryAddScoped<ISerieService, SerieService>();
             services.TryAddScoped<TmdbService>();

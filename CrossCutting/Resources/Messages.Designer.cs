@@ -70,15 +70,6 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Canada.
-        /// </summary>
-        public static string Canada {
-            get {
-                return ResourceManager.GetString("Canada", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot contain space..
         /// </summary>
         public static string CannotContainSpace {
@@ -268,42 +259,6 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quadrant Alpha.
-        /// </summary>
-        public static string QuadrantAlphaResource {
-            get {
-                return ResourceManager.GetString("QuadrantAlphaResource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Quadrant Beta.
-        /// </summary>
-        public static string QuadrantBetaResource {
-            get {
-                return ResourceManager.GetString("QuadrantBetaResource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Quadrant Delta.
-        /// </summary>
-        public static string QuadrantDeltaResource {
-            get {
-                return ResourceManager.GetString("QuadrantDeltaResource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Quadrant Gamma.
-        /// </summary>
-        public static string QuadrantGammaResource {
-            get {
-                return ResourceManager.GetString("QuadrantGammaResource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Required.
         /// </summary>
         public static string Required {
@@ -349,20 +304,20 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Station stations.
+        /// </summary>
+        public static string SpaceStation {
+            get {
+                return ResourceManager.GetString("SpaceStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to StardateFrom must be a value less than or equal to StardateTo.
         /// </summary>
         public static string StardateFromLessThanOrEqualStardateTo {
             get {
                 return ResourceManager.GetString("StardateFromLessThanOrEqualStardateTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to United States of America.
-        /// </summary>
-        public static string UnitedStates {
-            get {
-                return ResourceManager.GetString("UnitedStates", resourceCulture);
             }
         }
         

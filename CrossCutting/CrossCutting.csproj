@@ -18,6 +18,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\PlacesResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlacesResource.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\TitleSynopsis.Designer.cs">
       <DependentUpon>TitleSynopsis.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -33,6 +38,13 @@
     <EmbeddedResource Update="Resources\Messages.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\PlacesResource.pt-BR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\PlacesResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PlacesResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\TitleSynopsis.pt-BR.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
