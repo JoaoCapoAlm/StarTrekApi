@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Domain.Model;
+﻿using Domain.Model;
 
 namespace Domain.ViewModel
 {

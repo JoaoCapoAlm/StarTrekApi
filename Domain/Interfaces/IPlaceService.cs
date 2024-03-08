@@ -1,5 +1,4 @@
-﻿using CrossCutting.Enums;
-using Domain.Model;
+﻿using Domain.Model;
 using Domain.ViewModel;
 
 namespace Domain.Interfaces

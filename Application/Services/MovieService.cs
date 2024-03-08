@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Net;
+using AutoMapper;
 using CrossCutting.Enums;
 using CrossCutting.Exceptions;
 using CrossCutting.Helpers;
@@ -15,35 +16,47 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class MovieService(StarTrekContext context,
-        IStringLocalizer<Messages> localizer,
-        IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer) : IMovieService
+    public class MovieService : IMovieService
     {
-        private readonly StarTrekContext _context = context;
-        private readonly IStringLocalizer<Messages> _localizer = localizer;
-        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer = titleSynopsisLocalizer;
+        private readonly StarTrekContext _context;
+        private readonly IMapper _mapper;
+        private readonly IStringLocalizer<Messages> _localizer;
+        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsisLocalizer;
+
+        public MovieService(StarTrekContext context,
+            IMapper mapper,
+            IStringLocalizer<Messages> localizer,
+            IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer
+        )
+        {
+            _context = context;
+            _mapper = mapper;
+            _localizer = localizer;
+            _titleSynopsisLocalizer = titleSynopsisLocalizer;
+        }
 
         public async Task<IEnumerable<MovieVM>> GetList(byte page, byte pageSize, Expression<Func<Movie, bool>> predicate)
         {
             pageSize = (byte)(pageSize > 100 ? 100 : pageSize);
 
-            return await _context.Movie
+            var list = await _context.Movie
                 .AsNoTracking()
                 .OrderBy(m => m.MovieId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .Select(m => new MovieVM(
-                    m.MovieId,
-                    m.OriginalName,
-                    _localizer[m.SynopsisResource].Value,
-                    m.Languages.CodeISO,
-                    m.Time,
-                    m.ImdbId,
-                    m.ReleaseDate,
-                    m.TimelineId,
-                    _localizer[m.TitleResource].Value
-                )).ToArrayAsync()
-                ?? Enumerable.Empty<MovieVM>();
+                .Include(x => x.Languages)
+                .Include(x => x.Timeline)
+                .Select(x => _mapper.Map<MovieVM>(x))
+                .ToArrayAsync()
+                ?? [];
+
+            foreach (var movie in list)
+            {
+                movie.Synopsis = _titleSynopsisLocalizer[movie.Synopsis];
+                movie.OriginalName = _titleSynopsisLocalizer[movie.OriginalName];
+            }
+
+            return list;
         }
         public async Task<MovieVM> GetById(short id)
         {
@@ -58,18 +71,11 @@ namespace Application.Services
 
             var movie = await _context.Movie
                 .AsNoTracking()
-                .Where(m => m.MovieId == id)
-                .Select(m => new MovieVM(
-                    m.MovieId,
-                    m.OriginalName,
-                    _titleSynopsisLocalizer[m.SynopsisResource].Value,
-                    m.Languages.CodeISO,
-                    m.Time,
-                    m.ImdbId,
-                    m.ReleaseDate,
-                    m.TimelineId,
-                    _titleSynopsisLocalizer[m.TitleResource].Value
-                )).FirstOrDefaultAsync();
+                .Include(x => x.Languages)
+                .Include(x => x.Timeline)
+                .Where(m => m.MovieId.Equals(id))
+                .Select(x => _mapper.Map<MovieVM>(x))
+                .FirstOrDefaultAsync();
 
             if (movie == null)
             {
@@ -79,6 +85,9 @@ namespace Application.Services
                 };
                 throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
             }
+
+            movie.TranslatedName = _titleSynopsisLocalizer[movie.TranslatedName];
+            movie.Synopsis = _titleSynopsisLocalizer[movie.Synopsis];
 
             return movie;
         }
@@ -119,18 +128,12 @@ namespace Application.Services
             await _context.AddAsync(movie);
             await _context.SaveChangesAsync();
 
-            return await _context.Movie.AsNoTracking()
-                .OrderBy(m => m.MovieId)
-                .Select(m => new MovieVM(m.MovieId,
-                    m.OriginalName,
-                    _titleSynopsisLocalizer[m.SynopsisResource].Value,
-                    m.Languages.CodeISO,
-                    m.Time,
-                    m.ImdbId,
-                    m.ReleaseDate,
-                    m.TimelineId,
-                    _titleSynopsisLocalizer[m.TitleResource].Value)
-                ).LastAsync();
+            var vm = _mapper.Map<MovieVM>(movie);
+
+            vm.TranslatedName = _titleSynopsisLocalizer[vm.TranslatedName];
+            vm.Synopsis = _titleSynopsisLocalizer[vm.Synopsis];
+
+            return vm;
         }
         public async Task Update(short id, UpdateMovieDto dto)
         {
@@ -167,7 +170,6 @@ namespace Application.Services
             movie.TimelineId = dto.TimelineId.HasValue ? (byte)dto.TimelineId.Value.GetHashCode() : movie.TimelineId;
             movie.TitleResource = string.IsNullOrEmpty(dto.TitleResource) ? movie.TitleResource : dto.TitleResource;
             movie.TmdbId = dto.TmdbId ?? movie.TmdbId;
-
 
             _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();

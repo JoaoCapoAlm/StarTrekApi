@@ -1,16 +1,19 @@
 ﻿namespace Domain.ViewModel
 {
-    public class MovieVM(short movieId, string originalName, string synopsis, string originalLanguage,
-        short time, string imdbId, DateOnly? releaseDate, byte timelineId, string translatedName)
+    public class MovieVM
     {
-        public short Id { get; set; } = movieId;
-        public string OriginalName { get; set; } = originalName;
-        public string TranslatedName { get; set; } = translatedName;
-        public string Synopsis { get; set; } = synopsis;
-        public string OriginalLanguage { get; set; } = originalLanguage;
-        public DateOnly? ReleaseDate { get; set; } = releaseDate;
-        public short Time { get; set; } = time;
-        public byte TimelineId { get; set; } = timelineId;
-        public string ImdbId { get; set; } = imdbId;
+        public short Id { get; set; }
+        public string OriginalName { get; set; }
+        public string TranslatedName { get; set; }
+        public string Synopsis { get; set; }
+        public string OriginalLanguage { get; set; }
+        public DateOnly? ReleaseDate { get; set; }
+        public short Time { get; set; }
+        public TimelineVM Timeline { get; set; }
+        public string ImdbId { get; set; }
+
+        public MovieVM()
+        {
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using CrossCutting.Enums;
+﻿using CrossCutting.Enums;
 using Domain.Interfaces;
 using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,8 @@ namespace Application.Controllers
             [FromQuery] byte page = 0,
             [FromQuery] byte pageSize = 100,
             [FromQuery] QuadrantEnum? quadrant = null
-        ) {
+        )
+        {
             var list = await _placeService.GetList(
                 page,
                 pageSize,

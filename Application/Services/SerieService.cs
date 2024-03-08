@@ -28,7 +28,8 @@ namespace Application.Services
             IMapper mapper,
             IStringLocalizer<Messages> localizer,
             IStringLocalizer<TitleSynopsis> titleSynopsisLocalizer
-        ) {
+        )
+        {
             _context = context;
             _mapper = mapper;
             _localizer = localizer;
@@ -51,8 +52,10 @@ namespace Application.Services
                 .ToArrayAsync()
                 ?? [];
 
-            Parallel.ForEach(list, serie => {
-                Parallel.ForEach(serie.Seasons, season => {
+            Parallel.ForEach(list, serie =>
+            {
+                Parallel.ForEach(serie.Seasons, season =>
+                {
                     Parallel.ForEach(season.Episodes, episode =>
                     {
                         episode.Synopsis = _titleSynopsisLocalizer[episode.Synopsis];

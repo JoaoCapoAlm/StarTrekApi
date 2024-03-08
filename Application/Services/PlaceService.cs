@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using AutoMapper;
-using CrossCutting.Enums;
 using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
@@ -69,7 +66,8 @@ namespace Application.Services
             byte page,
             byte pageSize,
             Expression<Func<Place, bool>> predicate
-        ) {
+        )
+        {
             var list = await _context.Place.AsNoTracking()
                 .Where(predicate)
                 .OrderBy(x => x.PlaceId)
