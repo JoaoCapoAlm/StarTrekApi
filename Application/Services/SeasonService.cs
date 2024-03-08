@@ -18,24 +18,27 @@ namespace Application.Services
     public class SeasonService : ISeasonService
     {
         private readonly StarTrekContext _context;
-        private readonly IStringLocalizer<Messages> _localizerMessages;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<Messages> _localizerMessages;
+        private readonly IStringLocalizer<TitleSynopsis> _titleSynopsis;
 
         public SeasonService(StarTrekContext context,
+            IMapper mapper,
             IStringLocalizer<Messages> localizer,
-            IMapper mapper
+            IStringLocalizer<TitleSynopsis> titleSynopsis
         )
         {
             _context = context;
-            _localizerMessages = localizer;
             _mapper = mapper;
+            _localizerMessages = localizer;
+            _titleSynopsis = titleSynopsis;
         }
 
         public async Task<IEnumerable<SeasonWithSerieIdVM>> GetList(byte page, byte pageSize, Expression<Func<Season, bool>> predicate)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 
-            return await _context.Season.AsNoTracking()
+            var list = await _context.Season.AsNoTracking()
                 .Include(x => x.Episodes)
                 .OrderBy(x => x.SeasonId)
                 .Skip(page * pageSize)
@@ -43,6 +46,17 @@ namespace Application.Services
                 .Select(x => _mapper.Map<SeasonWithSerieIdVM>(x))
                 .ToArrayAsync()
                 ?? [];
+
+            Parallel.ForEach(list, season =>
+            {
+                Parallel.ForEach(season.Episodes, episode =>
+                {
+                    episode.Synopsis = _titleSynopsis[episode.Synopsis];
+                    episode.TranslatedTitle = _titleSynopsis[episode.TranslatedTitle];
+                });
+            });
+
+            return list;
         }
         public async Task<SeasonWithSerieIdVM> GetById(short seasonId)
         {
@@ -57,7 +71,8 @@ namespace Application.Services
 
             var season = await _context.Season.AsNoTracking()
                 .Where(x => x.SeasonId == seasonId)
-                .Select(x => new SeasonWithSerieIdVM(x.SeasonId, x.SerieId, x.Number, x.Episodes.ToArray()))
+                .Include(x => x.Episodes)
+                .Select(x => _mapper.Map<SeasonWithSerieIdVM>(x))
                 .FirstOrDefaultAsync();
 
             if (season == null)
@@ -68,6 +83,12 @@ namespace Application.Services
                 };
                 throw new AppException(_localizerMessages["NotFound"], errors, HttpStatusCode.NotFound);
             }
+
+            Parallel.ForEach(season.Episodes, episode =>
+            {
+                episode.Synopsis = _titleSynopsis[episode.Synopsis];
+                episode.TranslatedTitle = _titleSynopsis[episode.TranslatedTitle];
+            });
 
             return season;
         }
@@ -93,21 +114,11 @@ namespace Application.Services
                 Episodes = []
             };
 
-            if (dto.Episodes != null)
+            if (dto.Episodes is not null)
             {
                 Parallel.ForEach(dto.Episodes, new ParallelOptions(), episode =>
                 {
-                    newSeason.Episodes.Add(new Episode
-                    {
-                        ImdbId = episode.ImdbId,
-                        Number = episode.Number,
-                        RealeaseDate = episode.RealeaseDate,
-                        StardateFrom = episode.StardateFrom,
-                        StardateTo = episode.StardateTo,
-                        SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
-                        Time = episode.Time,
-                        TitleResource = episode.TitleResource
-                    });
+                    newSeason.Episodes.Add(_mapper.Map<Episode>(episode));
                 });
             }
             serie.Seasons ??= [];
@@ -115,7 +126,15 @@ namespace Application.Services
 
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<SeasonWithSerieIdVM>(newSeason);
+            var vm = _mapper.Map<SeasonWithSerieIdVM>(newSeason);
+
+            Parallel.ForEach(vm.Episodes, episode =>
+            {
+                episode.Synopsis = _titleSynopsis[episode.Synopsis];
+                episode.TranslatedTitle = _titleSynopsis[episode.TranslatedTitle];
+            });
+
+            return vm;
         }
         public async Task Update(short seasonId, UpdateSeasonDto dto)
         {

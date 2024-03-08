@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CrossCutting.Extensions;
 using Domain.Model;
 using Domain.ViewModel;
 
@@ -20,6 +21,8 @@ namespace Domain.Profiles
 
             CreateMap<CreateEpisodeWithSeasonIdDto, Episode>();
             CreateMap<CreateEpisodeWithSeasonIdDto, CreateEpisodeDto>();
+            CreateMap<CreateEpisodeDto, Episode>()
+                .ForMember(x => x.SynopsisResource, x => x.MapFrom(opt => opt.TitleResource.CreateSynopsisResource()));
         }
     }
 }

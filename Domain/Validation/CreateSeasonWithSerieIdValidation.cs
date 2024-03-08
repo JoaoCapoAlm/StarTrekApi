@@ -33,7 +33,7 @@ namespace Domain.Validation
                                 .Where(x => x.SerieId.Equals(seasonDto.SerieId))
                                 .FirstAsync(cancellationToken: cancellationoken);
 
-                            return episodeDto.TitleResource.StartsWith(serie.Abbreviation);
+                            return episodeDto.TitleResource.StartsWith(serie.Abbreviation, StringComparison.CurrentCultureIgnoreCase);
                         }).WithMessage(localizerMessages["MustStartWithTheSeriesAbbreviation"]);
 
                     RuleFor(x => x.Number)
