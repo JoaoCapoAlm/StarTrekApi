@@ -66,7 +66,10 @@ namespace Domain
             modelBuilder.Entity<vwImdb>()
                 .HasNoKey();
 
-            modelBuilder.Entity<vwResourcesName>()
+            modelBuilder.Entity<vwResourcesPlaces>()
+                .HasNoKey();
+
+            modelBuilder.Entity<vwResourcesTitleSynopsis>()
                 .HasNoKey();
 
             modelBuilder.Entity<Crew>()
@@ -150,6 +153,7 @@ namespace Domain
         public DbSet<Timeline> Timeline { get; set; }
         public DbSet<Quadrant> Quadrant { get; set; }
         public DbSet<vwImdb> vwImdb { get; set; }
-        public DbSet<vwResourcesName> vwResourcesName { get; set; }
+        public DbSet<vwResourcesPlaces> vwResourcesPlaces { get; set; }
+        public DbSet<vwResourcesTitleSynopsis> vwResourcesTitleSynopsis { get; set; }
     }
 }

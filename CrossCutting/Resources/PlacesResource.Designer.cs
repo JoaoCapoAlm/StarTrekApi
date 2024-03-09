@@ -70,6 +70,15 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deep Space Nine.
+        /// </summary>
+        public static string DeepSpaceNine {
+            get {
+                return ResourceManager.GetString("DeepSpaceNine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Earth.
         /// </summary>
         public static string Earth {
@@ -120,6 +129,24 @@ namespace CrossCutting.Resources {
         public static string QuadrantGammaResource {
             get {
                 return ResourceManager.GetString("QuadrantGammaResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to San Francisco.
+        /// </summary>
+        public static string SanFrancisco {
+            get {
+                return ResourceManager.GetString("SanFrancisco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Space Station.
+        /// </summary>
+        public static string SpaceStation {
+            get {
+                return ResourceManager.GetString("SpaceStation", resourceCulture);
             }
         }
         

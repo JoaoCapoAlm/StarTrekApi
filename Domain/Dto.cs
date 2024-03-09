@@ -81,4 +81,6 @@ namespace Domain
         string OriginalName,
         TimelineEnum? TimelineId,
         int? TmdbId);
+
+    public record CreatePlaceDto(string NameResource, byte QuadrantId, byte PlaceTypeId);
 }

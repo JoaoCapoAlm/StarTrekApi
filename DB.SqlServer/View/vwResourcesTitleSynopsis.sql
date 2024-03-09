@@ -1,4 +1,4 @@
-﻿CREATE VIEW [dbo].[vwResourcesName]
+﻿CREATE VIEW [dbo].[vwResourcesTitleSynopsis]
 AS
 	SELECT [MovieId] AS [Id],
 		[SynopsisResource] AS [Resource]

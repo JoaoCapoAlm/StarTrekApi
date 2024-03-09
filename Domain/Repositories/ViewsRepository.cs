@@ -11,7 +11,7 @@ namespace Domain.Repositories
         }
         public async Task<bool> CheckResourceExists(string resource, int? id = null, CancellationToken cancellationToken = default)
         {
-            var result = await _context.vwResourcesName.AsNoTracking()
+            var result = await _context.vwResourcesTitleSynopsis.AsNoTracking()
                 .Where(r => r.Resource.Equals(resource)
                     && (!id.HasValue || r.Id.Equals(id)))
                 .AnyAsync(cancellationToken);

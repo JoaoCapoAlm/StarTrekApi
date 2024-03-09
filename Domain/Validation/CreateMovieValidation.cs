@@ -21,7 +21,7 @@ namespace Domain.Validation
             RuleFor(x => x.OriginalLanguageIso)
                 .NotEmpty()
                     .WithMessage(localizer["Required"].Value)
-                .Must((dto, language) =>
+                .Must(language =>
                 {
                     var languageIso = RegexHelper.RemoveSpecialCharacters(language);
                     return Enum.IsDefined(typeof(LanguageEnum), languageIso);

@@ -1,15 +1,15 @@
 ﻿namespace Domain.Model
 {
-    public class vwResourcesName
+    public class vwResourcesTitleSynopsis
     {
         public int Id { get; set; }
         public string Resource { get; set; }
 
-        public vwResourcesName()
+        public vwResourcesTitleSynopsis()
         {
         }
 
-        public vwResourcesName(string resource)
+        public vwResourcesTitleSynopsis(string resource)
         {
             Resource = resource;
         }

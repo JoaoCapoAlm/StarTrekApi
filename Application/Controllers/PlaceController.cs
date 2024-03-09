@@ -1,13 +1,16 @@
 ﻿using CrossCutting.Enums;
+using Domain;
 using Domain.Interfaces;
 using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using static Application.Middleware.AppMiddleware;
 
 namespace Application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [ProducesResponseType(400, Type = typeof(ContentResponse))]
     public class PlaceController : ControllerBase
     {
         private readonly IPlaceService _placeService;
@@ -17,6 +20,7 @@ namespace Application.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<PlaceVM>>> GetPlaceList(
             [FromQuery] byte page = 0,
             [FromQuery] byte pageSize = 100,
@@ -31,10 +35,20 @@ namespace Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<PlaceVM>> GetPlaceById([FromRoute] short id)
         {
             var place = await _placeService.GetById(id);
             return Ok(place);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(201)]
+        public async Task<ActionResult<PlaceVM>> CreatePlace([FromBody] CreatePlaceDto dto)
+        {
+            var place = await _placeService.Create(dto);
+
+            return CreatedAtAction(nameof(GetPlaceById), new { id = place.ID }, place);
         }
     }
 }

@@ -120,6 +120,9 @@
   <data name="Canada" xml:space="preserve">
     <value>Canada</value>
   </data>
+  <data name="DeepSpaceNine" xml:space="preserve">
+    <value>Deep Space Nine</value>
+  </data>
   <data name="Earth" xml:space="preserve">
     <value>Earth</value>
   </data>
@@ -137,6 +140,12 @@
   </data>
   <data name="QuadrantGammaResource" xml:space="preserve">
     <value>Quadrant Gamma</value>
+  </data>
+  <data name="SanFrancisco" xml:space="preserve">
+    <value>San Francisco</value>
+  </data>
+  <data name="SpaceStation" xml:space="preserve">
+    <value>Space Station</value>
   </data>
   <data name="UnitedStates" xml:space="preserve">
     <value>United States of America</value>

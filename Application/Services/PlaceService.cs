@@ -1,10 +1,12 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using CrossCutting.Exceptions;
+using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Interfaces;
 using Domain.Model;
+using Domain.Validation;
 using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -83,6 +85,34 @@ namespace Application.Services
             });
 
             return list;
+        }
+
+        public async Task<PlaceVM> Create(CreatePlaceDto dto)
+        {
+            var validator = new CreatePlaceValidation(_context, _localizer);
+            await validator.ValidateAndThrowAsyncStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
+
+            var place = _mapper.Map<Place>(dto);
+
+            await _context.Place.AddAsync(place);
+            await _context.SaveChangesAsync();
+
+            var vm = _mapper.Map<PlaceVM>(place);
+
+            vm.Quadrant = await _context.Quadrant.AsNoTracking()
+                .Where(x => x.QuadrantId.Equals(place.QuadrantId))
+                .Select(x => _mapper.Map<QuadrantVM>(x))
+                .FirstAsync();
+
+            vm.PlaceType = await _context.PlaceType.AsNoTracking()
+                .Where(x => x.PlaceTypeId.Equals(place.PlaceTypeId))
+                .Select(x => _mapper.Map<PlaceTypeVM>(x))
+                .FirstAsync();
+
+            vm.Quadrant.Name = _placesLocalizer[vm.Quadrant.Name];
+            vm.PlaceType.Type = _placesLocalizer[vm.PlaceType.Type];
+
+            return vm;
         }
     }
 }

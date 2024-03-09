@@ -75,12 +75,13 @@
     <Build Include="Tables\Season.sql" />
     <Build Include="Tables\Role.sql" />
     <Build Include="Tables\CrewRole.sql" />
-    <Build Include="View\vwResourcesName.sql" />
+    <Build Include="View\vwResourcesTitleSynopsis.sql" />
     <Build Include="View\vwImdb.sql" />
     <Build Include="Tables\Species.sql" />
     <Build Include="Tables\Place.sql" />
     <Build Include="Tables\Quadrant.sql" />
     <Build Include="Tables\PlaceType.sql" />
+    <Build Include="View\vwResourcesPlaces.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="DefaultData\Script.PostDeployment.sql" />
@@ -96,5 +97,8 @@
     <None Include="DefaultData\Roles.sql" />
     <None Include="DefaultData\Quadrants.sql" />
     <None Include="DefaultData\PlaceTypes.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="DB.SqlServer.refactorlog" />
   </ItemGroup>
 </Project>

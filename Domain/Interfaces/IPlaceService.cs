@@ -5,5 +5,6 @@ namespace Domain.Interfaces
 {
     public interface IPlaceService : IService<Place, PlaceVM, short>
     {
+        Task<PlaceVM> Create(CreatePlaceDto dto);
     }
 }
