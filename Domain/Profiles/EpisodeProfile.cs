@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CrossCutting.Extensions;
+using Domain.DTOs;
 using Domain.Model;
 using Domain.ViewModel;
 

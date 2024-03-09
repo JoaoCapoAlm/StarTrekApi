@@ -2,6 +2,7 @@
 using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
+using Domain.DTOs;
 using Domain.Repositories;
 using FluentValidation;
 using Microsoft.Extensions.Localization;

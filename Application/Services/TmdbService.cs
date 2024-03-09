@@ -1,6 +1,7 @@
 ﻿using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
+using Domain.DTOs;
 using Domain.Model;
 using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
@@ -38,9 +39,8 @@ namespace Application.Services
 
             var searchSerie = await new TmdbAPI().SearchSerie(tmdbId) ?? throw new Exception(_localizer["notFound"].Value);
 
-            bool isNew = serie == null;
-            if (serie is null)
-                serie = new Serie();
+            bool isNew = serie is null;
+            serie ??= new Serie();
 
             serie.DateSyncTmdb = DateTime.UtcNow;
             serie.OriginalName = searchSerie.original_name;

@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using Domain.DTOs;
+using Domain.Model;
 using Domain.ViewModel;
 
 namespace Domain.Interfaces

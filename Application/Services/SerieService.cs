@@ -1,11 +1,10 @@
 ﻿using System.Linq.Expressions;
 using System.Net;
 using AutoMapper;
-using CrossCutting.Enums;
 using CrossCutting.Exceptions;
-using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain;
+using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;
