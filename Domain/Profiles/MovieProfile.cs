@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CrossCutting.Enums;
 using CrossCutting.Helpers;
+using Domain.DTOs;
 using Domain.Model;
 using Domain.ViewModel;
 

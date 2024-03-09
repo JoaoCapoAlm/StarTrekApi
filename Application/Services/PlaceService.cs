@@ -4,6 +4,7 @@ using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
+using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.Model;
 using Domain.Validation;

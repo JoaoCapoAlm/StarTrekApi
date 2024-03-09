@@ -1,5 +1,5 @@
 ﻿using CrossCutting.Enums;
-using Domain;
+using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CrossCutting.Resources;
+using Domain.DTOs;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.DTOs;
 using Domain.Model;
 using Domain.ViewModel;
 

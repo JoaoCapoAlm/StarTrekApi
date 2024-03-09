@@ -1,5 +1,5 @@
 ﻿using Application.Services;
-using Domain;
+using Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers

@@ -1,4 +1,5 @@
 ﻿using CrossCutting.Resources;
+using Domain.DTOs;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
