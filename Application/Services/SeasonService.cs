@@ -107,20 +107,8 @@ namespace Application.Services
                 };
                 throw new AppException(_localizerMessages["NotFound"], errors, HttpStatusCode.NotFound);
             }
+            var newSeason = _mapper.Map<Season>(dto);
 
-            var newSeason = new Season()
-            {
-                Number = dto.Number,
-                Episodes = []
-            };
-
-            if (dto.Episodes is not null)
-            {
-                Parallel.ForEach(dto.Episodes, new ParallelOptions(), episode =>
-                {
-                    newSeason.Episodes.Add(_mapper.Map<Episode>(episode));
-                });
-            }
             serie.Seasons ??= [];
             serie.Seasons.Add(newSeason);
 

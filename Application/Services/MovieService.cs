@@ -3,6 +3,7 @@ using System.Net;
 using AutoMapper;
 using CrossCutting.Enums;
 using CrossCutting.Exceptions;
+using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain;
@@ -94,9 +95,8 @@ namespace Application.Services
         public async Task<MovieVM> Create(CreateMovieDto dto)
         {
             var dtoValidation = new CreateMovieValidation(_localizer);
-            var validation = dtoValidation.Validate(dto);
-            if (!validation.IsValid)
-                throw new AppException(_localizer["OneOrMoreValidationErrorsOccurred"], validation.Errors);
+            dtoValidation.ValidateAndThrowStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
+            
             var checkExists = await _context.Movie.AsNoTracking()
                 .Where(m => m.ImdbId.Equals(dto.ImdbId) || m.TmdbId.Equals(dto.TmdbId))
                 .AnyAsync();
@@ -110,20 +110,7 @@ namespace Application.Services
                 throw new AppException(_localizer["NotCreated"].Value, errors);
             }
 
-            var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso);
-
-            var movie = new Movie()
-            {
-                ImdbId = dto.ImdbId,
-                OriginalLanguageId = (short)Enum.Parse<LanguageEnum>(languageIso, true).GetHashCode(),
-                OriginalName = dto.OriginalName,
-                ReleaseDate = dto.ReleaseDate,
-                TimelineId = (byte)dto.TimelineId,
-                TitleResource = dto.TitleResource,
-                TmdbId = dto.TmdbId,
-                SynopsisResource = dto.SynopsisResource,
-                Time = dto.Time
-            };
+            var movie = _mapper.Map<Movie>(dto);
 
             await _context.AddAsync(movie);
             await _context.SaveChangesAsync();

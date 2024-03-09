@@ -36,13 +36,13 @@ namespace Application.Services
             pageSize = pageSize <= 0 ? (byte)100 : pageSize;
 
             var epArray = await _context.Episode.AsNoTracking()
+                .Where(predicate ?? (x => true))
+                .OrderBy(x => x.EpisodeId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .Select(x => _mapper.Map<EpisodeWithSeasonIdVM>(x))
-                .ToArrayAsync();
-
-            if (epArray == null)
-                return [];
+                .ToArrayAsync()
+                ?? [];
 
             foreach (var ep in epArray)
             {
@@ -90,12 +90,16 @@ namespace Application.Services
             await validator.ValidateAndThrowAsyncStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
 
             Episode ep = _mapper.Map<Episode>(dto);
-            ep.SynopsisResource = dto.TitleResource.CreateSynopsisResource();
 
             await _context.Episode.AddAsync(ep);
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<EpisodeWithSeasonIdVM>(ep);
+            var vm = _mapper.Map<EpisodeWithSeasonIdVM>(ep);
+
+            vm.Synopsis = _localizerTitleSynopsis[vm.Synopsis];
+            vm.TranslatedTitle = _localizerTitleSynopsis[vm.TranslatedTitle];
+
+            return vm;
         }
 
         public async Task Update(int episodeId, UpdateEpisodeDto dto)

@@ -19,7 +19,9 @@ namespace Domain.Profiles
                 .ForMember(x => x.TranslatedTitle, x => x.MapFrom(y => y.TitleResource))
                 .ForMember(x => x.Synopsis, x => x.MapFrom(y => y.SynopsisResource));
 
-            CreateMap<CreateEpisodeWithSeasonIdDto, Episode>();
+            CreateMap<CreateEpisodeWithSeasonIdDto, Episode>()
+                .ForMember(x => x.SynopsisResource, x => x.MapFrom(opt => opt.TitleResource.CreateSynopsisResource()));
+
             CreateMap<CreateEpisodeWithSeasonIdDto, CreateEpisodeDto>();
             CreateMap<CreateEpisodeDto, Episode>()
                 .ForMember(x => x.SynopsisResource, x => x.MapFrom(opt => opt.TitleResource.CreateSynopsisResource()));
