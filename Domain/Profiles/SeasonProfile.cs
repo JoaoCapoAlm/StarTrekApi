@@ -10,6 +10,8 @@ namespace Domain.Profiles
         {
             CreateMap<CreateSeasonWithSerieIdDto, CreateSeasonDto>();
 
+            CreateMap<CreateSeasonWithSerieIdDto, Season>();
+
             CreateMap<Season, SeasonVM>()
                 .ForMember(x => x.ID, opt => opt.MapFrom(x => x.SeasonId));
 
@@ -18,6 +20,8 @@ namespace Domain.Profiles
 
             CreateMap<SeasonWithSerieIdVM, Season>()
                 .ForMember(x => x.SeasonId, opt => opt.MapFrom(x => x.ID));
+
+            CreateMap<CreateSeasonDto, Season>();
         }
     }
 }

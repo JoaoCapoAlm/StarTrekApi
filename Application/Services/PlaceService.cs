@@ -62,11 +62,7 @@ namespace Application.Services
             return place;
         }
 
-        public async Task<IEnumerable<PlaceVM>> GetList(
-            byte page,
-            byte pageSize,
-            Expression<Func<Place, bool>> predicate
-        )
+        public async Task<IEnumerable<PlaceVM>> GetList(byte page, byte pageSize, Expression<Func<Place, bool>> predicate)
         {
             var list = await _context.Place.AsNoTracking()
                 .Where(predicate)

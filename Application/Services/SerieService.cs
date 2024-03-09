@@ -3,7 +3,6 @@ using System.Net;
 using AutoMapper;
 using CrossCutting.Enums;
 using CrossCutting.Exceptions;
-using CrossCutting.Extensions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
 using Domain;
@@ -92,6 +91,16 @@ namespace Application.Services
                 };
                 throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
             }
+
+            Parallel.ForEach(serie.Seasons, season =>
+            {
+                Parallel.ForEach(season.Episodes, episode =>
+                {
+                    episode.Synopsis = _titleSynopsisLocalizer[episode.Synopsis];
+                    episode.TranslatedTitle = _titleSynopsisLocalizer[episode.TranslatedTitle];
+                });
+            });
+
             return serie;
         }
 
@@ -102,51 +111,7 @@ namespace Application.Services
             if (!validation.IsValid)
                 throw new AppException(_localizer["OneOrMoreValidationErrorsOccurred"], validation.Errors);
 
-            var languageIso = RegexHelper.RemoveSpecialCharacters(dto.OriginalLanguageIso);
-
-            var newSerie = new Serie()
-            {
-                Abbreviation = dto.Abbreviation,
-                ImdbId = dto.ImdbId,
-                OriginalLanguageId = (short)Enum.Parse<LanguageEnum>(languageIso, true).GetHashCode(),
-                OriginalName = dto.OriginalName.Trim(),
-                SynopsisResource = dto.SynopsisResource,
-                TitleResource = dto.TitleResource,
-                TimelineId = (byte)dto.TimelineId.GetHashCode(),
-                TmdbId = dto.TmdbId,
-                Seasons = []
-            };
-
-            if (dto.Seasons is not null && dto.Seasons.Any())
-            {
-                Parallel.ForEach(dto.Seasons, new ParallelOptions(), s =>
-                {
-                    var newSeason = new Season()
-                    {
-                        Number = s.Number,
-                        Episodes = []
-                    };
-
-                    if (s.Episodes is not null && s.Episodes.Any())
-                    {
-                        Parallel.ForEach(s.Episodes, new ParallelOptions(), episode =>
-                        {
-                            newSeason.Episodes.Add(new Episode
-                            {
-                                ImdbId = episode.ImdbId,
-                                Number = episode.Number,
-                                RealeaseDate = episode.RealeaseDate,
-                                StardateFrom = episode.StardateFrom,
-                                StardateTo = episode.StardateTo,
-                                SynopsisResource = episode.TitleResource.CreateSynopsisResource(),
-                                Time = episode.Time,
-                                TitleResource = episode.TitleResource
-                            });
-                        });
-                    }
-                    newSerie.Seasons.Add(newSeason);
-                });
-            }
+            var newSerie = _mapper.Map<Serie>(dto);
 
             await _context.Serie.AddAsync(newSerie);
             await _context.SaveChangesAsync();

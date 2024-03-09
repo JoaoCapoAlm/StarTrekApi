@@ -1,4 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using System.Collections.Generic;
+using System.Linq.Expressions;
+using AutoMapper;
 using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
@@ -13,33 +15,42 @@ namespace Application.Services
     public class CrewService : ICrewService
     {
         private readonly StarTrekContext _context;
+        private readonly IMapper _mapper;
         private readonly IStringLocalizer<Messages> _localizer;
+        private readonly IStringLocalizer<PlacesResource> _placesResource;
 
-        public CrewService(StarTrekContext context, IStringLocalizer<Messages> localizer)
-        {
+        public CrewService(StarTrekContext context,
+            IMapper mapper,
+            IStringLocalizer<Messages> localizer,
+            IStringLocalizer<PlacesResource> placesResource
+        ) {
             _context = context;
+            _mapper = mapper;
             _localizer = localizer;
+            _placesResource = placesResource;
         }
 
         public async Task<IEnumerable<CrewVM>> GetList(byte page, byte pageSize, Expression<Func<Crew, bool>> predicate)
         {
             pageSize = pageSize > 100 ? (byte)100 : pageSize;
 
-            return await _context.Crew
+            var list = await _context.Crew
                 .AsNoTracking()
+                .Where(predicate)
                 .OrderBy(c => c.CrewId)
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .Select(c => new CrewVM
-                {
-                    Id = c.CrewId,
-                    Name = c.Name,
-                    BirthDate = c.BirthDate,
-                    DeathDate = c.DeathDate,
-                    Country = _localizer[c.Country.ResourceName].Value
-                })
+                .Include(x => x.Country)
+                .Select(x => _mapper.Map<CrewVM>(x))
                 .ToArrayAsync()
-                ?? throw new AppException(_localizer["NotFound"].Value, System.Net.HttpStatusCode.NotFound);
+                ?? [];
+
+            Parallel.ForEach(list, crew =>
+            {
+                crew.Country = _placesResource[crew.Country];
+            });
+
+            return list;
         }
 
         public async Task<CrewVM> GetById(int crewId)
@@ -55,15 +66,9 @@ namespace Application.Services
 
             var crew = await _context.Crew
                 .AsNoTracking()
-                .Where(c => c.CrewId == crewId)
-                .Select(c => new CrewVM
-                {
-                    Id = c.CrewId,
-                    Name = c.Name,
-                    BirthDate = c.BirthDate,
-                    DeathDate = c.DeathDate,
-                    Country = _localizer[c.Country.ResourceName].Value
-                })
+                .Include(x => x.Country)
+                .Where(c => c.CrewId.Equals(crewId))
+                .Select(x => _mapper.Map<CrewVM>(x))
                 .FirstOrDefaultAsync();
 
             if (crew == null)
@@ -74,6 +79,8 @@ namespace Application.Services
                 };
                 throw new AppException(_localizer["NotFound"].Value, error, System.Net.HttpStatusCode.NotFound);
             }
+
+            crew.Country = _placesResource[crew.Country];
 
             return crew;
         }
