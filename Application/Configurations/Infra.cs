@@ -28,6 +28,7 @@ namespace Application.Configurations
             services.TryAddScoped<IPlaceService, PlaceService>();
             services.TryAddScoped<ISeasonService, SeasonService>();
             services.TryAddScoped<ISerieService, SerieService>();
+            services.TryAddScoped<ISpeciesService, SpeciesService>();
             services.TryAddScoped<TmdbService>();
 
             services.AddValidatorsFromAssemblyContaining(typeof(CreateEpisodeValidator));
