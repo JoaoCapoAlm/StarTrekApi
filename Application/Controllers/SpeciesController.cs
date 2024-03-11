@@ -1,6 +1,6 @@
-﻿using Domain.Interfaces;
+﻿using CrossCutting.AppModel;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using static Application.Middleware.AppMiddleware;
 
 namespace Application.Controllers
 {

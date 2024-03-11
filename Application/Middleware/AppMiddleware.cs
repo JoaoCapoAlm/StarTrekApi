@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Azure.Core;
+using CrossCutting.AppModel;
 using CrossCutting.Exceptions;
 using FluentValidation;
 using Newtonsoft.Json;
@@ -57,14 +58,6 @@ namespace Application.Middleware
             context.Response.StatusCode = code.GetHashCode();
 
             return context.Response.WriteAsync(JsonConvert.SerializeObject(responseBody));
-        }
-
-        internal class ContentResponse
-        {
-#pragma warning disable IDE1006 // Naming Styles
-            public string title { get; set; }
-            public IDictionary<string, IEnumerable<string>> errors { get; set; }
-#pragma warning restore IDE1006 // Naming Styles
         }
     }
 
