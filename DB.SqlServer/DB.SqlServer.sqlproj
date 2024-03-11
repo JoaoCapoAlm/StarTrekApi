@@ -82,6 +82,7 @@
     <Build Include="Tables\Quadrant.sql" />
     <Build Include="Tables\PlaceType.sql" />
     <Build Include="View\vwResourcesPlaces.sql" />
+    <Build Include="View\vwFullSerie.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="DefaultData\Script.PostDeployment.sql" />
