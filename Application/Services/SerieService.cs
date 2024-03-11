@@ -7,7 +7,6 @@ using CrossCutting.AppModel;
 using CrossCutting.Exceptions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using Domain;
 using Domain.DTOs;
 using Domain.Interfaces;
@@ -17,7 +16,6 @@ using Domain.ViewModel;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using TMDB.Model;
 
 namespace Application.Services
 {
@@ -46,8 +44,9 @@ namespace Application.Services
 
             var list = await _context.Serie
                 .AsNoTracking()
-                .Include(x => x.Seasons)
-                .ThenInclude(x => x.Episodes)
+                .Include(x => x.Seasons).ThenInclude(x => x.Episodes)
+                .Include(x => x.Language)
+                .Include(x => x.Timeline)
                 .AsSplitQuery()
                 .OrderBy(s => s.SerieId)
                 .Skip(page * pageSize)
@@ -58,6 +57,10 @@ namespace Application.Services
 
             Parallel.ForEach(list, serie =>
             {
+                serie.TranslatedName = _titleSynopsisLocalizer[serie.TranslatedName];
+                serie.Synopsis = _titleSynopsisLocalizer[serie.Synopsis];
+                serie.OriginalLanguage.Name = _localizer[serie.OriginalLanguage.Name];
+
                 Parallel.ForEach(serie.Seasons, season =>
                 {
                     Parallel.ForEach(season.Episodes, episode =>
@@ -84,6 +87,9 @@ namespace Application.Services
 
             var serie = await _context.Serie
                 .AsNoTracking()
+                .Include(x => x.Timeline)
+                .Include(x => x.Seasons).ThenInclude(x => x.Episodes)
+                .Include(x => x.Language)
                 .Where(s => s.SerieId.Equals(id))
                 .Select(x => _mapper.Map<SerieVM>(x))
                 .FirstOrDefaultAsync();
@@ -96,6 +102,10 @@ namespace Application.Services
                 };
                 throw new AppException(_localizer["NotFound"], errors, HttpStatusCode.NotFound);
             }
+
+            serie.TranslatedName = _titleSynopsisLocalizer[serie.TranslatedName];
+            serie.Synopsis = _titleSynopsisLocalizer[serie.Synopsis];
+            serie.OriginalLanguage.Name = _localizer[serie.OriginalLanguage.Name];
 
             Parallel.ForEach(serie.Seasons, season =>
             {
@@ -206,7 +216,7 @@ namespace Application.Services
                     serie.OriginalName,
                     serie.Abbreviation,
                     $"{serie.Timeline.ID} - {serie.Timeline.Name}",
-                    $"{serie.OriginalLanguage.CodeISO} - {_localizer[serie.OriginalLanguage.ResourceName]}",
+                    $"{serie.OriginalLanguage.CodeISO} - {_localizer[serie.OriginalLanguage.Name]}",
                     serie.ImdbId,
                     _titleSynopsisLocalizer[serie.Synopsis]
                 ];

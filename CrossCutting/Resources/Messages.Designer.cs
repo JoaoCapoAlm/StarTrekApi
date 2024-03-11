@@ -108,9 +108,9 @@ namespace CrossCutting.Resources {
         /// <summary>
         ///   Looks up a localized string similar to English (USA).
         /// </summary>
-        public static string EnglishUS {
+        public static string EnglishUSA {
             get {
-                return ResourceManager.GetString("EnglishUS", resourceCulture);
+                return ResourceManager.GetString("EnglishUSA", resourceCulture);
             }
         }
         

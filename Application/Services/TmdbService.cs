@@ -38,7 +38,7 @@ namespace Application.Services
                     OriginalLanguage = new LanguageVM()
                     {
                         CodeISO = serie.Language.CodeISO,
-                        ResourceName = serie.Language.ResourceName
+                        Name = serie.Language.ResourceName
                     }
                 };
 
@@ -108,7 +108,7 @@ namespace Application.Services
                 OriginalLanguage = new LanguageVM()
                 {
                     CodeISO = serie.Language.CodeISO,
-                    ResourceName = serie.Language.ResourceName
+                    Name = serie.Language.ResourceName
                 }
             };
         }

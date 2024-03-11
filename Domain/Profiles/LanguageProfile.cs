@@ -8,7 +8,8 @@ namespace Domain.Profiles
     {
         public LanguageProfile()
         {
-            CreateMap<Language, LanguageVM>();
+            CreateMap<Language, LanguageVM>()
+                .ForMember(x => x.Name, x => x.MapFrom(opt => opt.ResourceName));
         }
     }
 }

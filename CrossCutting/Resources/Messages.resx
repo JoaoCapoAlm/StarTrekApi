@@ -123,7 +123,7 @@
   <data name="CannotContainSpace" xml:space="preserve">
     <value>Cannot contain space.</value>
   </data>
-  <data name="EnglishUS" xml:space="preserve">
+  <data name="EnglishUSA" xml:space="preserve">
     <value>English (USA)</value>
   </data>
   <data name="ImdbOrTmdbIdAlreadyRegistered" xml:space="preserve">
