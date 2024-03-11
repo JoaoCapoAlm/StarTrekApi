@@ -1,9 +1,9 @@
-﻿using CrossCutting.Enums;
+﻿using CrossCutting.AppModel;
+using CrossCutting.Enums;
 using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
-using static Application.Middleware.AppMiddleware;
 
 namespace Application.Controllers
 {
