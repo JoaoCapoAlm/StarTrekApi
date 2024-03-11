@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnimatedSeries" xml:space="preserve">
+  <data name="stAnimatedSeries" xml:space="preserve">
     <value>Star Trek: The Animated Series</value>
   </data>
   <data name="AnimatedSeriesSynopsis" xml:space="preserve">
     <value>The further adventures of Captain James T. Kirk and the crew of the USS Enterprise, as they explore the galaxy and defend the United Federation of Planets.</value>
   </data>
-  <data name="DeepSpaceNine" xml:space="preserve">
+  <data name="stDeepSpaceNine" xml:space="preserve">
     <value>Star Trek: Deep Space Nine</value>
   </data>
   <data name="ds9Emissary" xml:space="preserve">
@@ -135,14 +135,14 @@
   <data name="MotionPictureSynopsis" xml:space="preserve">
     <value>When an alien spacecraft of enormous power is spotted approaching Earth, Admiral James T. Kirk resumes command of the overhauled USS Enterprise in order to intercept it.</value>
   </data>
-  <data name="NextGeneration" xml:space="preserve">
+  <data name="stNextGeneration" xml:space="preserve">
     <value>Star Trek: The Next Generation</value>
   </data>
   <data name="NextGenerationSynopsis" xml:space="preserve">
     <value>Set almost 100 years after Captain Kirk's 5-year mission, a new generation of Starfleet officers sets off in the U.S.S. Enterprise-D on its own mission to go where no one has gone before.</value>
   </data>
-  <data name="OriginalSeries" xml:space="preserve">
-    <value>Star Trek</value>
+  <data name="stOriginalSeries" xml:space="preserve">
+    <value>Star Trek: The Original Series</value>
   </data>
   <data name="OriginalSeriesSynopsis" xml:space="preserve">
     <value>In the 23rd Century, Captain James T. Kirk and the crew of the U.S.S. Enterprise explore the galaxy and defend the United Federation of Planets.</value>
@@ -153,13 +153,13 @@
   <data name="tngEncounteratFarpointSynopsis" xml:space="preserve">
     <value>On the maiden mission of the U.S.S. Enterprise (NCC-1701-D), an omnipotent being known as Q challenges the crew to discover the secret of a mysterious base in an advanced and civilized fashion.</value>
   </data>
-  <data name="WrathOfKhan" xml:space="preserve">
+  <data name="stWrathOfKhan" xml:space="preserve">
     <value>Star Trek II: The Wrath of Khan</value>
   </data>
   <data name="WrathOfKhanSynopsis" xml:space="preserve">
     <value>With the assistance of the Enterprise crew, Admiral Kirk must stop an old nemesis, Khan Noonien Singh, from using the life-generating Genesis Device as the ultimate weapon.</value>
   </data>
-  <data name="MotionPicture" xml:space="preserve">
+  <data name="stMotionPicture" xml:space="preserve">
     <value>Star Trek: The Motion Picture</value>
   </data>
   <data name="tosTheCage" xml:space="preserve">
@@ -167,5 +167,20 @@
   </data>
   <data name="tosTheCageSynopsis" xml:space="preserve">
     <value>Capt. Pike is held prisoner and tested by aliens who have the power to project incredibly lifelike illusions.</value>
+  </data>
+  <data name="stDiscovery" xml:space="preserve">
+    <value>Star Trek: Discovery</value>
+  </data>
+  <data name="stEnterprise" xml:space="preserve">
+    <value>Star Trek: Enterprise</value>
+  </data>
+  <data name="stLowerDecks" xml:space="preserve">
+    <value>Star Trek: Lower Decks</value>
+  </data>
+  <data name="stProdigy" xml:space="preserve">
+    <value>Star Trek: Prodigy</value>
+  </data>
+  <data name="stVoyager" xml:space="preserve">
+    <value>Star Trek: Voyager</value>
   </data>
 </root>

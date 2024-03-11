@@ -1,8 +1,13 @@
-﻿using System.Linq.Expressions;
+﻿using System.Data;
+using System.Linq.Expressions;
 using System.Net;
 using AutoMapper;
+using ClosedXML.Excel;
+using CrossCutting.AppModel;
 using CrossCutting.Exceptions;
+using CrossCutting.Helpers;
 using CrossCutting.Resources;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Domain;
 using Domain.DTOs;
 using Domain.Interfaces;
@@ -12,6 +17,7 @@ using Domain.ViewModel;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using TMDB.Model;
 
 namespace Application.Services
 {
@@ -119,7 +125,7 @@ namespace Application.Services
 
             vm.OriginalLanguage = await _context.Language.AsNoTracking()
                 .Where(x => x.LanguageId.Equals(newSerie.OriginalLanguageId))
-                .Select(x => x.CodeISO)
+                .Select(x => _mapper.Map<LanguageVM>(x))
                 .FirstAsync();
 
             vm.Synopsis = _titleSynopsisLocalizer[vm.Synopsis];
@@ -145,6 +151,103 @@ namespace Application.Services
             serie.TmdbId = dto.TmdbId ?? serie.TmdbId;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<FileContent> Export()
+        {
+            var series = await _context.Serie.AsNoTracking()
+                .Include(x => x.Timeline)
+                .Include(x => x.Language)
+                .Include(x => x.Seasons).ThenInclude(x => x.Episodes)
+                .OrderBy(x => x.SerieId)
+                .Select(x => _mapper.Map<SerieVM>(x))
+                .ToArrayAsync();
+
+            var typeNumber = XLDataType.Number.GetType();
+
+            var dataTable = new DataTable(_localizer["Serie"]);
+            #region Header
+            dataTable.Columns.Add("ID", typeNumber);
+            dataTable.Columns.Add(_localizer["TranslatedName"]);
+            dataTable.Columns.Add(_localizer["OriginalName"]);
+            dataTable.Columns.Add(_localizer["Abbreviation"]);
+            dataTable.Columns.Add(_localizer["Timeline"]);
+            dataTable.Columns.Add(_localizer["OriginalLanguage"]);
+            dataTable.Columns.Add("IMDB ID");
+            dataTable.Columns.Add(_localizer["Synopsis"]);
+
+            var dataTableSeason = new DataTable(_localizer["Season"]);
+            dataTableSeason.Columns.Add("ID", typeNumber);
+            dataTableSeason.Columns.Add(_localizer["SerieID"], typeNumber);
+            dataTableSeason.Columns.Add(_localizer["Number"], typeNumber);
+
+            var dataTableEpisode = new DataTable(_localizer["Episodes"]);
+            dataTableEpisode.Columns.Add("ID", typeNumber);
+            dataTableEpisode.Columns.Add(_localizer["Number"], typeNumber);
+            dataTableEpisode.Columns.Add(_localizer["SeasonID"], typeNumber);
+            dataTableEpisode.Columns.Add(_localizer["TranslatedName"]);
+            dataTableEpisode.Columns.Add(_localizer["Time"], typeNumber);
+            dataTableEpisode.Columns.Add(_localizer["RealeaseDate"]);
+            dataTableEpisode.Columns.Add(_localizer["StardateFrom"], typeNumber);
+            dataTableEpisode.Columns.Add(_localizer["StardateTo"], typeNumber);
+            dataTableEpisode.Columns.Add(_localizer["Synopsis"]);
+            dataTableEpisode.Columns.Add("IMDB ID");
+            #endregion
+            #region Body
+            DataRow row;
+            List<SeasonVM> seasonsOrdened;
+            List<EpisodeVM> episodesOrdened;
+            foreach (var serie in series)
+            {
+                row = dataTable.NewRow();
+                row.ItemArray = [
+                    serie.ID,
+                    _titleSynopsisLocalizer[serie.TranslatedName],
+                    serie.OriginalName,
+                    serie.Abbreviation,
+                    $"{serie.Timeline.ID} - {serie.Timeline.Name}",
+                    $"{serie.OriginalLanguage.CodeISO} - {_localizer[serie.OriginalLanguage.ResourceName]}",
+                    serie.ImdbId,
+                    _titleSynopsisLocalizer[serie.Synopsis]
+                ];
+                dataTable.Rows.Add(row);
+
+                seasonsOrdened = [.. serie.Seasons.OrderBy(x => x.Number)];
+                foreach(var season in seasonsOrdened)
+                {
+                    row = dataTableSeason.NewRow();
+                    row.ItemArray = [
+                        season.ID,
+                        serie.ID,
+                        season.Number
+                    ];
+
+                    dataTableSeason.Rows.Add(row);
+
+                    episodesOrdened = [.. season.Episodes.OrderBy(x => x.Number)];
+                    foreach(var episode in episodesOrdened)
+                    {
+                        row = dataTableEpisode.NewRow();
+                        row.ItemArray = [
+                            episode.ID,
+                            episode.Number,
+                            season.ID,
+                            _titleSynopsisLocalizer[episode.TranslatedTitle],
+                            episode.Time,
+                            episode.RealeaseDate,
+                            episode.StardateFrom,
+                            episode.StardateTo,
+                            _titleSynopsisLocalizer[episode.Synopsis],
+                            episode.ImdbId
+                        ];
+
+                        dataTableEpisode.Rows.Add(row);
+                    }
+                }
+            }
+            #endregion
+
+            return ExcelHelper.GenerateExcel([dataTable, dataTableSeason, dataTableEpisode], _localizer["Serie"]);
         }
     }
 }

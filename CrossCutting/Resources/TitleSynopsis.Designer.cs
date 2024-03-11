@@ -61,29 +61,11 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Star Trek: The Animated Series.
-        /// </summary>
-        public static string AnimatedSeries {
-            get {
-                return ResourceManager.GetString("AnimatedSeries", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The further adventures of Captain James T. Kirk and the crew of the USS Enterprise, as they explore the galaxy and defend the United Federation of Planets..
         /// </summary>
         public static string AnimatedSeriesSynopsis {
             get {
                 return ResourceManager.GetString("AnimatedSeriesSynopsis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Star Trek: Deep Space Nine.
-        /// </summary>
-        public static string DeepSpaceNine {
-            get {
-                return ResourceManager.GetString("DeepSpaceNine", resourceCulture);
             }
         }
         
@@ -106,29 +88,11 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Star Trek: The Motion Picture.
-        /// </summary>
-        public static string MotionPicture {
-            get {
-                return ResourceManager.GetString("MotionPicture", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to When an alien spacecraft of enormous power is spotted approaching Earth, Admiral James T. Kirk resumes command of the overhauled USS Enterprise in order to intercept it..
         /// </summary>
         public static string MotionPictureSynopsis {
             get {
                 return ResourceManager.GetString("MotionPictureSynopsis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Star Trek: The Next Generation.
-        /// </summary>
-        public static string NextGeneration {
-            get {
-                return ResourceManager.GetString("NextGeneration", resourceCulture);
             }
         }
         
@@ -142,20 +106,110 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Star Trek.
-        /// </summary>
-        public static string OriginalSeries {
-            get {
-                return ResourceManager.GetString("OriginalSeries", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to In the 23rd Century, Captain James T. Kirk and the crew of the U.S.S. Enterprise explore the galaxy and defend the United Federation of Planets..
         /// </summary>
         public static string OriginalSeriesSynopsis {
             get {
                 return ResourceManager.GetString("OriginalSeriesSynopsis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: The Animated Series.
+        /// </summary>
+        public static string stAnimatedSeries {
+            get {
+                return ResourceManager.GetString("stAnimatedSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: Deep Space Nine.
+        /// </summary>
+        public static string stDeepSpaceNine {
+            get {
+                return ResourceManager.GetString("stDeepSpaceNine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: Discovery.
+        /// </summary>
+        public static string stDiscovery {
+            get {
+                return ResourceManager.GetString("stDiscovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: Enterprise.
+        /// </summary>
+        public static string stEnterprise {
+            get {
+                return ResourceManager.GetString("stEnterprise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: Lower Decks.
+        /// </summary>
+        public static string stLowerDecks {
+            get {
+                return ResourceManager.GetString("stLowerDecks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: The Motion Picture.
+        /// </summary>
+        public static string stMotionPicture {
+            get {
+                return ResourceManager.GetString("stMotionPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: The Next Generation.
+        /// </summary>
+        public static string stNextGeneration {
+            get {
+                return ResourceManager.GetString("stNextGeneration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: The Original Series.
+        /// </summary>
+        public static string stOriginalSeries {
+            get {
+                return ResourceManager.GetString("stOriginalSeries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: Prodigy.
+        /// </summary>
+        public static string stProdigy {
+            get {
+                return ResourceManager.GetString("stProdigy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek: Voyager.
+        /// </summary>
+        public static string stVoyager {
+            get {
+                return ResourceManager.GetString("stVoyager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star Trek II: The Wrath of Khan.
+        /// </summary>
+        public static string stWrathOfKhan {
+            get {
+                return ResourceManager.GetString("stWrathOfKhan", resourceCulture);
             }
         }
         
@@ -192,15 +246,6 @@ namespace CrossCutting.Resources {
         public static string tosTheCageSynopsis {
             get {
                 return ResourceManager.GetString("tosTheCageSynopsis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Star Trek II: The Wrath of Khan.
-        /// </summary>
-        public static string WrathOfKhan {
-            get {
-                return ResourceManager.GetString("WrathOfKhan", resourceCulture);
             }
         }
         

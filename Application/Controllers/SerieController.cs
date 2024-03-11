@@ -1,4 +1,5 @@
-﻿using Domain.DTOs;
+﻿using CrossCutting.AppModel;
+using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ namespace Application.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [ProducesResponseType<ContentResponse>(400)]
     public class SerieController : ControllerBase
     {
         private readonly ISerieService _serieService;
@@ -23,10 +25,10 @@ namespace Application.Controllers
         /// <param name="page">Page number</param>
         /// <param name="pageSize">Number of series on the page. The value must be between 0 and 100.</param>
         /// <returns>List itens</returns>
-        /// <response code="400">Agument invalid</response>
-        /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType<ContentResponse>(404)]
         public async Task<ActionResult<IEnumerable<SerieVM>>> GetList(
             [FromQuery] byte page = 0,
             [FromQuery] byte pageSize = 100
@@ -41,10 +43,9 @@ namespace Application.Controllers
         /// </summary>
         /// <param name="id">Serie's ID</param>
         /// <returns>Return serie</returns>
-        /// <response code="400">ID invalid</response>
-        /// <response code="404">Not found</response>
-        /// <response code="500">Internal error</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType<ContentResponse>(404)]
         public async Task<ActionResult<SerieVM>> GetById([FromRoute] short id)
         {
             var serie = await _serieService.GetById(id);
@@ -73,17 +74,23 @@ namespace Application.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dto"></param>
-        /// <response code="204">Updated / No Content</response>
-        /// <response code="400">Invalid data</response>
-        /// <response code="404">Not found</response>
         /// <response code="500">Internal error</response>
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
+        [ProducesResponseType<ContentResponse>(404)]
         public async Task<IActionResult> UpdateSerieById([FromRoute] short id, [FromBody] UpdateSerieDto dto)
         {
             await _serieService.Update(id, dto);
             return NoContent();
+        }
+
+        [HttpGet("export")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> ExportExcel()
+        {
+            var file = await _serieService.Export();
+            return File(file.Content, file.ContentType, file.FileDownloadName);
         }
     }
 }

@@ -207,4 +207,49 @@
   <data name="SpaceStation" xml:space="preserve">
     <value>Estação espacial</value>
   </data>
+  <data name="Abbreviation" xml:space="preserve">
+    <value>Abreviatura</value>
+  </data>
+  <data name="OriginalLanguage" xml:space="preserve">
+    <value>Língua original</value>
+  </data>
+  <data name="OriginalName" xml:space="preserve">
+    <value>Nome original</value>
+  </data>
+  <data name="Serie" xml:space="preserve">
+    <value>Série</value>
+  </data>
+  <data name="Synopsis" xml:space="preserve">
+    <value>Sinopse</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Linha do tempo</value>
+  </data>
+  <data name="TranslatedName" xml:space="preserve">
+    <value>Nome traduzido</value>
+  </data>
+  <data name="Episodes" xml:space="preserve">
+    <value>Episódios</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="RealeaseDate" xml:space="preserve">
+    <value>Data de lançamento</value>
+  </data>
+  <data name="SeasonID" xml:space="preserve">
+    <value>ID da temporada</value>
+  </data>
+  <data name="SerieID" xml:space="preserve">
+    <value>ID da série</value>
+  </data>
+  <data name="StardateFrom" xml:space="preserve">
+    <value>Data estelar inicial</value>
+  </data>
+  <data name="StardateTo" xml:space="preserve">
+    <value>Data estelar final</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Tempo</value>
+  </data>
 </root>

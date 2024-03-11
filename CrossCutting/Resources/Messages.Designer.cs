@@ -61,6 +61,15 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abbreviation.
+        /// </summary>
+        public static string Abbreviation {
+            get {
+                return ResourceManager.GetString("Abbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Already exists.
         /// </summary>
         public static string AlreadyExists {
@@ -111,6 +120,15 @@ namespace CrossCutting.Resources {
         public static string EpisodeAlreadyRegistered {
             get {
                 return ResourceManager.GetString("EpisodeAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Episodes.
+        /// </summary>
+        public static string Episodes {
+            get {
+                return ResourceManager.GetString("Episodes", resourceCulture);
             }
         }
         
@@ -241,6 +259,15 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to One or more validation errors occurred.
         /// </summary>
         public static string OneOrMoreValidationErrorsOccurred {
@@ -250,11 +277,38 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Original Language.
+        /// </summary>
+        public static string OriginalLanguage {
+            get {
+                return ResourceManager.GetString("OriginalLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original Name.
+        /// </summary>
+        public static string OriginalName {
+            get {
+                return ResourceManager.GetString("OriginalName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Portuguese (Brazil).
         /// </summary>
         public static string PortuguesBR {
             get {
                 return ResourceManager.GetString("PortuguesBR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Realease Date.
+        /// </summary>
+        public static string RealeaseDate {
+            get {
+                return ResourceManager.GetString("RealeaseDate", resourceCulture);
             }
         }
         
@@ -273,6 +327,33 @@ namespace CrossCutting.Resources {
         public static string SeasonAlreadyRegistered {
             get {
                 return ResourceManager.GetString("SeasonAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Season ID.
+        /// </summary>
+        public static string SeasonID {
+            get {
+                return ResourceManager.GetString("SeasonID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serie.
+        /// </summary>
+        public static string Serie {
+            get {
+                return ResourceManager.GetString("Serie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Serie ID.
+        /// </summary>
+        public static string SerieID {
+            get {
+                return ResourceManager.GetString("SerieID", resourceCulture);
             }
         }
         
@@ -313,11 +394,65 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stardate From.
+        /// </summary>
+        public static string StardateFrom {
+            get {
+                return ResourceManager.GetString("StardateFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to StardateFrom must be a value less than or equal to StardateTo.
         /// </summary>
         public static string StardateFromLessThanOrEqualStardateTo {
             get {
                 return ResourceManager.GetString("StardateFromLessThanOrEqualStardateTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stardate To.
+        /// </summary>
+        public static string StardateTo {
+            get {
+                return ResourceManager.GetString("StardateTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synopsis.
+        /// </summary>
+        public static string Synopsis {
+            get {
+                return ResourceManager.GetString("Synopsis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timeline.
+        /// </summary>
+        public static string Timeline {
+            get {
+                return ResourceManager.GetString("Timeline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translated Name.
+        /// </summary>
+        public static string TranslatedName {
+            get {
+                return ResourceManager.GetString("TranslatedName", resourceCulture);
             }
         }
         

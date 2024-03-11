@@ -22,6 +22,7 @@ namespace Application.Services
         public async Task<SerieVM> CreateNewSerieByTmdb(int tmdbId, CreateNewSerieByTmdbDto dto)
         {
             Serie serie = await _context.Serie?.Where(s => s.TmdbId == tmdbId)?
+                .Include(x => x.Timeline)
                 .Include(s => s.Seasons).ThenInclude(s => s.Episodes)
                 .Include(s => s.Language)
                 .FirstOrDefaultAsync();
@@ -32,9 +33,13 @@ namespace Application.Services
                     OriginalName = serie.OriginalName,
                     Abbreviation = serie.Abbreviation,
                     ImdbId = serie.ImdbId,
-                    Timeline = serie.TimelineId,
+                    Timeline = new TimelineVM(serie.TimelineId, serie.Timeline.Name),
                     Seasons = serie.Seasons.Select(s => new SeasonVM(s.SeasonId, s.Number, s.Episodes)).ToArray(),
-                    OriginalLanguage = serie.Language.CodeISO.Trim()
+                    OriginalLanguage = new LanguageVM()
+                    {
+                        CodeISO = serie.Language.CodeISO,
+                        ResourceName = serie.Language.ResourceName
+                    }
                 };
 
             var searchSerie = await new TmdbAPI().SearchSerie(tmdbId) ?? throw new Exception(_localizer["notFound"].Value);
@@ -89,7 +94,8 @@ namespace Application.Services
                 .Where(e => seassons.Select(s => s.SeasonId)
                                     .ToArray()
                                     .Contains(e.SeasonId))
-                .ToArrayAsync() ?? Enumerable.Empty<Episode>();
+                .ToArrayAsync()
+                ?? [];
 
             return new SerieVM
             {
@@ -97,9 +103,13 @@ namespace Application.Services
                 OriginalName = serie.OriginalName,
                 Abbreviation = serie.Abbreviation,
                 ImdbId = serie.ImdbId,
-                Timeline = serie.TimelineId,
+                Timeline = new TimelineVM(serie.TimelineId, serie.Timeline.Name),
                 Seasons = serie.Seasons.Select(s => new SeasonVM(s.SeasonId, s.Number, episodes)).ToArray(),
-                OriginalLanguage = serie.Language.CodeISO
+                OriginalLanguage = new LanguageVM()
+                {
+                    CodeISO = serie.Language.CodeISO,
+                    ResourceName = serie.Language.ResourceName
+                }
             };
         }
     }

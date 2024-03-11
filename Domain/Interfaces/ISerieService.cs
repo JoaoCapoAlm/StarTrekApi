@@ -1,4 +1,5 @@
-﻿using Domain.DTOs;
+﻿using CrossCutting.AppModel;
+using Domain.DTOs;
 using Domain.Model;
 using Domain.ViewModel;
 
@@ -8,5 +9,6 @@ namespace Domain.Interfaces
     {
         Task<SerieVM> Create(CreateSerieDto dto);
         Task Update(short id, UpdateSerieDto dto);
+        Task<FileContent> Export();
     }
 }

@@ -2,8 +2,15 @@
 {
     public class FileContent
     {
-        public required byte[] Content { get; set; }
-        public required string ContentType { get; set; }
+        public FileContent(byte[] content, string contentType, string? fileDownloadName)
+        {
+            Content = content;
+            ContentType = contentType;
+            FileDownloadName = fileDownloadName;
+        }
+
+        public byte[] Content { get; set; }
+        public string ContentType { get; set; }
         public string? FileDownloadName { get; set; }
     }
 }

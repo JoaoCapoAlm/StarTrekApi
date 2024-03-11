@@ -207,4 +207,49 @@
   <data name="SpaceStation" xml:space="preserve">
     <value>Station stations</value>
   </data>
+  <data name="Abbreviation" xml:space="preserve">
+    <value>Abbreviation</value>
+  </data>
+  <data name="OriginalLanguage" xml:space="preserve">
+    <value>Original Language</value>
+  </data>
+  <data name="OriginalName" xml:space="preserve">
+    <value>Original Name</value>
+  </data>
+  <data name="Serie" xml:space="preserve">
+    <value>Serie</value>
+  </data>
+  <data name="Synopsis" xml:space="preserve">
+    <value>Synopsis</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Timeline</value>
+  </data>
+  <data name="TranslatedName" xml:space="preserve">
+    <value>Translated Name</value>
+  </data>
+  <data name="Episodes" xml:space="preserve">
+    <value>Episodes</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="RealeaseDate" xml:space="preserve">
+    <value>Realease Date</value>
+  </data>
+  <data name="SeasonID" xml:space="preserve">
+    <value>Season ID</value>
+  </data>
+  <data name="SerieID" xml:space="preserve">
+    <value>Serie ID</value>
+  </data>
+  <data name="StardateFrom" xml:space="preserve">
+    <value>Stardate From</value>
+  </data>
+  <data name="StardateTo" xml:space="preserve">
+    <value>Stardate To</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
 </root>
