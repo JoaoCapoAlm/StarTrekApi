@@ -55,6 +55,10 @@ namespace Domain
                 .HasKey(s => s.SerieId)
                 .HasName("PK_Serie");
 
+            modelBuilder.Entity<Species>()
+                .HasKey(x => x.SpeciesId)
+                .HasName("PK_Species");
+
             modelBuilder.Entity<Timeline>()
                 .HasKey(t => t.TimelineId)
                 .HasName("PK_Timeline");
@@ -140,6 +144,12 @@ namespace Domain
                 .WithMany(l => l.Series)
                 .HasForeignKey(s => s.OriginalLanguageId)
                 .HasConstraintName("FK_Serie_LanguageId");
+
+            modelBuilder.Entity<Species>()
+                .HasOne(x => x.Planet)
+                .WithMany(x => x.Species)
+                .HasForeignKey(x => x.SpeciesId)
+                .HasConstraintName("FK_Species_Planet");
         }
 
         public DbSet<Crew> Crew { get; set; }
@@ -153,6 +163,7 @@ namespace Domain
         public DbSet<Role> Role { get; set; }
         public DbSet<Season> Season { get; set; }
         public DbSet<Serie> Serie { get; set; }
+        public DbSet<Species> Species { get; set; }
         public DbSet<Timeline> Timeline { get; set; }
         public DbSet<Quadrant> Quadrant { get; set; }
         public DbSet<vwImdb> vwImdb { get; set; }
