@@ -22,6 +22,7 @@ namespace Application.Configurations
             services.TryAddTransient<IStringLocalizer<TitleSynopsis>, StringLocalizer<TitleSynopsis>>();
             services.TryAddTransient<IStringLocalizer<PlacesResource>, StringLocalizer<PlacesResource>>();
 
+            services.TryAddScoped<ICharacterService, CharacterService>();
             services.TryAddScoped<ICrewService, CrewService>();
             services.TryAddScoped<IEpisodeService, EpisodeService>();
             services.TryAddScoped<IMovieService, MovieService>();
