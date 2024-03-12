@@ -97,7 +97,7 @@ namespace Application.Services
         {
             var dtoValidation = new CreateMovieValidation(_localizer);
             dtoValidation.ValidateAndThrowStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
-            
+
             var checkExists = await _context.Movie.AsNoTracking()
                 .Where(m => m.ImdbId.Equals(dto.ImdbId) || m.TmdbId.Equals(dto.TmdbId))
                 .AnyAsync();

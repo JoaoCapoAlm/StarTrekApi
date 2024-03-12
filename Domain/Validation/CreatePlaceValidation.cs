@@ -9,7 +9,8 @@ namespace Domain.Validation
 {
     public class CreatePlaceValidation : AbstractValidator<CreatePlaceDto>
     {
-        public CreatePlaceValidation(StarTrekContext context, IStringLocalizer<Messages> localizer) {
+        public CreatePlaceValidation(StarTrekContext context, IStringLocalizer<Messages> localizer)
+        {
             RuleFor(x => x.NameResource)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()

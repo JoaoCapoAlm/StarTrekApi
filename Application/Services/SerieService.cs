@@ -174,7 +174,6 @@ namespace Application.Services
                 .ToArrayAsync();
 
             var typeNumber = XLDataType.Number.GetType();
-
             var dataTable = new DataTable(_localizer["Serie"]);
             #region Header
             dataTable.Columns.Add("ID", typeNumber);
@@ -197,9 +196,9 @@ namespace Application.Services
             dataTableEpisode.Columns.Add(_localizer["SeasonID"], typeNumber);
             dataTableEpisode.Columns.Add(_localizer["TranslatedName"]);
             dataTableEpisode.Columns.Add(_localizer["Time"], typeNumber);
-            dataTableEpisode.Columns.Add(_localizer["RealeaseDate"]);
-            dataTableEpisode.Columns.Add(_localizer["StardateFrom"], typeNumber);
-            dataTableEpisode.Columns.Add(_localizer["StardateTo"], typeNumber);
+            dataTableEpisode.Columns.Add(_localizer["RealeaseDate"], XLDataType.DateTime.GetType());
+            dataTableEpisode.Columns.Add(_localizer["StardateFrom"]);
+            dataTableEpisode.Columns.Add(_localizer["StardateTo"]);
             dataTableEpisode.Columns.Add(_localizer["Synopsis"]);
             dataTableEpisode.Columns.Add("IMDB ID");
             #endregion
@@ -223,7 +222,7 @@ namespace Application.Services
                 dataTable.Rows.Add(row);
 
                 seasonsOrdened = [.. serie.Seasons.OrderBy(x => x.Number)];
-                foreach(var season in seasonsOrdened)
+                foreach (var season in seasonsOrdened)
                 {
                     row = dataTableSeason.NewRow();
                     row.ItemArray = [
@@ -235,7 +234,7 @@ namespace Application.Services
                     dataTableSeason.Rows.Add(row);
 
                     episodesOrdened = [.. season.Episodes.OrderBy(x => x.Number)];
-                    foreach(var episode in episodesOrdened)
+                    foreach (var episode in episodesOrdened)
                     {
                         row = dataTableEpisode.NewRow();
                         row.ItemArray = [

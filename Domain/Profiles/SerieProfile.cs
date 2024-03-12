@@ -20,7 +20,7 @@ namespace Domain.Profiles
             CreateMap<CreateSerieDto, Serie>()
                 .ForMember(x => x.TimelineId, x => x.MapFrom(opt => opt.TimelineId.GetHashCode()))
                 .ForMember(x => x.OriginalLanguageId,
-                    x => x.MapFrom(opt => 
+                    x => x.MapFrom(opt =>
                         Enum.Parse<LanguageEnum>(RegexHelper.RemoveSpecialCharacters(opt.OriginalLanguageIso), true).GetHashCode()
                     )
                 );

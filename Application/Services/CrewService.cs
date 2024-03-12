@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using AutoMapper;
 using CrossCutting.Exceptions;
 using CrossCutting.Resources;
@@ -23,7 +22,8 @@ namespace Application.Services
             IMapper mapper,
             IStringLocalizer<Messages> localizer,
             IStringLocalizer<PlacesResource> placesResource
-        ) {
+        )
+        {
             _context = context;
             _mapper = mapper;
             _localizer = localizer;

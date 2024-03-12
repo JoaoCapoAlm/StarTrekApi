@@ -6,7 +6,7 @@ namespace CrossCutting.Helpers
 {
     public class ExcelHelper
     {
-        const string contentTypeExcel = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        private const string contentTypeExcel = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         public static FileContent GenerateExcel(IEnumerable<DataTable> dataTables, string fileName)
         {
             fileName = string.IsNullOrWhiteSpace(fileName)
@@ -22,7 +22,15 @@ namespace CrossCutting.Helpers
                 {
                     foreach (var dataTable in dataTables)
                     {
-                        workbook.Worksheets.Add(dataTable).Columns().AdjustToContents();
+                        var ws = workbook.Worksheets.Add(dataTable);
+                        ws.Columns().AdjustToContents();
+                        ws.FirstColumn().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                        ws.FirstColumn().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                        var cells = ws.CellsUsed(x => x.DataType.Equals(XLDataType.Number)).ToArray();
+                        foreach (var cell in cells)
+                        {
+                            cell.Style.NumberFormat.SetNumberFormatId(XLPredefinedFormat.Number.Integer.GetHashCode());
+                        }
                     }
 
                     workbook.SaveAs(stream);
