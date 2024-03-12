@@ -4,8 +4,8 @@
     {
         public int CrewRoleId { get; set; }
         public int CrewId { get; set; }
-        public Crew Crew { get; set; }
+        public virtual Crew Crew { get; set; }
         public byte RoleId { get; set; }
-        public Role Role { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

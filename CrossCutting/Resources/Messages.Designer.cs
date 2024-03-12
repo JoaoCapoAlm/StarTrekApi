@@ -133,6 +133,15 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Human.
+        /// </summary>
+        public static string Human {
+            get {
+                return ResourceManager.GetString("Human", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IMDB or TMDB ID already registered.
         /// </summary>
         public static string ImdbOrTmdbIdAlreadyRegistered {
@@ -462,6 +471,15 @@ namespace CrossCutting.Resources {
         public static string ValueGreaterThanZero {
             get {
                 return ResourceManager.GetString("ValueGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vulcan.
+        /// </summary>
+        public static string Vulcan {
+            get {
+                return ResourceManager.GetString("Vulcan", resourceCulture);
             }
         }
     }

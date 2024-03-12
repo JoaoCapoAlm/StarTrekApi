@@ -4,6 +4,6 @@
     {
         public byte RoleId { get; set; }
         public string RoleResource { get; set; }
-        public ICollection<CrewRole> CrewRoles { get; set; }
+        public virtual ICollection<CrewRole> CrewRoles { get; set; }
     }
 }

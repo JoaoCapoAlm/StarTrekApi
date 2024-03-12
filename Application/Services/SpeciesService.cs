@@ -1,11 +1,13 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using CrossCutting.Exceptions;
+using CrossCutting.Extensions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.Model;
+using Domain.Validation;
 using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -41,6 +43,8 @@ namespace Application.Services
             }
 
             var species = await _context.Species.AsNoTracking()
+                .Include(x => x.Planet).ThenInclude(x => x.Quadrant)
+                .Include(x => x.Planet).ThenInclude(x => x.PlaceType)
                 .Where(x => x.SpeciesId.Equals(speciesId))
                 .Select(x => _mapper.Map<SpeciesVM>(x))
                 .FirstOrDefaultAsync();
@@ -57,6 +61,7 @@ namespace Application.Services
             species.Name = _localizer[species.Name];
             species.Planet.Name = _placesLocalizer[species.Planet.Name];
             species.Planet.Quadrant.Name = _placesLocalizer[species.Planet.Quadrant.Name];
+            species.Planet.PlaceType.Type = _placesLocalizer[species.Planet.PlaceType.Type];
 
             return species;
         }
@@ -66,8 +71,8 @@ namespace Application.Services
             pageSize = pageSize >= 100 ? (byte)100 : pageSize;
 
             var list = await _context.Species.AsNoTracking()
-                .Include(x => x.Planet)
-                .ThenInclude(x => x.Quadrant)
+                .Include(x => x.Planet).ThenInclude(x => x.Quadrant)
+                .Include(x => x.Planet).ThenInclude(x => x.PlaceType)
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .Select(x => _mapper.Map<SpeciesVM>(x))
@@ -79,6 +84,7 @@ namespace Application.Services
                 species.Name = _localizer[species.Name];
                 species.Planet.Name = _placesLocalizer[species.Planet.Name];
                 species.Planet.Quadrant.Name = _placesLocalizer[species.Planet.Quadrant.Name];
+                species.Planet.PlaceType.Type = _placesLocalizer[species.Planet.PlaceType.Type];
             });
 
             return list;
@@ -86,6 +92,9 @@ namespace Application.Services
 
         public async Task<SpeciesVM> CreateSpecies(CreateSpeciesDto dto)
         {
+            var validator = new CreateSpeciesValidation(_context, _localizer);
+            await validator.ValidateAndThrowAsyncStarTrek(dto, _localizer["OneOrMoreValidationErrorsOccurred"]);
+
             var species = _mapper.Map<Species>(dto);
 
             await _context.Species.AddAsync(species);
@@ -93,9 +102,17 @@ namespace Application.Services
 
             var speciesVM = _mapper.Map<SpeciesVM>(species);
 
+            speciesVM.Planet = await _context.Place.AsNoTracking()
+                .Include(x => x.Quadrant)
+                .Include(x => x.PlaceType)
+                .Where(x => x.PlaceId.Equals(species.PlanetId))
+                .Select(x => _mapper.Map<PlaceVM>(x))
+                .FirstAsync();
+
             speciesVM.Name = _localizer[speciesVM.Name];
             speciesVM.Planet.Name = _placesLocalizer[speciesVM.Planet.Name];
             speciesVM.Planet.Quadrant.Name = _placesLocalizer[speciesVM.Planet.Quadrant.Name];
+            speciesVM.Planet.PlaceType.Type = _placesLocalizer[speciesVM.Planet.PlaceType.Type];
 
             return speciesVM;
         }

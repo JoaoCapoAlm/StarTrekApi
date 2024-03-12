@@ -252,4 +252,10 @@
   <data name="Time" xml:space="preserve">
     <value>Tempo</value>
   </data>
+  <data name="Human" xml:space="preserve">
+    <value>Humano</value>
+  </data>
+  <data name="Vulcan" xml:space="preserve">
+    <value>Vulcano</value>
+  </data>
 </root>

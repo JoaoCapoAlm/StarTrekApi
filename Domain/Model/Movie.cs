@@ -12,7 +12,7 @@
         public short Time { get; set; }
         public string ImdbId { get; set; }
         public byte TimelineId { get; set; }
-        public Timeline Timeline { get; set; }
+        public virtual Timeline Timeline { get; set; }
         public int TmdbId { get; set; }
         public DateTime? DateSyncTmdb { get; set; }
 
