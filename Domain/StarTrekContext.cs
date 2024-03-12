@@ -11,6 +11,10 @@ namespace Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Character>()
+                .HasKey(x => x.CharacterId)
+                .HasName("PK_Character");
+
             modelBuilder.Entity<Crew>()
                 .HasKey(c => c.CrewId)
                 .HasName("FK_Crew_CountryId");
@@ -78,6 +82,12 @@ namespace Domain
 
             modelBuilder.Entity<vwResourcesTitleSynopsis>()
                 .HasNoKey();
+
+            modelBuilder.Entity<Character>()
+                .HasOne(x => x.Species)
+                .WithMany(x => x.Characters)
+                .HasForeignKey(x => x.SpeciesId)
+                .HasConstraintName("FK_Character_Species");
 
             modelBuilder.Entity<Crew>()
                 .HasOne(c => c.Country)
@@ -148,10 +158,11 @@ namespace Domain
             modelBuilder.Entity<Species>()
                 .HasOne(x => x.Planet)
                 .WithMany(x => x.Species)
-                .HasForeignKey(x => x.SpeciesId)
+                .HasForeignKey(x => x.PlanetId)
                 .HasConstraintName("FK_Species_Planet");
         }
 
+        public DbSet<Character> Character { get; set; }
         public DbSet<Crew> Crew { get; set; }
         public DbSet<CrewRole> CrewRole { get; set; }
         public DbSet<Country> Country { get; set; }
