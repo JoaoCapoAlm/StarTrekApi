@@ -1,4 +1,6 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Model
 {
     public class Serie
     {

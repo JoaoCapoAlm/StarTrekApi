@@ -21,7 +21,7 @@ namespace Domain
 
             modelBuilder.Entity<Crew>()
                 .HasKey(c => c.CrewId)
-                .HasName("FK_Crew_CountryId");
+                .HasName("PK_Crew");
 
             modelBuilder.Entity<CrewRole>()
                 .HasKey(c => c.CrewRoleId)
@@ -76,15 +76,15 @@ namespace Domain
                 .HasName("PK_Quadrant");
 
             modelBuilder.Entity<vwImdb>()
-                .HasNoKey();
-
-            modelBuilder.Entity<vwFullSerie>()
+                .ToView("vwImdb")
                 .HasNoKey();
 
             modelBuilder.Entity<vwResourcesPlaces>()
+                .ToView("vwResourcesPlaces")
                 .HasNoKey();
 
             modelBuilder.Entity<vwResourcesTitleSynopsis>()
+                .ToView("vwResourcesTitleSynopsis")
                 .HasNoKey();
 
             modelBuilder.Entity<Character>()
@@ -190,7 +190,6 @@ namespace Domain
         public DbSet<Timeline> Timeline { get; set; }
         public DbSet<Quadrant> Quadrant { get; set; }
         public DbSet<vwImdb> vwImdb { get; set; }
-        public DbSet<vwFullSerie> vwFullSerie { get; set; }
         public DbSet<vwResourcesPlaces> vwResourcesPlaces { get; set; }
         public DbSet<vwResourcesTitleSynopsis> vwResourcesTitleSynopsis { get; set; }
     }
