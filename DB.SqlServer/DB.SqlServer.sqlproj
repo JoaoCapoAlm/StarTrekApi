@@ -82,7 +82,6 @@
     <Build Include="Tables\Quadrant.sql" />
     <Build Include="Tables\PlaceType.sql" />
     <Build Include="View\vwResourcesPlaces.sql" />
-    <Build Include="View\vwFullSerie.sql" />
     <Build Include="Tables\Character.sql" />
     <Build Include="Tables\CharacterClassification.sql" />
   </ItemGroup>

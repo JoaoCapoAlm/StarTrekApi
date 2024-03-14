@@ -7,7 +7,7 @@
     [TitleResource] VARCHAR(30) NOT NULL,
     [SynopsisResource] VARCHAR(30) NOT NULL,
     [Abbreviation] VARCHAR(3) NOT NULL,
-    [ImdbId] VARCHAR(10) NULL,
+    [ImdbId] VARCHAR(11) NULL,
     [TmdbId] INT NOT NULL,
     [DateSyncTmdb] DATETIME NULL, 
     CONSTRAINT [PK_Serie] PRIMARY KEY ([SerieId]),

@@ -17,7 +17,10 @@ builder.Services.AddCors(opts => opts.AddPolicy("cors", b =>
 
 builder.Services.AddDbContext<StarTrekContext>(opts =>
 {
-    opts.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
+    opts.UseSqlServer(
+        builder.Configuration.GetConnectionString("DbConnection"),
+        x => x.MigrationsAssembly(nameof(Application))
+    );
 });
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 

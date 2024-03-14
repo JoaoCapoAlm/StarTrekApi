@@ -5,7 +5,7 @@
     [DateBirth] DATE NULL, 
     [DateDeath] DATE NULL, 
     [SpeciesId] SMALLINT NOT NULL, 
-    [ClassificationId] INT NOT NULL, 
+    [ClassificationId] TINYINT NOT NULL, 
     CONSTRAINT [PK_Character] PRIMARY KEY ([CharacterId]),
     CONSTRAINT [FK_Character_Species] FOREIGN KEY ([SpeciesId]) REFERENCES [dbo].[Species] ([SpeciesId]),
     CONSTRAINT [FK_Character_Classification] FOREIGN KEY ([ClassificationId]) REFERENCES [dbo].[CharacterClassification] ([CharacterClassificationId])
