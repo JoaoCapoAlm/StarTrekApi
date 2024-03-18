@@ -26,11 +26,6 @@ namespace CrossCutting.Helpers
                         ws.Columns().AdjustToContents();
                         ws.FirstColumn().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                         ws.FirstColumn().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
-                        var cells = ws.CellsUsed(x => x.DataType.Equals(XLDataType.Number)).ToArray();
-                        foreach (var cell in cells)
-                        {
-                            cell.Style.NumberFormat.SetNumberFormatId(XLPredefinedFormat.Number.Integer.GetHashCode());
-                        }
                     }
 
                     workbook.SaveAs(stream);

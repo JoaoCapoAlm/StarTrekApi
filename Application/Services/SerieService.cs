@@ -173,10 +173,12 @@ namespace Application.Services
                 .Select(x => _mapper.Map<SerieVM>(x))
                 .ToArrayAsync();
 
-            var typeNumber = XLDataType.Number.GetType();
             var dataTable = new DataTable(_localizer["Serie"]);
+            var dataTableSeason = new DataTable(_localizer["Season"]);
+            var dataTableEpisode = new DataTable(_localizer["Episodes"]);
+
             #region Header
-            dataTable.Columns.Add("ID", typeNumber);
+            dataTable.Columns.Add("ID").Unique = true;
             dataTable.Columns.Add(_localizer["TranslatedName"]);
             dataTable.Columns.Add(_localizer["OriginalName"]);
             dataTable.Columns.Add(_localizer["Abbreviation"]);
@@ -185,18 +187,16 @@ namespace Application.Services
             dataTable.Columns.Add("IMDB ID");
             dataTable.Columns.Add(_localizer["Synopsis"]);
 
-            var dataTableSeason = new DataTable(_localizer["Season"]);
-            dataTableSeason.Columns.Add("ID", typeNumber);
-            dataTableSeason.Columns.Add(_localizer["SerieID"], typeNumber);
-            dataTableSeason.Columns.Add(_localizer["Number"], typeNumber);
+            dataTableSeason.Columns.Add("ID").Unique = true;
+            dataTableSeason.Columns.Add(_localizer["SerieID"]);
+            dataTableSeason.Columns.Add(_localizer["Number"]);
 
-            var dataTableEpisode = new DataTable(_localizer["Episodes"]);
-            dataTableEpisode.Columns.Add("ID", typeNumber);
-            dataTableEpisode.Columns.Add(_localizer["Number"], typeNumber);
-            dataTableEpisode.Columns.Add(_localizer["SeasonID"], typeNumber);
+            dataTableEpisode.Columns.Add("ID").Unique = true;
+            dataTableEpisode.Columns.Add(_localizer["Number"]);
+            dataTableEpisode.Columns.Add(_localizer["SeasonID"]);
             dataTableEpisode.Columns.Add(_localizer["TranslatedName"]);
-            dataTableEpisode.Columns.Add(_localizer["Time"], typeNumber);
-            dataTableEpisode.Columns.Add(_localizer["RealeaseDate"], XLDataType.DateTime.GetType());
+            dataTableEpisode.Columns.Add(_localizer["Time"]);
+            dataTableEpisode.Columns.Add(_localizer["RealeaseDate"]);
             dataTableEpisode.Columns.Add(_localizer["StardateFrom"]);
             dataTableEpisode.Columns.Add(_localizer["StardateTo"]);
             dataTableEpisode.Columns.Add(_localizer["Synopsis"]);
@@ -220,7 +220,6 @@ namespace Application.Services
                     _titleSynopsisLocalizer[serie.Synopsis]
                 ];
                 dataTable.Rows.Add(row);
-
                 seasonsOrdened = [.. serie.Seasons.OrderBy(x => x.Number)];
                 foreach (var season in seasonsOrdened)
                 {
