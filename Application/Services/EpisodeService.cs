@@ -32,12 +32,11 @@ namespace Application.Services
             _localizerTitleSynopsis = localizerTitleSynopsis;
         }
 
-        public async Task<IEnumerable<EpisodeWithSeasonIdVM>> GetList(byte page, byte pageSize, Expression<Func<Episode, bool>> predicate)
+        public async Task<IEnumerable<EpisodeWithSeasonIdVM>> GetList(byte page, byte pageSize)
         {
             pageSize = pageSize <= 0 ? (byte)100 : pageSize;
 
             var epArray = await _context.Episode.AsNoTracking()
-                .Where(predicate ?? (x => true))
                 .OrderBy(x => x.EpisodeId)
                 .Skip(page * pageSize)
                 .Take(pageSize)

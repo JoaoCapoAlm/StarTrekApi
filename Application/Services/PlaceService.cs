@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
+using CrossCutting.Enums;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;
@@ -65,10 +66,9 @@ namespace Application.Services
             return place;
         }
 
-        public async Task<IEnumerable<PlaceVM>> GetList(byte page, byte pageSize, Expression<Func<Place, bool>> predicate)
+        public async Task<IEnumerable<PlaceVM>> GetList(byte page, byte pageSize, QuadrantEnum? quadrant)
         {
             var list = await _context.Place.AsNoTracking()
-                .Where(predicate)
                 .OrderBy(x => x.PlaceId)
                 .Skip(page * pageSize)
                 .Take(pageSize)

@@ -35,7 +35,7 @@ namespace Application.Services
             _titleSynopsis = titleSynopsis;
         }
 
-        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetList(byte page, byte pageSize, Expression<Func<Season, bool>> predicate)
+        public async Task<IEnumerable<SeasonWithSerieIdVM>> GetList(byte page, byte pageSize)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 

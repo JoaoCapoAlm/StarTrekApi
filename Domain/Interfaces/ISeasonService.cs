@@ -1,11 +1,11 @@
 ﻿using Domain.DTOs;
-using Domain.Model;
 using Domain.ViewModel;
 
 namespace Domain.Interfaces
 {
-    public interface ISeasonService : IService<Season, SeasonWithSerieIdVM, short>
+    public interface ISeasonService : IService<SeasonWithSerieIdVM, short>
     {
+        Task<IEnumerable<SeasonWithSerieIdVM>> GetList(byte page, byte pageSize);
         Task<SeasonWithSerieIdVM> Create(CreateSeasonWithSerieIdDto dto);
         Task Update(short seasonId, UpdateSeasonDto dto);
     }

@@ -66,7 +66,7 @@ namespace Application.Services
             return species;
         }
 
-        public async Task<IEnumerable<SpeciesVM>> GetList(byte page, byte pageSize, Expression<Func<Species, bool>> predicate)
+        public async Task<IEnumerable<SpeciesVM>> GetList(byte page, byte pageSize)
         {
             pageSize = pageSize >= 100 ? (byte)100 : pageSize;
 

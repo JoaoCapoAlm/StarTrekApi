@@ -38,7 +38,7 @@ namespace Application.Services
             _titleSynopsisLocalizer = titleSynopsisLocalizer;
         }
 
-        public async Task<IEnumerable<SerieVM>> GetList(byte page, byte pageSize, Expression<Func<Serie, bool>> predicate)
+        public async Task<IEnumerable<SerieVM>> GetList(byte page, byte pageSize, string name)
         {
             pageSize = pageSize == 0 ? (byte)100 : pageSize;
 

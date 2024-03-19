@@ -37,7 +37,7 @@ namespace Application.Services
             _titleSynopsisLocalizer = titleSynopsisLocalizer;
         }
 
-        public async Task<IEnumerable<MovieVM>> GetList(byte page, byte pageSize, Expression<Func<Movie, bool>> predicate)
+        public async Task<IEnumerable<MovieVM>> GetList(byte page, byte pageSize)
         {
             pageSize = (byte)(pageSize > 100 ? 100 : pageSize);
 

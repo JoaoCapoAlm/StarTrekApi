@@ -30,13 +30,12 @@ namespace Application.Services
             _placesResource = placesResource;
         }
 
-        public async Task<IEnumerable<CrewVM>> GetList(byte page, byte pageSize, Expression<Func<Crew, bool>> predicate)
+        public async Task<IEnumerable<CrewVM>> GetList(byte page, byte pageSize)
         {
             pageSize = pageSize > 100 ? (byte)100 : pageSize;
 
             var list = await _context.Crew
                 .AsNoTracking()
-                .Where(predicate)
                 .OrderBy(c => c.CrewId)
                 .Skip(page * pageSize)
                 .Take(pageSize)

@@ -22,7 +22,7 @@ namespace Application.Controllers
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<SpeciesVM>>> GetSpeciesList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            var list = await _speciesService.GetList(page, pageSize, null);
+            var list = await _speciesService.GetList(page, pageSize);
 
             return Ok(list);
         }

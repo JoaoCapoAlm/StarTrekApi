@@ -18,7 +18,7 @@ namespace Application.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CrewVM>>> GetCrewList([FromQuery] byte page = 0, [FromQuery] byte pageSize = 100)
         {
-            var crewList = await _crewService.GetList(page, pageSize, x => true);
+            var crewList = await _crewService.GetList(page, pageSize);
 
             return Ok(crewList);
         }

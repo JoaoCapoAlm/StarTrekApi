@@ -1,9 +1,9 @@
-﻿using Domain.Model;
-using Domain.ViewModel;
+﻿using Domain.ViewModel;
 
 namespace Domain.Interfaces
 {
-    public interface ICrewService : IService<Crew, CrewVM, int>
+    public interface ICrewService : IService<CrewVM, int>
     {
+        Task<IEnumerable<CrewVM>> GetList(byte page, byte pageSize);
     }
 }
