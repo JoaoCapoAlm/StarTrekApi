@@ -27,10 +27,7 @@ namespace Application.Controllers
             [FromQuery] QuadrantEnum? quadrant = null
         )
         {
-            var list = await _placeService.GetList(
-                page,
-                pageSize,
-                x => !quadrant.HasValue || x.QuadrantId == quadrant.Value.GetHashCode());
+            var list = await _placeService.GetList(page, pageSize, quadrant);
             return Ok(list);
         }
 

@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using Domain.Interfaces;
-using Domain.Model;
+﻿using Domain.Interfaces;
 using Domain.ViewModel;
 
 namespace Application.Services
@@ -12,7 +10,7 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CharacterVM>> GetList(byte page, byte pageSize, Expression<Func<Character, bool>> predicate)
+        public Task<IEnumerable<CharacterVM>> GetList(byte page, byte pageSize)
         {
             throw new NotImplementedException();
         }

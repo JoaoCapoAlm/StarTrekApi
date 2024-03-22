@@ -27,7 +27,7 @@ namespace Application.Controllers
             [FromQuery] byte pageSize = 100
         )
         {
-            var list = await _episodeService.GetList(page, pageSize, null);
+            var list = await _episodeService.GetList(page, pageSize);
             return Ok(list);
         }
 
