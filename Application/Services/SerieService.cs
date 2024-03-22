@@ -1,8 +1,6 @@
 ﻿using System.Data;
-using System.Linq.Expressions;
 using System.Net;
 using AutoMapper;
-using ClosedXML.Excel;
 using CrossCutting.AppModel;
 using CrossCutting.Exceptions;
 using CrossCutting.Helpers;
@@ -47,31 +45,33 @@ namespace Application.Services
                 .Include(x => x.Seasons).ThenInclude(x => x.Episodes)
                 .Include(x => x.Language)
                 .Include(x => x.Timeline)
-                .AsSplitQuery()
                 .OrderBy(s => s.SerieId)
-                .Skip(page * pageSize)
-                .Take(pageSize)
-                .Select(x => _mapper.Map<SerieVM>(x))
                 .ToArrayAsync()
                 ?? [];
 
             Parallel.ForEach(list, serie =>
             {
-                serie.TranslatedName = _titleSynopsisLocalizer[serie.TranslatedName];
-                serie.Synopsis = _titleSynopsisLocalizer[serie.Synopsis];
-                serie.OriginalLanguage.Name = _localizer[serie.OriginalLanguage.Name];
+                serie.TitleResource = _titleSynopsisLocalizer[serie.TitleResource];
+                serie.SynopsisResource = _titleSynopsisLocalizer[serie.SynopsisResource];
+                serie.Language.ResourceName = _localizer[serie.Language.ResourceName];
 
                 Parallel.ForEach(serie.Seasons, season =>
                 {
                     Parallel.ForEach(season.Episodes, episode =>
                     {
-                        episode.Synopsis = _titleSynopsisLocalizer[episode.Synopsis];
-                        episode.TranslatedTitle = _titleSynopsisLocalizer[episode.TranslatedTitle];
+                        episode.SynopsisResource = _titleSynopsisLocalizer[episode.SynopsisResource];
+                        episode.TitleResource = _titleSynopsisLocalizer[episode.TitleResource];
                     });
                 });
             });
 
-            return list;
+            list = list.Where(x => x.OriginalName.Contains(name) || x.TitleResource.Contains(name)).ToArray();
+
+            return list
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .Select(_mapper.Map<SerieVM>)
+                .ToArray();
         }
 
         public async Task<SerieVM> GetById(short id)

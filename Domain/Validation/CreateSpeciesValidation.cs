@@ -40,7 +40,7 @@ namespace Domain.Validation
                         .Where(x => x.PlaceTypeId.Equals(placeType)
                             && x.PlaceId.Equals(id))
                         .AnyAsync(cancellationToken: cancellationToken);
-                    
+
                     return checkExists;
                 }).WithMessage(localizer["NotFound"]);
         }

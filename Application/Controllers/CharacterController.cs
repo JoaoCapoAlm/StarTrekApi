@@ -19,7 +19,8 @@ namespace Application.Controllers
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CharacterVM>>> GetCharacterList(
             [FromQuery] byte page = 0, [FromQuery] byte pageSize = 100
-        ) {
+        )
+        {
             var list = await _characterService.GetList(page, pageSize);
             return Ok(list);
         }

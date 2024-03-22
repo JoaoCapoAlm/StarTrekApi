@@ -17,7 +17,7 @@ namespace Application.Migrations
             script.Append("UNION ");
             script.Append("SELECT [ImdbId] ");
             script.Append("FROM [dbo].[Movie] WITH(NOLOCK)");
-            
+
             migrationBuilder.Sql(script.ToString());
             script.Clear();
 

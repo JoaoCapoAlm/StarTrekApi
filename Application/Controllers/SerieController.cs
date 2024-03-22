@@ -2,6 +2,7 @@
 using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.ViewModel;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers
@@ -22,19 +23,20 @@ namespace Application.Controllers
         /// <summary>
         /// List of Star Trek series
         /// </summary>
+        /// <param name="searchName">Search by name</param>
         /// <param name="page">Page number</param>
         /// <param name="pageSize">Number of series on the page. The value must be between 0 and 100.</param>
         /// <returns>List itens</returns>
-        /// <response code="500">Internal error</response>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType<ContentResponse>(404)]
         public async Task<ActionResult<IEnumerable<SerieVM>>> GetList(
+            [FromQuery] string searchName,
             [FromQuery] byte page = 0,
             [FromQuery] byte pageSize = 100
         )
         {
-            var series = await _serieService.GetList(page, pageSize, null);
+            var series = await _serieService.GetList(page, pageSize, searchName);
             return Ok(series);
         }
 
