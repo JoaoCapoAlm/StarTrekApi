@@ -1,6 +1,7 @@
 ﻿using CrossCutting.Exceptions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
+using DocumentFormat.OpenXml.InkML;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 
@@ -30,14 +31,20 @@ namespace CrossCutting.Extensions
 
         public static IRuleBuilderOptions<T, string> ImdbValidation<T>(
             this IRuleBuilder<T, string> ruleBuilder,
-            IStringLocalizer<Messages> localizer
+            IStringLocalizer<Messages> localizer,
+            bool isPerson = false
         )
         {
-            return ruleBuilder
-                .Length(8, 13)
-                    .WithMessage(localizer["InvalidLength"])
-                .Must(e => e.StartsWith("tt") && RegexHelper.StringIsNumeric(e[2..]))
+            var validation = ruleBuilder
+                .Must(RegexHelper.IsValidImdbId)
                     .WithMessage(localizer["Invalid"]);
+
+            if (isPerson)
+                return validation.Must(e => e.StartsWith("nn"))
+                        .WithMessage("Deve ser informado o ID de uma pessoa");  // TODO translate
+            else
+                return validation.Must(e => e.StartsWith("tt"))
+                    .WithMessage("Não deve ser informado o ID de uma pessoa"); // TODO translate
         }
-    }
+    } 
 }

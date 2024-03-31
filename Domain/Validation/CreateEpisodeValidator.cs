@@ -4,6 +4,7 @@ using CrossCutting.Resources;
 using Domain.DTOs;
 using Domain.Repositories;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 namespace Domain.Validation
@@ -18,7 +19,15 @@ namespace Domain.Validation
             {
                 RuleFor(e => e.ImdbId)
                     .Cascade(CascadeMode.Stop)
-                    .ImdbValidation(localizer);
+                    .ImdbValidation(localizer)
+                    .MustAsync(async (imdb, cancellationToken) =>
+                    {
+                        var checkExists = await context.vwImdb
+                            .Where(x => x.Equals(imdb))
+                            .AnyAsync(cancellationToken: cancellationToken);
+
+                        return !checkExists;
+                    }).WithMessage(localizer["AlreadyExists"]);
             });
 
             RuleFor(e => e.Number)

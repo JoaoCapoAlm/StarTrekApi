@@ -1,7 +1,10 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Species
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short SpeciesId { get; set; }
         public string ResourceName { get; set; }
         public short PlanetId { get; set; }

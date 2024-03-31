@@ -1,10 +1,8 @@
-﻿using System.Linq.Expressions;
-using AutoMapper;
+﻿using AutoMapper;
 using CrossCutting.Exceptions;
 using CrossCutting.Resources;
 using Domain;
 using Domain.Interfaces;
-using Domain.Model;
 using Domain.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;

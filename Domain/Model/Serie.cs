@@ -1,7 +1,10 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Serie
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short SerieId { get; set; }
         public string OriginalName { get; set; }
         public short OriginalLanguageId { get; set; }

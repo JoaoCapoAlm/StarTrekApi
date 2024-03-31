@@ -14,6 +14,8 @@ namespace CrossCutting.Helpers
         private static partial Regex OnlySimpleAlphabetRegex();
         [GeneratedRegex("^[A-Za-z0-9]+$")]
         private static partial Regex OnlySimpleAlphabetOrNumberRegex();
+        [GeneratedRegex(@"/^([tn]{2})(\d{8,9})$/g")]
+        private static partial Regex ImdbRegex();
 
         public static string RemoveSpecialCharacters(string text)
         {
@@ -34,5 +36,6 @@ namespace CrossCutting.Helpers
         public static bool StringIsSimpleAlphabet(string text) => OnlySimpleAlphabetRegex().IsMatch(text);
 
         public static bool StringIsSimpleAlphabetOrNumber(string text) => OnlySimpleAlphabetOrNumberRegex().IsMatch(text);
+        public static bool IsValidImdbId(string text) => ImdbRegex().IsMatch(text);
     }
 }

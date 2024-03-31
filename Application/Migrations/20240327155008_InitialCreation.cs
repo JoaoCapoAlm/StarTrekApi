@@ -5,7 +5,7 @@
 namespace Application.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,8 +14,9 @@ namespace Application.Migrations
                 name: "CharacterClassification",
                 columns: table => new
                 {
-                    CharacterClassificationId = table.Column<byte>(type: "tinyint", nullable: false),
-                    Classification = table.Column<string>(type: "varchar(50)", nullable: false)
+                    CharacterClassificationId = table.Column<byte>(type: "tinyint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Classification = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,7 +29,7 @@ namespace Application.Migrations
                 {
                     CountryId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ResourceName = table.Column<string>(type: "varchar(50)", nullable: false)
+                    ResourceName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -41,8 +42,8 @@ namespace Application.Migrations
                 {
                     LanguageId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ResourceName = table.Column<string>(type: "varchar(50)", nullable: false),
-                    CodeISO = table.Column<string>(type: "varchar(6)", nullable: false)
+                    ResourceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CodeISO = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,8 +54,9 @@ namespace Application.Migrations
                 name: "PlaceType",
                 columns: table => new
                 {
-                    PlaceTypeId = table.Column<byte>(type: "tinyint", nullable: false),
-                    Type = table.Column<string>(type: "varchar(50)", nullable: false)
+                    PlaceTypeId = table.Column<byte>(type: "tinyint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,8 +67,9 @@ namespace Application.Migrations
                 name: "Quadrant",
                 columns: table => new
                 {
-                    QuadrantId = table.Column<byte>(type: "tinyint", nullable: false),
-                    QuadrantResource = table.Column<string>(type: "varchar(50)", nullable: false)
+                    QuadrantId = table.Column<byte>(type: "tinyint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuadrantResource = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -77,8 +80,9 @@ namespace Application.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    RoleId = table.Column<byte>(type: "tinyint", nullable: false),
-                    RoleResource = table.Column<string>(type: "varchar(50)", nullable: false)
+                    RoleId = table.Column<byte>(type: "tinyint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleResource = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,8 +93,9 @@ namespace Application.Migrations
                 name: "Timeline",
                 columns: table => new
                 {
-                    TimelineId = table.Column<byte>(type: "tinyint", nullable: false),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: false)
+                    TimelineId = table.Column<byte>(type: "tinyint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,7 +110,7 @@ namespace Application.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CountryId = table.Column<short>(type: "smallint", nullable: true),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeathDate = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
@@ -115,8 +120,7 @@ namespace Application.Migrations
                         name: "FK_Crew_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Country",
-                        principalColumn: "CountryId",
-                        onUpdate: ReferentialAction.Cascade);
+                        principalColumn: "CountryId");
                 });
 
             migrationBuilder.CreateTable(
@@ -125,7 +129,7 @@ namespace Application.Migrations
                 {
                     PlaceId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameResource = table.Column<string>(type: "varchar(50)", nullable: false),
+                    NameResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuadrantId = table.Column<byte>(type: "tinyint", nullable: false),
                     PlaceTypeId = table.Column<byte>(type: "tinyint", nullable: false)
                 },
@@ -137,13 +141,13 @@ namespace Application.Migrations
                         column: x => x.PlaceTypeId,
                         principalTable: "PlaceType",
                         principalColumn: "PlaceTypeId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Place_Quadrant",
                         column: x => x.QuadrantId,
                         principalTable: "Quadrant",
                         principalColumn: "QuadrantId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,13 +156,13 @@ namespace Application.Migrations
                 {
                     MovieId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OriginalName = table.Column<string>(type: "varchar(150)", nullable: false),
-                    TitleResource = table.Column<string>(type: "varchar(50)", nullable: false),
-                    SynopsisResource = table.Column<string>(type: "varchar(50)", nullable: false),
+                    OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TitleResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SynopsisResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginalLanguageId = table.Column<short>(type: "smallint", nullable: false),
                     ReleaseDate = table.Column<DateOnly>(type: "date", nullable: true),
                     Time = table.Column<short>(type: "smallint", nullable: false),
-                    ImdbId = table.Column<string>(type: "varchar(10)", nullable: true),
+                    ImdbId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TimelineId = table.Column<byte>(type: "tinyint", nullable: false),
                     TmdbId = table.Column<int>(type: "int", nullable: false),
                     DateSyncTmdb = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -171,13 +175,13 @@ namespace Application.Migrations
                         column: x => x.OriginalLanguageId,
                         principalTable: "Language",
                         principalColumn: "LanguageId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Movie_TimelineId",
                         column: x => x.TimelineId,
                         principalTable: "Timeline",
                         principalColumn: "TimelineId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,13 +190,13 @@ namespace Application.Migrations
                 {
                     SerieId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OriginalName = table.Column<string>(type: "varchar(150)", nullable: false),
+                    OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginalLanguageId = table.Column<short>(type: "smallint", nullable: false),
                     TimelineId = table.Column<byte>(type: "tinyint", nullable: false),
-                    ImdbId = table.Column<string>(type: "varchar(10)", nullable: false),
-                    Abbreviation = table.Column<string>(type: "varchar(3)", nullable: false),
-                    SynopsisResource = table.Column<string>(type: "varchar(50)", nullable: false),
-                    TitleResource = table.Column<string>(type: "varchar(50)", nullable: false),
+                    ImdbId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Abbreviation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SynopsisResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TitleResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TmdbId = table.Column<int>(type: "int", nullable: false),
                     DateSyncTmdb = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -204,13 +208,13 @@ namespace Application.Migrations
                         column: x => x.OriginalLanguageId,
                         principalTable: "Language",
                         principalColumn: "LanguageId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Serie_TimelineId",
                         column: x => x.TimelineId,
                         principalTable: "Timeline",
                         principalColumn: "TimelineId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,13 +234,13 @@ namespace Application.Migrations
                         column: x => x.CrewId,
                         principalTable: "Crew",
                         principalColumn: "CrewId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CrewRole_Role",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "RoleId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,7 +249,7 @@ namespace Application.Migrations
                 {
                     SpeciesId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ResourceName = table.Column<string>(type: "varchar(50)", nullable: false),
+                    ResourceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PlanetId = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
@@ -256,7 +260,7 @@ namespace Application.Migrations
                         column: x => x.PlanetId,
                         principalTable: "Place",
                         principalColumn: "PlaceId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,7 +280,7 @@ namespace Application.Migrations
                         column: x => x.SerieId,
                         principalTable: "Serie",
                         principalColumn: "SerieId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -288,7 +292,7 @@ namespace Application.Migrations
                     DateBirth = table.Column<DateOnly>(type: "date", nullable: true),
                     SpeciesId = table.Column<short>(type: "smallint", nullable: false),
                     ClassificationId = table.Column<byte>(type: "tinyint", nullable: false),
-                    Name = table.Column<string>(type: "varchar(150)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeathDate = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
@@ -299,13 +303,13 @@ namespace Application.Migrations
                         column: x => x.ClassificationId,
                         principalTable: "CharacterClassification",
                         principalColumn: "CharacterClassificationId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Character_Species",
                         column: x => x.SpeciesId,
                         principalTable: "Species",
                         principalColumn: "SpeciesId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -316,13 +320,13 @@ namespace Application.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SeasonId = table.Column<short>(type: "smallint", nullable: false),
                     RealeaseDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    TitleResource = table.Column<string>(type: "varchar(50)", nullable: false),
-                    SynopsisResource = table.Column<string>(type: "varchar(50)", nullable: false),
+                    TitleResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SynopsisResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Time = table.Column<byte>(type: "tinyint", nullable: true),
                     Number = table.Column<byte>(type: "tinyint", nullable: false),
                     StardateFrom = table.Column<float>(type: "real", nullable: true),
                     StardateTo = table.Column<float>(type: "real", nullable: true),
-                    ImdbId = table.Column<string>(type: "varchar(10)", nullable: false)
+                    ImdbId = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -332,7 +336,7 @@ namespace Application.Migrations
                         column: x => x.SeasonId,
                         principalTable: "Season",
                         principalColumn: "SeasonId",
-                        onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

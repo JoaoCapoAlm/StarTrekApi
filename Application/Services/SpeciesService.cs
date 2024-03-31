@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using AutoMapper;
+﻿using AutoMapper;
 using CrossCutting.Exceptions;
 using CrossCutting.Extensions;
 using CrossCutting.Resources;

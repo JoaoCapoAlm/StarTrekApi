@@ -173,7 +173,6 @@ namespace Domain
         }
 
         public DbSet<Character> Character { get; set; }
-
         public DbSet<CharacterClassification> CharacterClassification { get; set; }
         public DbSet<Crew> Crew { get; set; }
         public DbSet<CrewRole> CrewRole { get; set; }

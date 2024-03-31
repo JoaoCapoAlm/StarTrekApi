@@ -1,7 +1,11 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Episode
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EpisodeId { get; set; }
         public short SeasonId { get; set; }
         public virtual Season Season { get; set; }
@@ -12,6 +16,7 @@
         public byte Number { get; set; }
         public float? StardateFrom { get; set; }
         public float? StardateTo { get; set; }
+        [Length(10, 11)]
         public string ImdbId { get; set; }
     }
 }

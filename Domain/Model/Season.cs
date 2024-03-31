@@ -1,7 +1,10 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Season
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short SeasonId { get; set; }
         public short SerieId { get; set; }
         public virtual Serie Serie { get; set; }

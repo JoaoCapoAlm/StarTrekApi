@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 using Application.Configurations;
 using CrossCutting.Enums;
 using Domain;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +21,7 @@ builder.Services.AddDbContext<StarTrekContext>(opts =>
         x => x.MigrationsAssembly(nameof(Application))
     );
 });
-builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
+//builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.GetTempPath()));
 
 builder.Services.AddLocalization()
             .AddControllers()

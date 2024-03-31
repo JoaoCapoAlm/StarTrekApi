@@ -1,7 +1,10 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Movie
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short MovieId { get; set; }
         public string OriginalName { get; set; }
         public string TitleResource { get; set; }

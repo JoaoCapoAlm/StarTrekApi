@@ -58,7 +58,10 @@ namespace Application.Migrations
             modelBuilder.Entity("Domain.Model.CharacterClassification", b =>
                 {
                     b.Property<byte>("CharacterClassificationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("CharacterClassificationId"));
 
                     b.Property<string>("Classification")
                         .HasColumnType("nvarchar(max)");
@@ -147,7 +150,8 @@ namespace Application.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EpisodeId"));
 
                     b.Property<string>("ImdbId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<byte>("Number")
                         .HasColumnType("tinyint");
@@ -279,7 +283,10 @@ namespace Application.Migrations
             modelBuilder.Entity("Domain.Model.PlaceType", b =>
                 {
                     b.Property<byte>("PlaceTypeId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("PlaceTypeId"));
 
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
@@ -293,7 +300,10 @@ namespace Application.Migrations
             modelBuilder.Entity("Domain.Model.Quadrant", b =>
                 {
                     b.Property<byte>("QuadrantId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("QuadrantId"));
 
                     b.Property<string>("QuadrantResource")
                         .HasColumnType("nvarchar(max)");
@@ -307,7 +317,10 @@ namespace Application.Migrations
             modelBuilder.Entity("Domain.Model.Role", b =>
                 {
                     b.Property<byte>("RoleId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("RoleId"));
 
                     b.Property<string>("RoleResource")
                         .HasColumnType("nvarchar(max)");
@@ -410,7 +423,10 @@ namespace Application.Migrations
             modelBuilder.Entity("Domain.Model.Timeline", b =>
                 {
                     b.Property<byte>("TimelineId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<byte>("TimelineId"));
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

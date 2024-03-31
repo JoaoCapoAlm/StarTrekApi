@@ -1,7 +1,10 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Crew : People
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CrewId { get; set; }
         public DateOnly BirthDate { get; set; }
         public short? CountryId { get; set; }

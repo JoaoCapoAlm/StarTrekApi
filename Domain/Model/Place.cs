@@ -1,7 +1,10 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Place
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short PlaceId { get; set; }
         public string NameResource { get; set; }
         public byte QuadrantId { get; set; }
