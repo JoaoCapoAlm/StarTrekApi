@@ -16,7 +16,7 @@ namespace Domain.Model
         public byte Number { get; set; }
         public float? StardateFrom { get; set; }
         public float? StardateTo { get; set; }
-        [Length(10, 11)]
+        [MaxLength(11)]
         public string ImdbId { get; set; }
     }
 }
