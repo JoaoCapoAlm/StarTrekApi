@@ -63,12 +63,12 @@ namespace Application.Services
 
             var crew = await _context.Crew
                 .AsNoTracking()
-                .Include(x => x.Country)
                 .Where(c => c.CrewId.Equals(crewId))
+                .Include(x => x.Country)
                 .Select(x => _mapper.Map<CrewVM>(x))
                 .FirstOrDefaultAsync();
 
-            if (crew == null)
+            if (crew is null)
             {
                 var error = new Dictionary<string, IEnumerable<string>>()
                 {

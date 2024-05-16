@@ -44,11 +44,6 @@ builder.Services.AddSwaggerGen(opts =>
     {
         Title = "Star Trek API",
         Version = "v1",
-        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-        {
-            Name = "João",
-            Email = "contato@capoanisolucoes.com.br"
-        },
         License = new Microsoft.OpenApi.Models.OpenApiLicense()
         {
             Name = "MIT",
