@@ -16,7 +16,7 @@ namespace Application.Migrations
                 {
                     CharacterClassificationId = table.Column<byte>(type: "tinyint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Classification = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Classification = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,7 +29,7 @@ namespace Application.Migrations
                 {
                     CountryId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ResourceName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ResourceName = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,8 +42,8 @@ namespace Application.Migrations
                 {
                     LanguageId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ResourceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CodeISO = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ResourceName = table.Column<string>(type: "varchar(255)", nullable: false),
+                    CodeISO = table.Column<string>(type: "varchar(8)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,7 +56,7 @@ namespace Application.Migrations
                 {
                     PlaceTypeId = table.Column<byte>(type: "tinyint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Type = table.Column<string>(type: "varchar(150)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +69,7 @@ namespace Application.Migrations
                 {
                     QuadrantId = table.Column<byte>(type: "tinyint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    QuadrantResource = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    QuadrantResource = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace Application.Migrations
                 {
                     RoleId = table.Column<byte>(type: "tinyint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleResource = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RoleResource = table.Column<string>(type: "varchar(100)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,7 +95,7 @@ namespace Application.Migrations
                 {
                     TimelineId = table.Column<byte>(type: "tinyint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +110,7 @@ namespace Application.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CountryId = table.Column<short>(type: "smallint", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false),
                     DeathDate = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
@@ -129,7 +129,7 @@ namespace Application.Migrations
                 {
                     PlaceId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NameResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NameResource = table.Column<string>(type: "varchar(255)", nullable: false),
                     QuadrantId = table.Column<byte>(type: "tinyint", nullable: false),
                     PlaceTypeId = table.Column<byte>(type: "tinyint", nullable: false)
                 },
@@ -156,13 +156,13 @@ namespace Application.Migrations
                 {
                     MovieId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TitleResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SynopsisResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OriginalName = table.Column<string>(type: "varchar(255)", nullable: false),
+                    TitleResource = table.Column<string>(type: "varchar(255)", nullable: false),
+                    SynopsisResource = table.Column<string>(type: "varchar(255)", nullable: false),
                     OriginalLanguageId = table.Column<short>(type: "smallint", nullable: false),
                     ReleaseDate = table.Column<DateOnly>(type: "date", nullable: true),
                     Time = table.Column<short>(type: "smallint", nullable: false),
-                    ImdbId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImdbId = table.Column<string>(type: "varchar(12)", nullable: true),
                     TimelineId = table.Column<byte>(type: "tinyint", nullable: false),
                     TmdbId = table.Column<int>(type: "int", nullable: false),
                     DateSyncTmdb = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -190,13 +190,13 @@ namespace Application.Migrations
                 {
                     SerieId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OriginalName = table.Column<string>(type: "varchar(255)", nullable: false),
                     OriginalLanguageId = table.Column<short>(type: "smallint", nullable: false),
                     TimelineId = table.Column<byte>(type: "tinyint", nullable: false),
-                    ImdbId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Abbreviation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SynopsisResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TitleResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImdbId = table.Column<string>(type: "varchar(12)", nullable: true),
+                    Abbreviation = table.Column<string>(type: "varchar(5)", nullable: false),
+                    SynopsisResource = table.Column<string>(type: "varchar(255)", nullable: false),
+                    TitleResource = table.Column<string>(type: "varchar(255)", nullable: false),
                     TmdbId = table.Column<int>(type: "int", nullable: false),
                     DateSyncTmdb = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -249,7 +249,7 @@ namespace Application.Migrations
                 {
                     SpeciesId = table.Column<short>(type: "smallint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ResourceName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResourceName = table.Column<string>(type: "varchar(255)", nullable: false),
                     PlanetId = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
@@ -292,7 +292,7 @@ namespace Application.Migrations
                     DateBirth = table.Column<DateOnly>(type: "date", nullable: true),
                     SpeciesId = table.Column<short>(type: "smallint", nullable: false),
                     ClassificationId = table.Column<byte>(type: "tinyint", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false),
                     DeathDate = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
@@ -320,13 +320,13 @@ namespace Application.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SeasonId = table.Column<short>(type: "smallint", nullable: false),
                     RealeaseDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    TitleResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SynopsisResource = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TitleResource = table.Column<string>(type: "varchar(255)", nullable: false),
+                    SynopsisResource = table.Column<string>(type: "varchar(255)", nullable: false),
                     Time = table.Column<byte>(type: "tinyint", nullable: true),
                     Number = table.Column<byte>(type: "tinyint", nullable: false),
                     StardateFrom = table.Column<float>(type: "real", nullable: true),
                     StardateTo = table.Column<float>(type: "real", nullable: true),
-                    ImdbId = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true)
+                    ImdbId = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: true)
                 },
                 constraints: table =>
                 {

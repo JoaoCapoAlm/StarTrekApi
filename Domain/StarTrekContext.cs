@@ -15,10 +15,6 @@ namespace Domain
                 .HasKey(x => x.CharacterId)
                 .HasName("PK_Character");
 
-            modelBuilder.Entity<CharacterClassification>()
-                .HasKey(x => x.CharacterClassificationId)
-                .HasName("PK_CharacterClassification");
-
             modelBuilder.Entity<Crew>()
                 .HasKey(c => c.CrewId)
                 .HasName("PK_Crew");
@@ -92,12 +88,6 @@ namespace Domain
                 .WithMany(x => x.Characters)
                 .HasForeignKey(x => x.SpeciesId)
                 .HasConstraintName("FK_Character_Species");
-
-            modelBuilder.Entity<Character>()
-                .HasOne(x => x.CharacterClassification)
-                .WithMany(x => x.Characters)
-                .HasForeignKey(x => x.ClassificationId)
-                .HasConstraintName("FK_Character_Classification");
 
             modelBuilder.Entity<Crew>()
                 .HasOne(c => c.Country)
@@ -173,7 +163,6 @@ namespace Domain
         }
 
         public DbSet<Character> Character { get; set; }
-        public DbSet<CharacterClassification> CharacterClassification { get; set; }
         public DbSet<Crew> Crew { get; set; }
         public DbSet<CrewRole> CrewRole { get; set; }
         public DbSet<Country> Country { get; set; }
