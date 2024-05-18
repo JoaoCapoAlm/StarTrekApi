@@ -1,7 +1,6 @@
 ﻿using CrossCutting.Exceptions;
 using CrossCutting.Helpers;
 using CrossCutting.Resources;
-using DocumentFormat.OpenXml.InkML;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 

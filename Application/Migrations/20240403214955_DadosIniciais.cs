@@ -137,7 +137,7 @@ namespace Application.Migrations
             commandSql.Clear();
             #endregion
 
-            #region CharacterClassification
+            #region Role
             commandSql.Append("SET IDENTITY_INSERT [dbo].[Role] ON; ");
             commandSql.Append("INSERT INTO [dbo].[Role] ([RoleId], [RoleResource]) VALUES ");
             commandSql.Append("(1, 'Creator'), (2, 'Direcotr'), (3, 'Writer'), (4, 'Producer'), (5, 'Actor') ");
