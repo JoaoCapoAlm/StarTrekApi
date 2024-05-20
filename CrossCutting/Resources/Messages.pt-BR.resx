@@ -171,9 +171,6 @@
   <data name="ShouldBeLettersWithoutAccents" xml:space="preserve">
     <value>Deve ter apenas letras sem acentos</value>
   </data>
-  <data name="ValueGreaterThanZero" xml:space="preserve">
-    <value>Valor deve ser maior que zero</value>
-  </data>
   <data name="SomeResourceIsDuplicated" xml:space="preserve">
     <value>Algum resource está duplicado</value>
   </data>

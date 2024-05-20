@@ -1,4 +1,5 @@
 ﻿using CrossCutting.AppModel;
+using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,15 @@ namespace Application.Controllers
         {
             var character = await _characterService.GetById(id);
             return Ok(character);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(201)]
+        public async Task<ActionResult<CharacterVM>> Create([FromBody] CreateCharacterDto dto)
+        {
+            var character = await _characterService.Create(dto);
+
+            return CreatedAtAction(nameof(GetCharacterById), new { id = character.ID } , character);
         }
     }
 }

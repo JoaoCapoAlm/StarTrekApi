@@ -61,7 +61,6 @@ namespace Application.Controllers
         /// <response code="201">Created</response>
         /// <response code="400">Invalid data</response>
         /// <response code="500">Internal error</response>
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [ProducesResponseType(201)]
         public async Task<ActionResult<SerieVM>> CreateNewSerie([FromBody] CreateSerieDto dto)
@@ -76,7 +75,6 @@ namespace Application.Controllers
         /// <param name="id"></param>
         /// <param name="dto"></param>
         /// <response code="500">Internal error</response>
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType<ContentResponse>(404)]

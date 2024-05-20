@@ -53,7 +53,6 @@ namespace Application.Controllers
         /// <param name="dto"></param>
         /// <returns>New movie</returns>
         /// <response code="201">Created</response>
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [ProducesResponseType(201)]
         public async Task<IActionResult> CreateMovie([FromBody] CreateMovieDto dto)
@@ -70,7 +69,6 @@ namespace Application.Controllers
         /// <param name="dto"></param>
         /// <returns>No content</returns>
         /// <response code="204">Updated / No Content</response>
-        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         public async Task<IActionResult> UpdateMovie([FromRoute] short id, [FromBody] UpdateMovieDto dto)
