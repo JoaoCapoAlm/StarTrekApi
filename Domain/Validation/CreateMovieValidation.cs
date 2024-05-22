@@ -29,7 +29,7 @@ namespace Domain.Validation
                 }).WithMessage(localizer["LanguageCodeMustIso"].Value);
 
             RuleFor(m => m.Time)
-                .NotEmpty().WithMessage(localizer["ValueGreaterThanZero"].Value);
+                .NotEmpty().WithMessage(localizer["MustBeGreaterThanZero"].Value);
 
             RuleFor(m => m.TimelineId)
                 .IsInEnum()

@@ -466,15 +466,6 @@ namespace CrossCutting.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value must be greater than zero.
-        /// </summary>
-        public static string ValueGreaterThanZero {
-            get {
-                return ResourceManager.GetString("ValueGreaterThanZero", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Vulcan.
         /// </summary>
         public static string Vulcan {

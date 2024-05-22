@@ -17,8 +17,8 @@ namespace Domain.Validation
                     .WithMessage(localizer["Required"])
                 .MustAsync(async (resource, cancellationToken) =>
                 {
-                    var checkExists = await context.vwResourcesPlaces.AsNoTracking()
-                        .Where(x => x.Resource.Equals(resource))
+                    var checkExists = await context.Place.AsNoTracking()
+                        .Where(x => x.NameResource.Equals(resource))
                         .AnyAsync(cancellationToken);
 
                     return !checkExists;

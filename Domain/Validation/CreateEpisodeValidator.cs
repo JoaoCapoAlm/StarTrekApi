@@ -72,7 +72,7 @@ namespace Domain.Validation
                     .WithMessage(localizer["Required"].Value)
                 .Must(RegexHelper.StringIsSimpleAlphabetOrNumber)
                     .WithMessage(localizer["ShouldBeLettersWithoutAccentsOrNumbers"].Value)
-                .Must(x => !x.EndsWith("Synopsis"))
+                .Must(x => !x.EndsWith("Synopsis", StringComparison.CurrentCultureIgnoreCase))
                     .WithMessage(localizer["MustNotContainSynopsisAtTheEnd"])
                 .MustAsync(async (resource, cancellationToken) =>
                 {

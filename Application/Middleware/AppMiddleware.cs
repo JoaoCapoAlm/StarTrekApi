@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 
 namespace Application.Middleware
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class AppMiddleware(RequestDelegate next)
     {
         private readonly RequestDelegate _next = next;
@@ -30,6 +29,7 @@ namespace Application.Middleware
             {
                 ArgumentException => HttpStatusCode.BadRequest,
                 ValidationException => HttpStatusCode.BadRequest,
+                UnauthorizedAccessException => HttpStatusCode.Unauthorized,
                 _ => HttpStatusCode.InternalServerError
             };
 

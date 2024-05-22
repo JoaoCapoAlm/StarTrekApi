@@ -52,7 +52,6 @@ namespace Application.Controllers
         /// <response code="400">One or more validation errors occurred</response>
         [HttpPost]
         [ProducesResponseType(201)]
-        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<ActionResult<EpisodeWithSeasonIdVM>> CreateEpisode([FromBody] CreateEpisodeWithSeasonIdDto dto)
         {
             var episode = await _episodeService.Create(dto);
@@ -70,7 +69,6 @@ namespace Application.Controllers
         /// <response code="404">Episode not found</response>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
-        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> UpdateEpisode([FromRoute] int id, [FromBody] UpdateEpisodeDto dto)
         {
             await _episodeService.Update(id, dto);

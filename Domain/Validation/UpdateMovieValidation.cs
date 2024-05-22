@@ -17,7 +17,7 @@ namespace Domain.Validation
 
             RuleFor(m => m.Time)
                 .GreaterThan((short)0)
-                .WithMessage(localizer["ValueGreaterThanZero"].Value);
+                .WithMessage(localizer["MustBeGreaterThanZero"].Value);
 
             When(m => !string.IsNullOrWhiteSpace(m.ImdbId), () =>
             {
