@@ -6,7 +6,7 @@ namespace CrossCutting.Helpers
 {
     public class ExcelHelper
     {
-        private const string contentTypeExcel = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        private readonly static string CONTENT_TYPE_EXCEL = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         public static FileContent GenerateExcel(IEnumerable<DataTable> dataTables, string fileName)
         {
             fileName = string.IsNullOrWhiteSpace(fileName)
@@ -15,28 +15,26 @@ namespace CrossCutting.Helpers
 
             if (!fileName.EndsWith(".xlsx"))
                 fileName += ".xlsx";
-
-            using (var stream = new MemoryStream())
+            
+            using var workbook = new XLWorkbook();
+            foreach (var dataTable in dataTables)
             {
-                using (var workbook = new XLWorkbook())
-                {
-                    foreach (var dataTable in dataTables)
-                    {
-                        var ws = workbook.Worksheets.Add(dataTable);
-                        ws.Columns().AdjustToContents();
-                        ws.FirstColumn().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
-                        ws.FirstColumn().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
-                    }
-
-                    workbook.SaveAs(stream);
-
-                    stream.Position = 0;
-
-                    var fileContent = new FileContent(stream.ToArray(), contentTypeExcel, fileName);
-
-                    return fileContent;
-                }
+                var ws = workbook.Worksheets.Add(dataTable);
+                ws.Columns().AdjustToContents();
+                ws.SheetView.FreezeRows(1);
+                ws.FirstColumn().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
             }
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            workbook.Dispose();
+
+            stream.Position = 0;
+
+            var fileContent = new FileContent(stream.ToArray(), CONTENT_TYPE_EXCEL, fileName);
+            stream.DisposeAsync();
+
+            return fileContent;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Application.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType<ContentResponse>(400)]
+    [Produces("application/json")]
     public class CharacterController : ControllerBase
     {
         private readonly ICharacterService _characterService;
